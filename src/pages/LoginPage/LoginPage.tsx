@@ -1,14 +1,99 @@
 import './loginPage.scss';
 import { useState, useEffect, useCallback } from "react";
+import auth from '@/assets/auth-picture.svg';
+import { postUserLogin } from '@/utils/api/loginUser';
+import { toast, Toaster } from 'sonner';
 
 const LoginPage = () => {
 
     return (
         <main>
-            <div> логин пейдж
+            <Toaster position="top-center" />
+            <div className='container'>
+                <div className='left-block'>
+                    <img src={auth} alt="auth" height="400px" />
+                </div>
+                <div className='right-block'>
+                    <LoginForm />
+                </div>
             </div>
         </main>
     );
 };
 
+
+const LoginForm = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log({ email, password, rememberMe });
+    
+        try {
+            const response = await postUserLogin({
+                params: { email, password, rememberMe },
+                config: {}
+            });
+            console.log(response.data);
+            if (response.data.loginSucceeded) {
+                localStorage.setItem('token', response.data.accessToken);
+                window.location.href = '/dashboard';
+            } else {
+                console.log('Ошибка при входе. Проверьте введённые данные.');
+                toast.warning('Такого пользователя нет. Проверьте логин и пароль'), {
+                cancel: { label: 'Close', onClick: () => {} },}
+            }
+    
+            
+        } catch (err) {
+            console.log('Ошибка при входе. Проверьте введённые данные.');
+        }
+      };
+  
+    return (
+        <div className="login-container">
+            <div className="login-box">
+            <h1 className="login-title">Вход в аккаунт</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                <label className="form-label">Электронная почта</label>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="form-input"
+                    required
+                />
+                </div>
+                <div className="form-group">
+                    <label className="form-label">Пароль</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+                <div className="form-remember">
+                    <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={() => setRememberMe(!rememberMe)}
+                        className="checkbox"
+                    />
+                    <label className="checkbox-label">Запомнить меня</label>
+                </div>
+                <button type="submit" className="login-button">
+                ВОЙТИ
+                </button>
+            </form>
+            </div>
+        </div>
+    );
+};
+
+  
 export default LoginPage;

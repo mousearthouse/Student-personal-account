@@ -1,4 +1,3 @@
-import { useState, useEffect, useCallback } from "react";
 import tape from '@/assets/404-tape.svg';
 
 const NotFoundPage = () => {
