@@ -1,22 +1,27 @@
-body {
-    background-color: #EFEFEF;
-}
-
 .container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
+    gap: 20px;
 }
   
-.left-block {
+.img-block {
     grid-column: 1 / span 7;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+.img-block img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
   
-.right-block {
+.login-block {
     grid-column: 8 / span 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-container {
@@ -39,7 +44,6 @@ body {
     color: #333;
     font-family: "Raleway", sans-serif;
     font-weight: 400;
-    font-size: 2em;
 }
   
 .form-group {

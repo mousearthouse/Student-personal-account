@@ -12,6 +12,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+* {
+  outline: 1px solid red;
+}
 
 a {
   font-weight: 500;
@@ -26,14 +29,40 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #EFEFEF;
 }
 
+
+
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: 40px;
+  font-weight: 400;
+  font-family: "Raleway", sans-serif;
 }
+
+h2 {
+  font-size: 32px;
+  font-family: "Raleway", sans-serif;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 400;
+  font-family: "Raleway", sans-serif;
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: 16px;
+  font-family: "Raleway", sans-serif;
+  line-height: 1.2;
+}
+
+
 
 button {
   border-radius: 8px;

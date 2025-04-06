@@ -1,7 +1,7 @@
 import './loginPage.scss';
 import { useState, useEffect, useCallback } from "react";
 import auth from '@/assets/auth-picture.svg';
-import { postUserLogin } from '@/utils/api/loginUser';
+import { postUserLogin } from '@/utils/api/requests/loginUser';
 import { toast, Toaster } from 'sonner';
 
 const LoginPage = () => {
@@ -10,10 +10,10 @@ const LoginPage = () => {
         <main>
             <Toaster position="top-center" />
             <div className='container'>
-                <div className='left-block'>
+                <div className='img-block'>
                     <img src={auth} alt="auth" height="400px" />
                 </div>
-                <div className='right-block'>
+                <div className='login-block'>
                     <LoginForm />
                 </div>
             </div>
@@ -39,7 +39,7 @@ const LoginForm = () => {
             console.log(response.data);
             if (response.data.loginSucceeded) {
                 localStorage.setItem('token', response.data.accessToken);
-                window.location.href = '/dashboard';
+                window.location.href = '/profile';
             } else {
                 console.log('Ошибка при входе. Проверьте введённые данные.');
                 toast.warning('Такого пользователя нет. Проверьте логин и пароль'), {

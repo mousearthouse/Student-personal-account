@@ -7,6 +7,7 @@ import {
 
 import {
     LoginPage,
+    ProfilePage,
     NotFoundPage
 } from '@/pages/imports';
 
@@ -18,6 +19,8 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route element={<Layout />}>
             <Route path={ROUTES.LOGINPAGE} element = {<LoginPage/>} />
+            <Route path={ROUTES.PROFILEPAGE} element = {<ProfilePage/>} />
+
             <Route path="*" element={<NotFoundPage />} />
         </Route>,
     )
