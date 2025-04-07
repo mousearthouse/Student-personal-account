@@ -1,5 +1,6 @@
 import './profilePage.scss';
 import { getProfile } from '@/utils/api/requests/getProfile';
+import { getStudent } from '@/utils/api/requests/getStudent';
 import { API_URL } from '@/utils/constants';
 import { useEffect, useState } from 'react';
 
@@ -37,8 +38,7 @@ const ProfilePage = () => {
                     <Contacts userData={userData} />
                 </div>
                 <div className='education-info-block'>
-                    <h1>meow</h1>
-
+                    <Education userData={userData} />
                 </div>
             </div>
         </main>
@@ -84,6 +84,7 @@ const PersonalData = ({ userData }: { userData: UserProfileDto }) => {
 }
 
 const Contacts = ({ userData }: { userData: UserProfileDto }) => {
+
     return (
         <div className="block">
             <h3 className="block-title">Контакты</h3>
@@ -116,10 +117,25 @@ const Contacts = ({ userData }: { userData: UserProfileDto }) => {
 };
 
 const Education = ({ userData }: { userData: UserProfileDto }) => {
+    const [studentData, setStudentData] = useState<StudentDto>({} as StudentDto);
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const response = await getStudent();
+                console.log(response.data);
+                setStudentData(response.data);
+            } catch (err) {
+                console.log('Ошибка при входе. Проверьте введённые данные.');
+            }
+        };
+
+        fetchProfile();
+    }, []);
     return (
         <div className="block">
             <h3 className="block-title">Образование</h3>
             <h3 className='block-title'></h3>
+            
             <div className="block-content">
                 
             </div>

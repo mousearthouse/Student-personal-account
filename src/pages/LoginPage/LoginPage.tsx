@@ -39,6 +39,7 @@ const LoginForm = () => {
             console.log(response.data);
             if (response.data.loginSucceeded) {
                 localStorage.setItem('token', response.data.accessToken);
+                localStorage.setItem('refresh_token', response.data.refreshToken);
                 window.location.href = '/profile';
             } else {
                 console.log('Ошибка при входе. Проверьте введённые данные.');
