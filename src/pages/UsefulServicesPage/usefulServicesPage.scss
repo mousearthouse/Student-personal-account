@@ -1,0 +1,46 @@
+.servicesContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.serviceCard {
+    width: 100%;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #F9F9F9;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.serviceCardTitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.serviceCardDetails img {
+    width: min(auto);
+    height: min(75px);
+    margin-right: 15px;
+    border-radius: 8px;
+}
+
+.serviceCardDetails {
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.serviceCardBtn {
+    font-size: 14px;
+    height:fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    width: 24px;
+    height: 24px;
+}

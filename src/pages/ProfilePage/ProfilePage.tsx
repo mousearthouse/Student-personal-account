@@ -137,7 +137,9 @@ const Education = () => {
     }, []);
     return (
         <div className="block">
-            <h3 className="block-title">Образование</h3>
+            <div className='block-row'>
+                <h3>Образование</h3>
+            </div>
 
             {(studentData.educationEntries ?? []).map((educationEntry, id) => (
                 <div key={id}>

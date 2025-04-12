@@ -2,6 +2,18 @@ type RequestParams<Params = undefined> = Params extends undefined
 ? { config?: RequestOptions }
 : { params: Params; config?: RequestOptions };
 
+interface UserLoginParams {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+interface TokenResponse {
+  accessToken: string;
+  refreshToken: string;
+  loginSucceeded: true;
+}
+
 type Gender = 'NotDefined' | 'Male' | 'Female';
 type FileExtension =  'NotDefined' | 'Doc' | 'Docx' | 'Bmp' | 'Gif' | 'Jpeg' | 'Jpg' | 'Png' | 'Pdf' | 'Rar' | 'Xls' | 'Xlsx' | 'Zip' | 'Txt' | 'Heic' | 'Heif' | 'Sig';
 
@@ -132,4 +144,40 @@ interface CertificateDto {
   dateOfForming?: string;
   receiveType: CertificateReceiveType;
   receiveTypeEnumDto: EnumDto;
+}
+
+type UsefulServiceCategory = 'ForAll' | 'Students' | 'Employees';
+
+interface UsefulServicesParams {
+  categories: UsefulServiceCategory;
+  page: number;
+  pageSize: number;
+}
+
+interface UsefulServicesDto {
+  id: string;
+  category: UsefulServiceCategory;
+  title?: string;
+  description?: string;
+  link?: string;
+  termsOfDisctribution: string;
+  logo: FileDto;
+}
+
+interface PagedListMetaData {
+  pageCount: number;
+  totalItemCount: number;
+  pageNumber: number;
+  pageSize: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  isFirstPage: boolean;
+  isLastPage: boolean;
+  firstItemOnPage: number;
+  lastItemOnPage: number;
+}
+
+interface UsefulServiceDtoPagedListWithMetadata {
+  results: UsefulServicesDto[];
+  metadata: PagedListMetaData;
 }
