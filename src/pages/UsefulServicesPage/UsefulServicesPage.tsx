@@ -3,24 +3,34 @@ import './usefulServicesPage.scss';
 import { useState, useEffect, useCallback } from "react";
 import { API_URL } from '@/utils/constants';
 import Arrow from '@/assets/icons/arrow.svg'
+import Pagination from '@/components/Pagination/Pagination';
 
 const UsefulServicesPage = () => {
     const [servicesData, setServicesData] = useState({} as UsefulServiceDtoPagedListWithMetadata);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageCount, setPageCount] = useState(1);
+    const pageSize = 5;
+
     useEffect(() => {
-        const fetchProfile = async () => {
+        const fetchServices = async () => {
             try {
                 const response = await getUsefulServices({
-                    params: { "categories": "ForAll", "page": 1, "pageSize": 5 }
+                    params: {
+                        categories: "ForAll",
+                        page: pageNumber,
+                        pageSize: pageSize
+                    }
                 });
                 setServicesData(response.data);
+                //setPageCount(response.data.metadata.pageCount);
                 console.log(response.data);
             } catch (err) {
-                console.log('Ошибка при входе. Проверьте введённые данные.');
+                console.log('Что-то пошло не так при получении списка серверов :( ', err);
             }
         };
 
-        fetchProfile();
-    }, []);
+        fetchServices();
+    }, [pageNumber]);
 
     return (
         <main>
@@ -29,6 +39,11 @@ const UsefulServicesPage = () => {
                 <ServiceCard key={id} service={serviceData} />
             ))}
             </div>
+            <Pagination
+                currentPage={pageNumber}
+                pageCount={pageCount}
+                onPageChange={setPageNumber}
+            />
         </main>
     );
 };
@@ -58,6 +73,7 @@ const ServiceCard = ({ service }: { service: UsefulServicesDto }) => {
 
             </div>
         </div>
+        
     )
 }
 
