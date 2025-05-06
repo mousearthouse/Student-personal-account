@@ -1,7 +1,7 @@
 import './profilePage.scss';
 import { getProfile } from '@/utils/api/requests/getProfile';
 import { getStudent } from '@/utils/api/requests/getStudent';
-import { API_URL } from '@/utils/constants';
+import { API_URL } from '@/utils/constants/constants';
 import { useEffect, useState } from 'react';
 
 const ProfilePage = () => {

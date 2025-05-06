@@ -114,6 +114,11 @@ interface EmployeeDto {
   posts: EmployeePostDto[];
 }
 
+interface GetCertificatesParams {
+  userType: 'Student' | 'Employee';
+  ownerId: string;
+}
+
 type CertificateStatus = 'Created' | 'InProgress' | 'Finished';
 
 interface EnumDto {
@@ -180,4 +185,30 @@ interface PagedListMetaData {
 interface UsefulServiceDtoPagedListWithMetadata {
   results: UsefulServicesDto[];
   metadata: PagedListMetaData;
+}
+
+interface GetEventsListParams {
+  name?: string;
+  eventDate?: Date;
+  timezoneOffset?: number;
+  page?: number;
+  pageSize?: number;
+}
+
+interface EventShortDto {
+  id: string;
+  title?: string;
+  description?: string;
+  picture: FileDto;
+  isTimeFromNeeded: Date
+
+
+
+
+  
+}
+
+interface EventShortDtoPagedListWithMetadata {
+  results?: EventShortDto[];
+  metaData: PagedListMetaData;
 }

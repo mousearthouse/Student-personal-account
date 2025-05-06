@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'sonner';
 
-import { API_URL } from '@/utils/constants';
+import { API_URL } from '@/utils/constants/constants';
 
 export const api = axios.create({
     baseURL: `${API_URL}`,

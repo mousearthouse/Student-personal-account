@@ -1,7 +1,7 @@
 import { getUsefulServices } from '@/utils/api/requests/getUsefulServices';
 import './usefulServicesPage.scss';
 import { useState, useEffect, useCallback } from "react";
-import { API_URL } from '@/utils/constants';
+import { API_URL } from '@/utils/constants/constants';
 import Arrow from '@/assets/icons/arrow.svg'
 import Pagination from '@/components/Pagination/Pagination';
 

@@ -1,0 +1,9 @@
+{
+    "menu": {
+      "profile": "Profile",
+      "admin": "Administration",
+      "certificates": "Certificates",
+      "usefulServices": "Useful Services",
+      "events": "Events"
+    }
+}

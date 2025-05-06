@@ -9,7 +9,9 @@ import {
     LoginPage,
     ProfilePage,
     NotFoundPage,
-    UsefulServicesPage
+    UsefulServicesPage,
+    EventsPage,
+    CertificatesPage
 } from '@/pages/imports';
 
 import { Layout } from '@/components/Layout/Layout';
@@ -22,6 +24,8 @@ const router = createBrowserRouter(
             <Route path={ROUTES.LOGINPAGE} element = {<LoginPage/>} />
             <Route path={ROUTES.PROFILEPAGE} element = {<ProfilePage/>} />
             <Route path={ROUTES.USEFULSERVICESPAGE} element = {<UsefulServicesPage/>} />
+            <Route path={ROUTES.EVENTSPAGE} element = {<EventsPage/>} />
+            <Route path={ROUTES.CERTIFICATESPAGE} element = {<CertificatesPage/>} />
 
             <Route path="*" element={<NotFoundPage />} />
         </Route>,
