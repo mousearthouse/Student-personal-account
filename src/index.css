@@ -48,6 +48,14 @@ html, body {
   padding: 0;
 }
 
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-top: 8px;
+    margin-left: 20px; 
+    margin-right: 20px;
+}
+
 h1 {
   font-size: 40px;
   font-weight: 400;

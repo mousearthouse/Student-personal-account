@@ -63,7 +63,9 @@ const ServiceCard = ({ service }: { service: UsefulServicesDto }) => {
             </div>
             
             <div className='serviceCardDetails'>
-                <img src={getImageUrl()} alt="Аватар" />
+                {service.logo?.id && (
+                    <img src={getImageUrl()} alt="Аватар" />
+                )}
                 <div>
                     <p>{service.description}</p>
                     <span>Условия предоставления</span>

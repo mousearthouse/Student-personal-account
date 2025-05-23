@@ -1,9 +1,88 @@
 {
-    "menu": {
-      "profile": "Profile",
-      "admin": "Administration",
-      "certificates": "Certificates",
-      "usefulServices": "Useful Services",
-      "events": "Events"
+  "common": {
+    "noData": "No data"
+  },
+
+  "menu": {
+    "profile": "Profile",
+    "admin": "Administration",
+    "certificates": "Certificates",
+    "usefulServices": "Useful Services",
+    "events": "Events"
+  },
+
+  "login": {
+    "title": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "submit": "Sign in"
+  },
+
+  "profile": {
+    "title": "Profile",
+    "personalData": "Personal Data",
+    "gender": "Gender",
+    "birthDate": "Date of Birth",
+    "citizenship": "Citizenship",
+    "snils": "SNILS",
+    "email": "Email",
+    "contacts": "Contacts",
+    "phone": "Phone",
+    "additionalPhone": "Phone 2",
+    "additionalEmail": "Additional Email",
+    "address": "Address",
+    "tabs": {
+      "education": "Education",
+      "work": "Work"
+    },
+    "education": {
+      "bachelor": "Bachelor's",
+      "master": "Master's",
+      "studyYears": "Years of Study",
+      "studyForm": "Study Form",
+      "faculty": "Faculty",
+      "direction": "Field of Study",
+      "profile": "Specialization",
+      "course": "Course",
+      "group": "Group",
+      "studentStatus": {
+        "graduate": "Graduate",
+        "student": "Student"
+      },
+      "recordBookNumber": "Record Book Number",
+      "base": "Funding Type"
+    },
+    "work": {
+      "experience": "Experience",
+      "totalExperience": "Total experience",
+      "pedagogicalExperience": "Teaching experience",
+      "currentPlaceExperience": "Experience at current position",
+      "position": "Position",
+      "employmentType": "Employment type",
+      "rate": "Rate",
+      "workplace": "Workplace",
+      "jobType": "Job type",
+      "hireDate": "Hire date",
+      "dismissalDate": "Dismissal date",
+      "direction": "Field",
+      "years": "years",
+      "months": "months"
     }
+  },
+
+
+  "certificate": {
+    "from": "Certificate from",
+    "type": "Type",
+    "form": "Form",
+    "types": {
+      "ForPlaceWhereNeeded": "For place where needed",
+      "PensionForKazakhstan": "To Kazakhstan pension fund"
+    },
+    "receiveTypes": {
+      "Electronic": "Electronic",
+      "Paper": "Paper"
+    }
+  }
 }

@@ -1,9 +1,94 @@
 {
-"menu": {
+  "common": {
+    "noData": "Нет данных"
+  },
+  "menu": {
     "profile": "Профиль",
     "admin": "Администрирование",
     "certificates": "Справки",
     "usefulServices": "Полезные сервисы",
     "events": "Мероприятия"
+  },
+
+  "login": {
+    "title": "Вход в аккаунт",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "rememberMe": "Запомнить меня",
+    "submit": "Войти"
+  },
+
+  "profile": {
+    "title": "Профиль",
+    "personalData": "Личные данные",
+    "gender": "Пол",
+    "birthDate": "Дата рождения",
+    "citizenship": "Гражданство",
+    "snils": "СНИЛС",
+    "email": "Email",
+    "contacts": "Контакты",
+    "phone": "Телефон",
+    "additionalPhone": "Телефон 2",
+    "additionalEmail": "Дополнительный E-mail",
+    "address": "Адрес",
+    "tabs": {
+      "education": "Образование",
+      "work": "Работа"
+    },
+    "education": {
+      "bachelor": "Бакалавриат",
+      "master": "Магистратура",
+      "studyYears": "Годы обучения",
+      "studyForm": "Форма обучения",
+      "faculty": "Факультет",
+      "direction": "Направление",
+      "profile": "Профиль",
+      "course": "Курс",
+      "group": "Группа",
+      "studentStatus": {
+        "graduate": "Выпускник",
+        "student": "Студент"
+      },
+      "recordBookNumber": "Номер зачетной книги",
+      "base": "База"
+    },
+    "work": {
+      "experience": "Стаж",
+      "totalExperience": "Общий стаж",
+      "pedagogicalExperience": "Педагогический стаж",
+      "currentPlaceExperience": "Стаж на текущем месте работы",
+      "position": "Должность",
+      "employmentType": "Вид занятости",
+      "rate": "Ставка",
+      "workplace": "Место работы",
+      "jobType": "Тип должности",
+      "hireDate": "Дата приема на работу",
+      "dismissalDate": "Дата увольнения",
+      "direction": "Направление",
+      "years": "года",
+      "months": "месяца"
     }
+  },
+
+  "certificates": {
+    "educationLevel": "Уровень образования",
+    "status": "Статус",
+    "faculty": "Факультет",
+    "direction": "Направление",
+    "group": "Группа"
+  },
+
+  "certificate": {
+    "from": "Справка от",
+    "type": "Тип справки",
+    "form": "Вид справки",
+    "types": {
+      "ForPlaceWhereNeeded": "По месту требования",
+      "PensionForKazakhstan": "В пенсионный фонд Казахстана"
+    },
+    "receiveTypes": {
+      "Electronic": "Электронная",
+      "Paper": "Бумажная"
+    }
+  }
 }

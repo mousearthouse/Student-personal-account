@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import auth from '@/assets/auth-picture.svg';
 import { postUserLogin } from '@/utils/api/requests/loginUser';
 import { toast, Toaster } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
 
@@ -23,6 +24,7 @@ const LoginPage = () => {
 
 
 const LoginForm = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
@@ -53,44 +55,44 @@ const LoginForm = () => {
         }
       };
   
-    return (
+      return (
         <div className="login-container">
-            <div className="login-box">
-            <h1 className="login-title">Вход в аккаунт</h1>
+          <div className="login-box">
+            <h1 className="login-title">{t('login.title')}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                <label className="form-label">Электронная почта</label>
-                <input
+                    <label className="form-label">{t('login.email')}</label>
+                    <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-input"
                     required
-                />
+                    />
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Пароль</label>
+                    <label className="form-label">{t('login.password')}</label>
                     <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="form-input"
-                        required
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-input"
+                    required
                     />
                 </div>
                 <div className="form-remember">
                     <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={() => setRememberMe(!rememberMe)}
-                        className="checkbox"
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={() => setRememberMe(!rememberMe)}
+                    className="checkbox"
                     />
-                    <label className="checkbox-label">Запомнить меня</label>
+                    <label className="checkbox-label">{t('login.rememberMe')}</label>
                 </div>
                 <button type="submit" className="login-button">
-                ВОЙТИ
+                    {t('login.submit')}
                 </button>
-            </form>
+                </form>
             </div>
         </div>
     );
