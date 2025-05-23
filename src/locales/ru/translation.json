@@ -75,7 +75,12 @@
     "status": "Статус",
     "faculty": "Факультет",
     "direction": "Направление",
-    "group": "Группа"
+    "group": "Группа",
+    "position": "Должность",
+    "rate": "Ставка",
+    "workplace": "Место работы",
+    "jobType": "Тип должности",
+    "employmentType": "Вид занятости"
   },
 
   "certificate": {
@@ -90,5 +95,12 @@
       "Electronic": "Электронная",
       "Paper": "Бумажная"
     }
+  },
+
+  "employmentTypes": {
+    "main": "Основное место работы",
+    "partTime": "По совместительству",
+    "innerPartTime": "Внутреннее совместительство",
+    "freelance": "Подработка"
   }
 }

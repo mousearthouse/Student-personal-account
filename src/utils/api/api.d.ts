@@ -151,6 +151,15 @@ interface CertificateDto {
   receiveTypeEnumDto: EnumDto;
 }
 
+interface CertificateCreateDto {
+  type?: CertificateType;
+  staffType?: CertificateStaffType;
+  userType: CertificateUserType;
+  educationEntryId?: string;
+  employeePostId?: string;
+  receiveType: CertificateReceiveType;
+}
+
 type UsefulServiceCategory = 'ForAll' | 'Students' | 'Employees';
 
 interface UsefulServicesParams {

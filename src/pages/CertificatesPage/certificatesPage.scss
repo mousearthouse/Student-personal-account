@@ -33,13 +33,23 @@
   color: $color-accent;
 }
 
+.order-form {
+  height: 10vh;
+}
+
 .dropdown {
   padding: 10px;
   margin: 10px;
-  width: 10vw;
+  width: 15vw;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
+}
+
+.order-button {
+  padding: 10px;
+  margin: 10px;
+  width: 10vw;
 }
 
 .certificates-container {

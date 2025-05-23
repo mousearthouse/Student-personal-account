@@ -71,6 +71,18 @@
     }
   },
 
+  "certificates": {
+    "educationLevel": "Education level",
+    "status": "Status",
+    "faculty": "Faculty",
+    "direction": "Field",
+    "group": "Group",
+    "position": "Position",
+    "rate": "Rate",
+    "workplace": "Workplace",
+    "jobType": "Job type",
+    "employmentType": "Employment type"
+  },
 
   "certificate": {
     "from": "Certificate from",
@@ -84,5 +96,12 @@
       "Electronic": "Electronic",
       "Paper": "Paper"
     }
+  },
+
+  "employmentTypes": {
+    "main": "Main job",
+    "partTime": "Part-time",
+    "innerPartTime": "Internal part-time",
+    "freelance": "Freelance"
   }
 }
