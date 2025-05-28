@@ -57,41 +57,41 @@ const LoginForm = () => {
   
       return (
         <div className="login-container">
-          <div className="login-box">
-            <h1 className="login-title">{t('login.title')}</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label className="form-label">{t('login.email')}</label>
-                    <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="form-input"
-                    required
-                    />
-                </div>
-                <div className="form-group">
-                    <label className="form-label">{t('login.password')}</label>
-                    <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-input"
-                    required
-                    />
-                </div>
-                <div className="form-remember">
-                    <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={() => setRememberMe(!rememberMe)}
-                    className="checkbox"
-                    />
-                    <label className="checkbox-label">{t('login.rememberMe')}</label>
-                </div>
-                <button type="submit" className="login-button">
-                    {t('login.submit')}
-                </button>
+            <div className="login-box">
+                <h1 className="login-title">{t('login.title')}</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label className="form-label">{t('login.email')}</label>
+                        <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="form-input"
+                        required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label className="form-label">{t('login.password')}</label>
+                        <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-input"
+                        required
+                        />
+                    </div>
+                    <div className="form-remember">
+                        <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={() => setRememberMe(!rememberMe)}
+                        className="checkbox"
+                        />
+                        <label className="checkbox-label">{t('login.rememberMe')}</label>
+                    </div>
+                    <button type="submit" className="login-button">
+                        {t('login.submit')}
+                    </button>
                 </form>
             </div>
         </div>

@@ -114,6 +114,10 @@ interface EmployeeDto {
   posts: EmployeePostDto[];
 }
 
+
+//////////////////////////////////////////////////////////////// Certificates
+
+
 interface GetCertificatesParams {
   userType: 'Student' | 'Employee';
   ownerId: string;
@@ -160,6 +164,10 @@ interface CertificateCreateDto {
   receiveType: CertificateReceiveType;
 }
 
+
+//////////////////////////////////////////////////////////////// Useful Services
+
+
 type UsefulServiceCategory = 'ForAll' | 'Students' | 'Employees';
 
 interface UsefulServicesParams {
@@ -196,6 +204,10 @@ interface UsefulServiceDtoPagedListWithMetadata {
   metadata: PagedListMetaData;
 }
 
+
+//////////////////////////////////////////////////////////////// Events
+
+
 interface GetEventsListParams {
   name?: string;
   eventDate?: Date;
@@ -204,17 +216,28 @@ interface GetEventsListParams {
   pageSize?: number;
 }
 
+type EventType = 'Open' | 'Close'
+
+type EventFormat = 'Online' | 'Offline'
+
+type EventAuditory = 'All' | 'Students' | 'Employees'
+
+type EventStatus = 'Draft' | 'Actual' | 'Finished' | 'Archive'
+
 interface EventShortDto {
   id: string;
   title?: string;
   description?: string;
   picture: FileDto;
-  isTimeFromNeeded: Date
+  isTimeFromNeeded: boolean;
+  dateTimeFrom?: string;
+  isTimeToNeeded: boolean;
+  dateTimeTo?: string;
+  type: EventType;
+  format: EventFormat;
+  auditory: EventAuditory;
+  status: EventStatus;
 
-
-
-
-  
 }
 
 interface EventShortDtoPagedListWithMetadata {

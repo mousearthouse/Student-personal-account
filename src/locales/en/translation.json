@@ -103,5 +103,18 @@
     "partTime": "Part-time",
     "innerPartTime": "Internal part-time",
     "freelance": "Freelance"
+  },
+
+  "events": {
+    "title": "Events",
+    "home": "Home",
+    "search": "Search",
+    "searchPlaceholder": "Event name",
+    "datePlaceholder": "Event date",
+    "searchButton": "Search",
+    "dates": "Event dates",
+    "format": "Event format",
+    "offline": "Offline",
+    "online": "Online"
   }
 }

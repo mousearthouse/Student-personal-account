@@ -11,6 +11,7 @@ import {
     NotFoundPage,
     UsefulServicesPage,
     EventsPage,
+    EventDetailsPage,
     CertificatesPage
 } from '@/pages/imports';
 
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
             <Route path={ROUTES.PROFILEPAGE} element = {<ProfilePage/>} />
             <Route path={ROUTES.USEFULSERVICESPAGE} element = {<UsefulServicesPage/>} />
             <Route path={ROUTES.EVENTSPAGE} element = {<EventsPage/>} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
             <Route path={ROUTES.CERTIFICATESPAGE} element = {<CertificatesPage/>} />
 
             <Route path="*" element={<NotFoundPage />} />
