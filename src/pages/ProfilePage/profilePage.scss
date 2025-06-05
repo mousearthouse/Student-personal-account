@@ -60,7 +60,7 @@
 .block {
     background-color: #fff;
     margin-bottom: 5px;
-    padding-bottom: 10px;
+    padding: 10px 0px;
     border-radius: 10px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -94,10 +94,10 @@
     padding: 5px 20px;
 }
 
-.block-education-row1 {
+.block-row1 {
     grid-column: 1 / span 1;
 }
 
-.block-education-row2 {
+.block-row2 {
     grid-column: 2 / span 1;
 }

@@ -27,15 +27,16 @@ const EventsPage = () => {
     };
 
     useEffect (() => {
-
         fetchEvents();
     }, [])
+
     return (
         <div className="events-page">
             <div className="events-page-content">
                 <div>
                     <h1>Мероприятия</h1>
                 </div>
+                <span className='page-link-blue'> Главная</span>
                 <SearchBar
                     eventName={eventName}
                     eventDate={eventDate}
@@ -119,12 +120,12 @@ const EventCard = ({event}: {event: EventShortDto}) => {
 
         return `${formattedStart} - ${formattedEnd}`;
     }
+
     const getImageUrl = () => {
         if (event.picture) {
             return `${API_URL}Files/${event.picture.id}`;
         }
         return "src/assets/react.svg";
-        
     };
 
     return (

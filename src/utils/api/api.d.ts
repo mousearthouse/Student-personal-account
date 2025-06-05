@@ -244,3 +244,56 @@ interface EventShortDtoPagedListWithMetadata {
   results?: EventShortDto[];
   metaData: PagedListMetaData;
 }
+
+interface UserShortDto {
+  id: string;
+  lastName?: string;
+  firstName?: string;
+  patronymic?: string;
+  birthDate: string;
+  gender: Gender;
+  email?: string;
+  avatar: FileDto;
+}
+
+type EventParticipantType = 'Inner' | 'External'
+
+interface EventParticipantDto {
+  id: string;
+  user: UserShortDto;
+  email?: string;
+  name?: string;
+  phone?: string;
+  additionalInfo?: string;
+  participantType: EventParticipantType;
+}
+
+interface EventDto {
+  id: string;
+  title?: string;
+  description?: string;
+  picture: FileDto;
+  isTimeFromNeeded: boolean;
+  dateTimeFrom?: string;
+  isTimeToNeeded: boolean;
+  dateTimeTo?: string;
+  type: EventType;
+  format: EventFormat;
+  auditory: EventAuditory;
+  status: EventStatus;
+  link?: string;
+  addressName?: string;
+  latitude?: number;
+  longitude?: number;
+  isRegistrationRequired: boolean;
+  registrationLastDate?: string;
+  isDigestNeeded: boolean;
+  notificationText?: string;
+  digestNeeded?: string;
+  author: UserShortDto;
+  participants?: EventParticipantDto[]
+}
+
+interface GetEventDetailsParams {
+  id: string;
+}

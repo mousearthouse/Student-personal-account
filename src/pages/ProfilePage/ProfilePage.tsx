@@ -1,10 +1,11 @@
-import { getEmployee } from '@/utils/api/requests/getEmployee';
 import './profilePage.scss';
 import { getProfile } from '@/utils/api/requests/getProfile';
 import { getStudent } from '@/utils/api/requests/getStudent';
+import { getEmployee } from '@/utils/api/requests/getEmployee';
 import { API_URL } from '@/utils/constants/constants';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
 
 const ProfilePage = () => {
     const { t } = useTranslation();
@@ -12,7 +13,7 @@ const ProfilePage = () => {
     const [studentData, setStudentData] = useState<StudentDto>({} as StudentDto);
     const [employeeData, setEmployeeData] = useState<EmployeeDto>({} as EmployeeDto);
     
-    const [selected, setSelected] = useState<'student' | 'employee' | null>(null);
+    const [selected, setSelected] = useState<'student' | 'employee' | null>('student');
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -20,6 +21,8 @@ const ProfilePage = () => {
                 const response = await getProfile();
                 console.log(response.data);
                 setUserData(response.data);
+                localStorage.setItem('userId', response.data.id);
+                localStorage.setItem('userAvatar', response.data.avatar.id);
             } catch (err) {
                 console.log('Ошибка при входе. Проверьте введённые данные.');
             }
@@ -118,6 +121,11 @@ const ProfilePage = () => {
 const PersonalData = ({ userData }: { userData: UserProfileDto }) => {
     const { t } = useTranslation();
 
+    const validDate = (dateStr?: string) => {
+        const date = dateStr ? new Date(dateStr) : null;
+        return date ? format(date, 'dd.MM.yyyy') : t('common.noData');
+    };
+
   return (
     <div className="block">
         <div className="block-row">
@@ -134,7 +142,7 @@ const PersonalData = ({ userData }: { userData: UserProfileDto }) => {
             {userData.birthDate && (
             <div className="block-row">
                 <span className="block-label">{t('profile.birthDate')}</span>
-                <span className="block-value">{userData.birthDate}</span>
+                <span className="block-value">{validDate(userData.birthDate)}</span>
             </div>
             )}
             <hr />
@@ -195,44 +203,61 @@ const Contacts = ({ userData }: { userData: UserProfileDto }) => {
 const Education = ({ studentData }: { studentData: StudentDto }) => {
     const { t } = useTranslation();
 
+    const educationLevelMap: Record<string, string> = {
+        'Бакалавриат': 'bachelor',
+        'Магистратура': 'master'
+    };
+
+    const educationStatusMap: Record<string, string> = {
+        'Является студентом': 'student',
+        'Выпускник': 'graduate'
+    };
+
     return (
         <div className="block">
-            <div className='block-row'>
-                <h3>Образование</h3>
-            </div>
+
             {(studentData.educationEntries ?? []).map((educationEntry, id) => (
+                
             <div key={id}>
                 <div className="container-row">
-                    <div className="block-education-row1">
+                    <div className="block-row1">
+                        <span className="block-value">{t(`profile.education.${educationLevelMap[educationEntry.educationLevel.name ?? '']}`)}</span>
+                    </div>
+                    <div className="block-row2">
+                        <span className="block-value">{t(`profile.education.studentStatus.${educationStatusMap[educationEntry.educationStatus.name ?? '']}`)}</span>
+                    </div>
+                </div>
+                <div className="container-row">
+                    <div className="block-row1">
                         <span className="block-label">{t('profile.education.studyYears')}</span>
                         <span className="block-value">{educationEntry.educationYears.name}</span>
                     </div>
-                    <div className="block-education-row2">
+                    <div className="block-row2">
                         <span className="block-label">{t('profile.education.recordBookNumber')}</span>
                         <span className="block-value">{educationEntry.creditBooknumber}</span>
                 </div>
             </div>
             <hr />
             <div className="container-row">
-                <div className="block-education-row1">
+                <div className="block-row1">
                     <span className="block-label">{t('profile.education.studyForm')}</span>
                     <span className="block-value">{educationEntry.educationForm.name}</span>
                 </div>
-                <div className="block-education-row2">
+                <div className="block-row2">
                     <span className="block-label">{t('profile.education.base')}</span>
                     <span className="block-value">{educationEntry.educationBase.name}</span>
                 </div>
             </div>
             <hr />
             <div className="container-row">
-                <div className="block-education-row1">
+                <div className="block-row1">
                     <span className="block-label">{t('profile.education.faculty')}</span>
                     <span className="block-value">{educationEntry.faculty.name}</span>
                 </div>
             </div>
             <hr />
             <div className="container-row">
-                <div className="block-education-row1">
+                <div className="block-row1">
                     <span className="block-label">{t('profile.education.direction')}</span>
                     <span className="block-value">{educationEntry.educationDirection.name}</span>
                 </div>
@@ -246,11 +271,11 @@ const Education = ({ studentData }: { studentData: StudentDto }) => {
             </div>
             <hr />
             <div className="container-row">
-                <div className="block-education-row1">
+                <div className="block-row1">
                     <span className="block-label">{t('profile.education.course')}</span>
                     <span className="block-value">{educationEntry.course}</span>
                 </div>
-                <div className="block-education-row2">
+                <div className="block-row2">
                     <span className="block-label">{t('profile.education.group')}</span>
                     <span className="block-value">{educationEntry.group.name}</span>
                 </div>
@@ -267,16 +292,23 @@ const Work = ({ employeeData }: { employeeData: EmployeeDto }) => {
     const commonExperience = employeeData.experience?.find((e) => e.type === 'Common');
     const pedagogicalExperience = employeeData.experience?.find((e) => e.type === 'Pedagogical');
 
+    const validDate = (dateStr?: string) => {
+        const date = dateStr ? new Date(dateStr) : null;
+        return date ? format(date, 'dd.MM.yyyy') : t('common.noData');
+    };
+
     return (
         <div className="block">
-            <h4>{t('profile.work.experience')}</h4>
+            <div className='block-row'>
+                <h4>{t('profile.work.experience')}</h4>
+            </div>
                 <div className="container-row">
                     
-                    <div className="block-education-row1">
+                    <div className="block-erow1">
                         <span className="block-label">{t('profile.work.totalExperience')}</span>
                         {commonExperience ? `${commonExperience.years} ${t('profile.work.years')} ${commonExperience.months} ${t('profile.work.months')}` : t('common.noData')}
                     </div>
-                    <div className="block-education-row2">
+                    <div className="block-row2">
                         <span className="block-label">{t('profile.work.pedagogicalExperience')}</span>
                         {pedagogicalExperience ? `${pedagogicalExperience.years} ${t('profile.work.years')} ${pedagogicalExperience.months} ${t('profile.work.months')}` : t('common.noData')}
                     </div>
@@ -286,35 +318,45 @@ const Work = ({ employeeData }: { employeeData: EmployeeDto }) => {
                     <div key={id}>
                         <div className="container-row">
                             <h3>{post.postName.name}</h3>
-                            <div className="block-education-row1">
+                            <div className="block-row1">
                                 <span className="block-label">{t('profile.work.employmentType')}</span>
-                                <span className="block-value">{post.employmentType}</span>
+                                <span className="block-value">{t(`profile.work.employmentTypes.${post.employmentType ?? ''}`)}</span>
                             </div>
-                            <div className="block-education-row2">
+                            <div className="block-row2">
                                 <span className="block-label">{t('profile.work.rate')}</span>
                                 <span className="block-value">{post.rate}</span>
                             </div>
                         </div>
-                    
+                        <hr/>
+                        <div className="container-row">
+                            <div className="block-row1">
+                                <span className="block-label">{t('profile.work.workplace')}</span>
+                                <span className="block-value">{post.departments[0].name}</span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div className="container-row">
+                            <div className="block-row1">
+                                <span className="block-label">{t('profile.work.jobType')}</span>
+                                <span className="block-value">{post.postType.name}</span>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div className="container-row">
+                            <div className="block-row1">
+                                <span className="block-label">{t('profile.work.hireDate')}</span>
+                                <span className="block-value">{validDate(post.dateStart)}</span>
+                            </div>
+                            <div className="block-row2">
+                                <span className="block-label">{t('profile.work.dismissalDate')}</span>
+                                <span className="block-value">{validDate(post.dateEnd)}</span>
+                            </div>
+                        </div>
+                        <hr/>
+                        {/* где-то тут должна быть строчка с направлением для пед работников */}
                     </div>
                 ))}
-            {/* "work": {
-            "experience": "Стаж",
-            "totalExperience": "Общий стаж",
-            "pedagogicalExperience": "Педагогический стаж",
-            "currentPlaceExperience": "Стаж на текущем месте работы",
-            "position": "Должность",
-            "employmentType": "Вид занятости",
-            "rate": "Ставка",
-            "workplace": "Место работы",
-            "jobType": "Тип должности",
-            "hireDate": "Дата приема на работу",
-            "dismissalDate": "Дата увольнения",
-            "direction": "Направление"
-            } */}
-            
         </div>
-        
     )
 };
 

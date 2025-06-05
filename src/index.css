@@ -133,3 +133,11 @@ main {
   gap: 20px;
   margin: 5px 152px;
 }
+
+.page-link {
+  cursor: pointer;
+}
+
+.page-link-blue {
+  color: #747bff;
+}

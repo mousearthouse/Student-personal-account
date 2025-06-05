@@ -115,6 +115,7 @@
     "dates": "Event dates",
     "format": "Event format",
     "offline": "Offline",
-    "online": "Online"
+    "online": "Online",
+    "description": "Description"
   }
 }

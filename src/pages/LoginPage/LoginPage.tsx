@@ -60,18 +60,19 @@ const LoginForm = () => {
             <div className="login-box">
                 <h1 className="login-title">{t('login.title')}</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label className="form-label">{t('login.email')}</label>
+                    <div className="input-form-w-label">
+                        <label className='label-form' htmlFor="name">{t('login.email')}</label>
                         <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="form-input"
-                        required
-                        />
+                        required 
+                        />                
                     </div>
-                    <div className="form-group">
-                        <label className="form-label">{t('login.password')}</label>
+
+                    <div className="input-form-w-label">
+                        <label className='label-form'>{t('login.password')}</label>
                         <input
                         type="password"
                         value={password}

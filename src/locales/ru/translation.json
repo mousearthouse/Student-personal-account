@@ -59,6 +59,12 @@
       "currentPlaceExperience": "Стаж на текущем месте работы",
       "position": "Должность",
       "employmentType": "Вид занятости",
+      "employmentTypes": {
+        "MainPlace": "Основное место работы",
+        "PartTime": "Парт-тайм",
+        "InnerPartTime": "По совместительству",
+        "Freelance": "Фриланс"
+      },
       "rate": "Ставка",
       "workplace": "Место работы",
       "jobType": "Тип должности",
@@ -114,6 +120,7 @@
     "dates": "Даты проведения",
     "format": "Формат мероприятия",
     "offline": "Офлайн",
-    "online": "Онлайн"
+    "online": "Онлайн",
+    "description": "Описание"
   }
 }

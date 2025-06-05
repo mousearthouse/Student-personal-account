@@ -1,8 +1,7 @@
 export const ROUTES = {
-    MAINPAGE: '/',
     PROFILEPAGE: '/profile',
     LOGINPAGE: '/login',
     USEFULSERVICESPAGE: '/usefulservices',
-    EVENTSPAGE: '/events',
+    EVENTSPAGE: '/',
     CERTIFICATESPAGE: '/certificates'
 };
