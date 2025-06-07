@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "./eventsPage.scss";
-import { getEventsList } from "@/utils/api/requests/getEventsList";
-import { API_URL } from "@/utils/constants/constants";
-import { Translation, useTranslation } from "react-i18next";
+import './eventsPage.scss';
+import { getEventsList } from '@/utils/api/requests/getEventsList';
+import { API_URL } from '@/utils/constants/constants';
+import { Translation, useTranslation } from 'react-i18next';
 
 const EventsPage = () => {
     const [events, setEvents] = useState({} as EventShortDtoPagedListWithMetadata);
-    const [eventName, setEventName] = useState("");
-    const [eventDate, setEventDate] = useState("");
+    const [eventName, setEventName] = useState('');
+    const [eventDate, setEventDate] = useState('');
 
     const fetchEvents = async () => {
         try {
-                const response = await getEventsList({
+            const response = await getEventsList({
                 params: {
                     name: eventName || undefined,
                     eventDate: eventDate ? new Date(eventDate) : undefined,
@@ -26,9 +26,9 @@ const EventsPage = () => {
         }
     };
 
-    useEffect (() => {
+    useEffect(() => {
         fetchEvents();
-    }, [])
+    }, []);
 
     return (
         <div className="events-page">
@@ -36,51 +36,59 @@ const EventsPage = () => {
                 <div>
                     <h1>Мероприятия</h1>
                 </div>
-                <span className='page-link-blue'> Главная</span>
+                <span className="page-link-blue"> Главная</span>
                 <SearchBar
                     eventName={eventName}
                     eventDate={eventDate}
                     setEventName={setEventName}
                     setEventDate={setEventDate}
-                    onSearch={fetchEvents}/>
+                    onSearch={fetchEvents}
+                />
                 <div className="events-container">
                     {(events.results ?? []).map((event) => (
-                    <EventCard event={event} key={event.id}/>
-                ))}
+                        <EventCard event={event} key={event.id} />
+                    ))}
                 </div>
-                
             </div>
         </div>
-        
-    )
-}
+    );
+};
 
 interface GetEventProps {
-    eventName: string,
-    eventDate: string,
-    setEventName: (value: string) => void,
-    setEventDate: (value: string) => void,
-    onSearch: () => void
+    eventName: string;
+    eventDate: string;
+    setEventName: (value: string) => void;
+    setEventDate: (value: string) => void;
+    onSearch: () => void;
 }
 
-const SearchBar = ({eventName, eventDate, setEventName, setEventDate, onSearch}: GetEventProps) => {
+const SearchBar = ({
+    eventName,
+    eventDate,
+    setEventName,
+    setEventDate,
+    onSearch,
+}: GetEventProps) => {
     return (
         <div className="search-bar">
             <h3>Поиск</h3>
             <div className="input-form-w-label">
-                <label className='label-form' htmlFor="name">Название мероприятия</label>
+                <label className="label-form" htmlFor="name">
+                    Название мероприятия
+                </label>
                 <input
                     id="name"
                     placeholder=""
                     value={eventName}
                     onChange={(e) => setEventName(e.target.value)}
                     className="form-input"
-                    
-                />                
+                />
             </div>
             <button onClick={onSearch}>НАЙТИ</button>
             <div className="input-form-w-label">
-                <label className='label-form' htmlFor="name">Дата проведения мероприятия</label>
+                <label className="label-form" htmlFor="name">
+                    Дата проведения мероприятия
+                </label>
                 <input
                     type="date"
                     id="name"
@@ -88,14 +96,13 @@ const SearchBar = ({eventName, eventDate, setEventName, setEventDate, onSearch}:
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
                     className="form-input"
-                />                
+                />
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-const EventCard = ({event}: {event: EventShortDto}) => {
+const EventCard = ({ event }: { event: EventShortDto }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -106,26 +113,26 @@ const EventCard = ({event}: {event: EventShortDto}) => {
         const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
             day: '2-digit',
             month: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
         });
 
         const timeFormatter = new Intl.DateTimeFormat('ru-RU', {
             hour: '2-digit',
             minute: '2-digit',
-            hour12: false
+            hour12: false,
         });
 
         const formattedStart = `${dateFormatter.format(startDate)} (${timeFormatter.format(startDate)})`;
         const formattedEnd = `${dateFormatter.format(endDate)} (${timeFormatter.format(endDate)})`;
 
         return `${formattedStart} - ${formattedEnd}`;
-    }
+    };
 
     const getImageUrl = () => {
         if (event.picture) {
             return `${API_URL}Files/${event.picture.id}`;
         }
-        return "src/assets/react.svg";
+        return 'src/assets/react.svg';
     };
 
     return (
@@ -138,22 +145,21 @@ const EventCard = ({event}: {event: EventShortDto}) => {
                 <span>{t('events.format')}</span>
                 <p>{event.format}</p>
             </div>
-            
         </div>
-    )
+    );
 
-//     "events": {
-//   "title": "Events",
-//   "home": "Home",
-//   "search": "Search",
-//   "searchPlaceholder": "Event name",
-//   "datePlaceholder": "Event date",
-//   "searchButton": "Search",
-//   "dates": "Event dates",
-//   "format": "Event format",
-//   "offline": "Offline",
-//   "online": "Online"
-// }
-}
+    //     "events": {
+    //   "title": "Events",
+    //   "home": "Home",
+    //   "search": "Search",
+    //   "searchPlaceholder": "Event name",
+    //   "datePlaceholder": "Event date",
+    //   "searchButton": "Search",
+    //   "dates": "Event dates",
+    //   "format": "Event format",
+    //   "offline": "Offline",
+    //   "online": "Online"
+    // }
+};
 
 export default EventsPage;

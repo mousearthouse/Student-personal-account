@@ -1,4 +1,4 @@
-import "./pagination.scss";
+import './pagination.scss';
 
 interface PaginationProps {
     currentPage: number;
@@ -15,11 +15,11 @@ const Pagination = ({ currentPage, pageCount, onPageChange }: PaginationProps) =
         let end = Math.min(pageCount, start + visiblePages - 1);
 
         if (end - start < visiblePages - 1) {
-        start = Math.max(1, end - visiblePages + 1);
+            start = Math.max(1, end - visiblePages + 1);
         }
 
         for (let i = start; i <= end; i++) {
-        pages.push(i);
+            pages.push(i);
         }
 
         return pages;
@@ -27,35 +27,32 @@ const Pagination = ({ currentPage, pageCount, onPageChange }: PaginationProps) =
 
     return (
         <div className="pagination">
-        <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-        >
-            &lt;
-        </button>
-
-        {getPages().map((page, index) => (
-            <button
-            key={index}
-            className={page === currentPage ? "active" : ""}
-            onClick={() => onPageChange(page)}
-            >
-            {page}
+            <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+                &lt;
             </button>
-        ))}
 
-        {currentPage < pageCount - 2 && <span>...</span>}
+            {getPages().map((page, index) => (
+                <button
+                    key={index}
+                    className={page === currentPage ? 'active' : ''}
+                    onClick={() => onPageChange(page)}
+                >
+                    {page}
+                </button>
+            ))}
 
-        {currentPage < pageCount && (
-            <button onClick={() => onPageChange(pageCount)}>{pageCount}</button>
-        )}
+            {currentPage < pageCount - 2 && <span>...</span>}
 
-        <button
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === pageCount}
-        >
-            &gt;
-        </button>
+            {currentPage < pageCount && (
+                <button onClick={() => onPageChange(pageCount)}>{pageCount}</button>
+            )}
+
+            <button
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage === pageCount}
+            >
+                &gt;
+            </button>
         </div>
     );
 };

@@ -1,0 +1,23 @@
+.admin-page-content {
+   margin: 50px 152px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.main-container.first {
+   grid-column: 1 / span 4;
+}
+.main-container.second {
+   grid-column: 5 / span 4;
+}
+.main-container.third {
+   grid-column: 9 / span 4;
+}

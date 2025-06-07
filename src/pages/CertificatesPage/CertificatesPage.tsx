@@ -1,15 +1,15 @@
-import { getCertificates } from "@/utils/api/requests/getCertificates";
-import { getEmployee } from "@/utils/api/requests/getEmployee";
-import { getStudent } from "@/utils/api/requests/getStudent";
-import { postCertificate } from "@/utils/api/requests/postCertificate";
-import { useEffect, useState } from "react";
-import "./certificatesPage.scss"
-import { useTranslation } from "react-i18next";
+import { getCertificates } from '@/utils/api/requests/getCertificates';
+import { getEmployee } from '@/utils/api/requests/getEmployee';
+import { getStudent } from '@/utils/api/requests/getStudent';
+import { postCertificate } from '@/utils/api/requests/postCertificate';
+import { useEffect, useState } from 'react';
+import './certificatesPage.scss';
+import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 
 const CertificatesPage = () => {
     const { t } = useTranslation();
-    
+
     const [certificatesData, setCertificatesData] = useState<CertificateDto[]>();
     const [studentData, setStudentData] = useState<StudentDto>();
     const [employeeData, setEmployeeData] = useState<EmployeeDto>();
@@ -18,7 +18,6 @@ const CertificatesPage = () => {
     const [selectedEducationEntryId, setSelectedEducationEntryId] = useState<string | null>(null);
     const [selectedEmployeePostId, setSelectedEmployeePostId] = useState<string | null>(null);
 
-    
     useEffect(() => {
         const fetchData = async () => {
             let student = null;
@@ -50,7 +49,7 @@ const CertificatesPage = () => {
                     console.log('Студент не найден — это норм');
                 }
             }
-            console.log(employee)
+            console.log(employee);
             if (student && student.educationEntries && student.educationEntries.length > 0) {
                 setSelected('student');
             } else if (employee && employee.experience?.length > 0) {
@@ -75,29 +74,28 @@ const CertificatesPage = () => {
         load();
     }, [selected, studentData, employeeData, selectedEducationEntryId, selectedEmployeePostId]);
 
-    
     const fetchCertificates = async ({
         studentData,
         employeeData,
         selectedEducationEntryId,
-        selectedEmployeePostId
+        selectedEmployeePostId,
     }: {
         studentData?: StudentDto;
         employeeData?: EmployeeDto;
         selectedEducationEntryId?: string;
         selectedEmployeePostId?: string;
-        }) => {
+    }) => {
         if (studentData && selectedEducationEntryId) {
             console.log('Запрашиваем справки для:', {
-            selected,
-            selectedEducationEntryId
+                selected,
+                selectedEducationEntryId,
             });
             try {
                 const response = await getCertificates({
                     params: {
-                    userType: 'Student',
-                    ownerId: selectedEducationEntryId
-                    }
+                        userType: 'Student',
+                        ownerId: selectedEducationEntryId,
+                    },
                 });
                 setCertificatesData(response.data);
             } catch (err) {
@@ -107,15 +105,15 @@ const CertificatesPage = () => {
 
         if (employeeData && selectedEmployeePostId) {
             console.log('Запрашиваем справки для:', {
-            selected,
-            selectedEmployeePostId
+                selected,
+                selectedEmployeePostId,
             });
             try {
                 const response = await getCertificates({
                     params: {
                         userType: 'Employee',
-                        ownerId: selectedEmployeePostId
-                    }
+                        ownerId: selectedEmployeePostId,
+                    },
                 });
                 setCertificatesData(response.data);
             } catch (err) {
@@ -123,56 +121,71 @@ const CertificatesPage = () => {
             }
         }
     };
-        
+
     return (
         <main>
             <div className="certificates">
                 <div className="menu">
                     <h2>Заказ справки</h2>
-                {studentData && employeeData && (
-                    <div className="buttons-container">
-                        <button
-                        className={`menu-item ${selected === 'student' ? 'active' : ''}`}
-                        onClick={() => setSelected('student')}>
-                            Студент
-                        </button>
-                        <hr/>
-                        <button
-                        className={`menu-item ${selected === 'employee' ? 'active' : ''}`}
-                        onClick={() => setSelected('employee')}>
-                            Сотрудник
-                        </button>
-                    </div>
-                )}
-
+                    {studentData && employeeData && (
+                        <div className="buttons-container">
+                            <button
+                                className={`menu-item ${selected === 'student' ? 'active' : ''}`}
+                                onClick={() => setSelected('student')}
+                            >
+                                Студент
+                            </button>
+                            <hr />
+                            <button
+                                className={`menu-item ${selected === 'employee' ? 'active' : ''}`}
+                                onClick={() => setSelected('employee')}
+                            >
+                                Сотрудник
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="certificates-container">
-                    {studentData?.educationEntries && selected == "student" &&
+                    {studentData?.educationEntries && selected == 'student' && (
                         <EducationTabs
-                        educationEntries={studentData?.educationEntries || []} 
-                        selectedId={selectedEducationEntryId}
-                        onSelect={setSelectedEducationEntryId}
+                            educationEntries={studentData?.educationEntries || []}
+                            selectedId={selectedEducationEntryId}
+                            onSelect={setSelectedEducationEntryId}
                         />
-                    }
-                    {employeeData?.posts && selected == "employee" &&
-                        <EmployeeTabs employeeEntries={employeeData?.posts || []} 
-                        selectedId={selectedEmployeePostId}
-                        onSelect={setSelectedEmployeePostId}
+                    )}
+                    {employeeData?.posts && selected == 'employee' && (
+                        <EmployeeTabs
+                            employeeEntries={employeeData?.posts || []}
+                            selectedId={selectedEmployeePostId}
+                            onSelect={setSelectedEmployeePostId}
                         />
-                    }
+                    )}
                     <OrderForm
-                    selected={selected}
-                    educationEntryId={selectedEducationEntryId || undefined}
-                    postId={selectedEmployeePostId || undefined}
+                        selected={selected}
+                        educationEntryId={selectedEducationEntryId || undefined}
+                        postId={selectedEmployeePostId || undefined}
                     />
                     <div className="certificates-box">
                         <div className="certificates-list">
                             {certificatesData?.map((certificate, id) => (
                                 <div key={id} className="certificate-item">
-                                    <p>Справка от {certificate.dateOfForming ? (new Date(certificate.dateOfForming)).toLocaleString('ru-RU') : t('certificate.noDate')}</p>
-                                    <span>{t('certificate.type')}: {t(`certificate.types.${certificate.type}`)} </span>
-                                    <span>{t('certificate.form')}: {t(`certificate.receiveTypes.${certificate.receiveType}`)}</span>
-                                <hr/>
+                                    <p>
+                                        Справка от{' '}
+                                        {certificate.dateOfForming
+                                            ? new Date(certificate.dateOfForming).toLocaleString(
+                                                  'ru-RU',
+                                              )
+                                            : t('certificate.noDate')}
+                                    </p>
+                                    <span>
+                                        {t('certificate.type')}:{' '}
+                                        {t(`certificate.types.${certificate.type}`)}{' '}
+                                    </span>
+                                    <span>
+                                        {t('certificate.form')}:{' '}
+                                        {t(`certificate.receiveTypes.${certificate.receiveType}`)}
+                                    </span>
+                                    <hr />
                                 </div>
                             ))}
                         </div>
@@ -180,11 +193,18 @@ const CertificatesPage = () => {
                 </div>
             </div>
         </main>
-    )
-}
+    );
+};
 
-const OrderForm = ({ selected, educationEntryId, postId }: 
-    { selected: 'student' | 'employee' | null; educationEntryId?: string; postId?: string }) => {
+const OrderForm = ({
+    selected,
+    educationEntryId,
+    postId,
+}: {
+    selected: 'student' | 'employee' | null;
+    educationEntryId?: string;
+    postId?: string;
+}) => {
     const [certificateType, setCertificateType] = useState<CertificateType>('ForPlaceWhereNeeded');
     const [receiveType, setReceiveType] = useState<CertificateReceiveType>('Electronic');
     const [staffType, setStaffType] = useState<CertificateStaffType>('ForPlaceOfWork');
@@ -197,14 +217,14 @@ const OrderForm = ({ selected, educationEntryId, postId }:
                 type: certificateType,
                 userType: 'Student',
                 educationEntryId: educationEntryId,
-                receiveType: receiveType
+                receiveType: receiveType,
             };
         } else if (selected === 'employee') {
             certificateData = {
                 staffType: staffType,
                 userType: 'Employee',
                 employeePostId: postId,
-                receiveType: receiveType
+                receiveType: receiveType,
             };
         }
 
@@ -214,7 +234,7 @@ const OrderForm = ({ selected, educationEntryId, postId }:
         }
 
         try {
-            console.log(certificateData)
+            console.log(certificateData);
             await postCertificate(certificateData);
             console.log('Справка успешно заказана');
         } catch (error) {
@@ -237,7 +257,7 @@ const OrderForm = ({ selected, educationEntryId, postId }:
                         <option value="ForPlaceWhereNeeded">По месту требования</option>
                         <option value="PensionForKazakhstan">В пенсионный фонд Казахстана</option>
                     </select>
-                )}   
+                )}
                 {selected === 'employee' && (
                     <select
                         id="select-staff-type"
@@ -258,75 +278,81 @@ const OrderForm = ({ selected, educationEntryId, postId }:
                     <option value="Electronic">Электронная</option>
                     <option value="Paper">Бумажная</option>
                 </select>
-                
+
                 <button className="order-button" onClick={handleOrder}>
                     Заказать
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 type EducationTabsProps = {
-  educationEntries: EducationEntryDto[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
+    educationEntries: EducationEntryDto[];
+    selectedId: string | null;
+    onSelect: (id: string) => void;
 };
 
 const EducationTabs = ({ educationEntries, selectedId, onSelect }: EducationTabsProps) => {
     const { t } = useTranslation();
-    console.log(selectedId)
+    console.log(selectedId);
     const selectedEntry = educationEntries.find((entry) => entry.id === selectedId);
-  
+
     if (!educationEntries?.length) return null;
-  
+
     return (
         <div className="education-tabs">
             <div className="tab-buttons">
                 {educationEntries.map((entry) => (
                     <button
-                    key={entry.id}
-                    className={`tab-button ${entry.id === selectedId ? 'active' : ''}`}
-                    onClick={() => onSelect(entry.id)}
+                        key={entry.id}
+                        className={`tab-button ${entry.id === selectedId ? 'active' : ''}`}
+                        onClick={() => onSelect(entry.id)}
                     >
-                    <div className="tab-title">{entry.faculty.name}</div>
-                    <div className="tab-subtitle">
-                        {t('certificates.educationLevel')}: {entry.educationLevel.name} <br />
-                        {t('certificates.status')}: {entry.educationStatus.name}
-                    </div>
+                        <div className="tab-title">{entry.faculty.name}</div>
+                        <div className="tab-subtitle">
+                            {t('certificates.educationLevel')}: {entry.educationLevel.name} <br />
+                            {t('certificates.status')}: {entry.educationStatus.name}
+                        </div>
                     </button>
                 ))}
             </div>
-  
+
             <div className="tab-content-wrapper">
                 <div className="tab-content">
                     <div className="row">
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.educationLevel')}</span>
-                            <span className="block-value">{selectedEntry?.educationLevel.name}</span>
+                            <span className="block-value">
+                                {selectedEntry?.educationLevel.name}
+                            </span>
                         </div>
                         <div className="block-education-row2">
                             <span className="block-label">{t('certificates.status')}</span>
-                            <span className="block-value">{selectedEntry?.educationStatus.name}</span>
+                            <span className="block-value">
+                                {selectedEntry?.educationStatus.name}
+                            </span>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <hr />
                 <div className="tab-content">
-                <div className="row">
-                    <div className="block-education-row1">
-                        <span className="block-label">{t('certificates.faculty')}</span>
-                        <span className="block-value">{selectedEntry?.faculty.name}</span>
+                    <div className="row">
+                        <div className="block-education-row1">
+                            <span className="block-label">{t('certificates.faculty')}</span>
+                            <span className="block-value">{selectedEntry?.faculty.name}</span>
+                        </div>
                     </div>
                 </div>
-                </div>
-                <hr/>
+                <hr />
 
                 <div className="tab-content">
                     <div className="row">
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.direction')}</span>
-                            <span className="block-value">{selectedEntry?.educationDirection.name}</span>
+                            <span className="block-value">
+                                {selectedEntry?.educationDirection.name}
+                            </span>
                         </div>
                         <div className="block-education-row2">
                             <span className="block-label">{t('certificates.group')}</span>
@@ -341,39 +367,37 @@ const EducationTabs = ({ educationEntries, selectedId, onSelect }: EducationTabs
 };
 
 type EmployeeTabsProps = {
-  employeeEntries: EmployeePostDto[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
+    employeeEntries: EmployeePostDto[];
+    selectedId: string | null;
+    onSelect: (id: string) => void;
 };
 
 const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsProps) => {
     const { t } = useTranslation();
     const [selectedTab, setSelectedTab] = useState(0);
-    console.log(selectedId)
+    console.log(selectedId);
 
     const employmentTypeMap = {
         MainPlace: t('employmentTypes.main'),
         PartTime: t('employmentTypes.partTime'),
         InnerPartTime: t('employmentTypes.innerPartTime'),
-        Freelance: t('employmentTypes.freelance')
+        Freelance: t('employmentTypes.freelance'),
     };
-  
-    if (!employeeEntries?.length) return (
-        <h3>Справок нет!</h3>
-    );
+
+    if (!employeeEntries?.length) return <h3>Справок нет!</h3>;
     return (
         <div className="education-tabs">
             <div className="tab-buttons">
                 {employeeEntries.map((entry) => (
                     <button
-                    key={entry.id}
-                    className={`tab-button ${entry.id === selectedId ? 'active' : ''}`}
-                    onClick={() => onSelect(entry.id)}
+                        key={entry.id}
+                        className={`tab-button ${entry.id === selectedId ? 'active' : ''}`}
+                        onClick={() => onSelect(entry.id)}
                     >
-                    <div className="tab-title">{entry.postName.name}</div>
-                    <div className="tab-subtitle">
-                        {employmentTypeMap[entry.employmentType]} <br />
-                    </div>
+                        <div className="tab-title">{entry.postName.name}</div>
+                        <div className="tab-subtitle">
+                            {employmentTypeMap[entry.employmentType]} <br />
+                        </div>
                     </button>
                 ))}
             </div>
@@ -382,41 +406,48 @@ const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsPro
                     <div className="row">
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.position')}</span>
-                            <span className="block-value">{employeeEntries[selectedTab].postName.name}</span>
+                            <span className="block-value">
+                                {employeeEntries[selectedTab].postName.name}
+                            </span>
                         </div>
                         <div className="block-education-row2">
                             <span className="block-label">{t('certificates.rate')}</span>
                             <span className="block-value">{employeeEntries[selectedTab].rate}</span>
                         </div>
-                    </div>  
+                    </div>
                 </div>
-                <hr/>
+                <hr />
                 <div className="tab-content">
                     <div className="row">
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.workplace')}</span>
-                            <span className="block-value">{employeeEntries[selectedTab].departments[0].name}</span>
+                            <span className="block-value">
+                                {employeeEntries[selectedTab].departments[0].name}
+                            </span>
                         </div>
-                    </div>  
+                    </div>
                 </div>
-                <hr/>
+                <hr />
                 <div className="tab-content">
                     <div className="row">
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.jobType')}</span>
-                            <span className="block-value">{employeeEntries[selectedTab].postType.name}</span>
+                            <span className="block-value">
+                                {employeeEntries[selectedTab].postType.name}
+                            </span>
                         </div>
                         <div className="block-education-row2">
                             <span className="block-label">{t('certificates.employmentType')}</span>
-                            <span className="block-value">{employmentTypeMap[employeeEntries[selectedTab].employmentType]}</span>
+                            <span className="block-value">
+                                {employmentTypeMap[employeeEntries[selectedTab].employmentType]}
+                            </span>
                         </div>
-                    </div>  
+                    </div>
                 </div>
-                <hr/>
+                <hr />
             </div>
         </div>
-    )
-
-}
+    );
+};
 
 export default CertificatesPage;
