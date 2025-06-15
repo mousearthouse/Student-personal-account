@@ -31,6 +31,10 @@
     "additionalPhone": "Телефон 2",
     "additionalEmail": "Дополнительный E-mail",
     "address": "Адрес",
+    "genderTypes": {
+      "male": "Мужской",
+      "female": "Женский"
+    },
     "tabs": {
       "education": "Образование",
       "work": "Работа"

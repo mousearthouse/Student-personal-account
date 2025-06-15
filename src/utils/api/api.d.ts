@@ -39,7 +39,7 @@ interface ContactDto {
 
 type UserType = 'Student' | 'Employee';
 
-interface UserProfileDto {
+interface ProfileDto {
   id: string;
   email?: string;
   lastName?: string;
@@ -201,7 +201,7 @@ interface PagedListMetaData {
 
 interface UsefulServiceDtoPagedListWithMetadata {
   results: UsefulServicesDto[];
-  metadata: PagedListMetaData;
+  metaData: PagedListMetaData;
 }
 
 
@@ -296,4 +296,32 @@ interface EventDto {
 
 interface GetEventDetailsParams {
   id: string;
+}
+
+/////////////////////////////////////////////////////// ADMIN
+
+interface GetUsersListParams {
+  email?: string;
+  name?: string;
+  filterLastName?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+interface ProfileShortDto {
+  id: string;
+  email?: string;
+  lastName?: string;
+  firstName?: string;
+  patronymic?: string;
+  birthDate: string;
+}
+
+interface ProfileShortDtoPagedListWithMetadata {
+  results: ProfileShortDto[];
+  metadata: PagedListMetaData;
+}
+
+interface GetUserDetailsParams {
+  userId: string;
 }

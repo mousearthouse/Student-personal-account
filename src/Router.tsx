@@ -15,6 +15,7 @@ import {
     CertificatesPage,
     AdminMainPage,
     AdminUsersPage,
+    AdminUserDetailsPage,
     AdminUsefulServicesPage,
     AdminEventsPage,
 } from '@/pages/imports';
@@ -30,10 +31,11 @@ const router = createBrowserRouter(
             <Route path={ROUTES.PROFILEPAGE} element={<ProfilePage />} />
             <Route path={ROUTES.USEFULSERVICESPAGE} element={<UsefulServicesPage />} />
             <Route path={ROUTES.EVENTSPAGE} element={<EventsPage />} />
-            <Route path="/events/:id" element={<EventDetailsPage />} />
+            <Route path={ROUTES.EVENTDETAILSPAGE} element={<EventDetailsPage />} />
             <Route path={ROUTES.CERTIFICATESPAGE} element={<CertificatesPage />} />
             <Route path={ROUTES.ADMINMAINPAGE} element={<AdminMainPage />} />
             <Route path={ROUTES.ADMINUSERSPAGE} element={<AdminUsersPage />} />
+            <Route path={ROUTES.ADMINUSERDETAILSPAGE} element={<AdminUserDetailsPage />} />
             <Route path={ROUTES.ADMINUSEFULSERVICESPAGE} element={<AdminUsefulServicesPage />} />
             <Route path={ROUTES.ADMINEVENTSPAGE} element={<AdminEventsPage />} />
 

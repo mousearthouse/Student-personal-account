@@ -2,14 +2,14 @@ import './profilePage.scss';
 import { getProfile } from '@/utils/api/requests/getProfile';
 import { getStudent } from '@/utils/api/requests/getStudent';
 import { getEmployee } from '@/utils/api/requests/getEmployee';
-import { API_URL } from '@/utils/constants/constants';
+import { getImageUrl } from '@/utils/usefulFunctions';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
+import { useValidDate } from '@/utils/usefulFunctions';
 
 const ProfilePage = () => {
     const { t } = useTranslation();
-    const [userData, setUserData] = useState<UserProfileDto>({} as UserProfileDto);
+    const [userData, setUserData] = useState<ProfileDto>({} as ProfileDto);
     const [studentData, setStudentData] = useState<StudentDto>({} as StudentDto);
     const [employeeData, setEmployeeData] = useState<EmployeeDto>({} as EmployeeDto);
 
@@ -68,10 +68,6 @@ const ProfilePage = () => {
         }
     }, [selected, studentData, employeeData]);
 
-    const getImageUrl = () => {
-        return `${API_URL}Files/${userData.avatar.id}`;
-    };
-
     return (
         <main>
             <div className="container">
@@ -80,7 +76,7 @@ const ProfilePage = () => {
                 <div className="user-data-block">
                     <div className="avatar-container">
                         {userData.avatar && (
-                            <img src={getImageUrl()} alt={t('profile.avatarAlt')} />
+                            <img src={getImageUrl(userData.avatar.id)} alt={t('profile.avatarAlt')} />
                         )}
                     </div>
                     <PersonalData userData={userData} />
@@ -122,13 +118,9 @@ const ProfilePage = () => {
     );
 };
 
-const PersonalData = ({ userData }: { userData: UserProfileDto }) => {
+const PersonalData = ({ userData }: { userData: ProfileDto }) => {
     const { t } = useTranslation();
-
-    const validDate = (dateStr?: string) => {
-        const date = dateStr ? new Date(dateStr) : null;
-        return date ? format(date, 'dd.MM.yyyy') : t('common.noData');
-    };
+    const validDate = useValidDate();
 
     return (
         <div className="block">
@@ -169,7 +161,7 @@ const PersonalData = ({ userData }: { userData: UserProfileDto }) => {
     );
 };
 
-const Contacts = ({ userData }: { userData: UserProfileDto }) => {
+const Contacts = ({ userData }: { userData: ProfileDto }) => {
     const { t } = useTranslation();
 
     return (
@@ -181,7 +173,7 @@ const Contacts = ({ userData }: { userData: UserProfileDto }) => {
                 {userData.contacts && (
                     <div className="block-row">
                         <span className="block-label">{t('profile.phone')}</span>
-                        <span className="block-value">{}</span>
+                        <span className="block-value">{userData.contacts?.find(contact => contact.type === 'Phone')?.value || t('common.noData')}</span>
                     </div>
                 )}
                 <hr />
@@ -306,14 +298,9 @@ const Education = ({ studentData }: { studentData: StudentDto }) => {
 
 const Work = ({ employeeData }: { employeeData: EmployeeDto }) => {
     const { t } = useTranslation();
-
+    const validDate = useValidDate();
     const commonExperience = employeeData.experience?.find((e) => e.type === 'Common');
     const pedagogicalExperience = employeeData.experience?.find((e) => e.type === 'Pedagogical');
-
-    const validDate = (dateStr?: string) => {
-        const date = dateStr ? new Date(dateStr) : null;
-        return date ? format(date, 'dd.MM.yyyy') : t('common.noData');
-    };
 
     return (
         <div className="block">

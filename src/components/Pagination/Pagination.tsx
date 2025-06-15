@@ -24,37 +24,66 @@ const Pagination = ({ currentPage, pageCount, onPageChange }: PaginationProps) =
 
         return pages;
     };
+    console.log('Pagination props:', { currentPage, pageCount });
+
+    const pages = getPages();
+    const lastInWindow = pages[pages.length - 1];
 
     return (
-        <div className="pagination">
-            <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-                &lt;
-            </button>
+    <div className="pagination">
+        <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+            &lt;
+        </button>
 
-            {getPages().map((page, index) => (
+        {/* Первая страница (если не видна) */}
+        {pages[0] > 1 && (
+            <>
                 <button
-                    key={index}
-                    className={page === currentPage ? 'active' : ''}
-                    onClick={() => onPageChange(page)}
+                    onClick={() => onPageChange(1)}
+                    className={currentPage === 1 ? 'active' : ''}
                 >
-                    {page}
+                    1
                 </button>
-            ))}
+                {/* Многоточие после первой страницы, если она не соседняя */}
+                {pages[0] > 2 && <span>...</span>}
+            </>
+        )}
 
-            {currentPage < pageCount - 2 && <span>...</span>}
-
-            {currentPage < pageCount && (
-                <button onClick={() => onPageChange(pageCount)}>{pageCount}</button>
-            )}
-
+        {/* Основные страницы */}
+        {pages.map((page) => (
             <button
-                onClick={() => onPageChange(currentPage + 1)}
-                disabled={currentPage === pageCount}
+                key={page}
+                className={page === currentPage ? 'active' : ''}
+                onClick={() => onPageChange(page)}
             >
-                &gt;
+                {page}
             </button>
-        </div>
-    );
+        ))}
+
+        {/* Последняя страница (если не видна) */}
+        {pages[pages.length - 1] < pageCount && (
+            <>
+                {/* Многоточие перед последней страницей, если она не соседняя */}
+                {pages[pages.length - 1] < pageCount - 1 && <span>...</span>}
+                <button
+                    onClick={() => onPageChange(pageCount)}
+                    className={currentPage === pageCount ? 'active' : ''}
+                >
+                    {pageCount}
+                </button>
+            </>
+        )}
+
+        <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === pageCount}
+        >
+            &gt;
+        </button>
+    </div>
+);
+
+
 };
 
 export default Pagination;

@@ -1,5 +1,5 @@
 .admin-page-content {
-   margin: 50px 152px;
+   margin: 50px 152px 20px 152px;
 }
 
 .main-container {
@@ -20,4 +20,32 @@
 }
 .main-container.third {
    grid-column: 9 / span 4;
+}
+
+.users-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.profile-admin-card {
+   cursor: pointer;
+}
+
+.profile-avatar {
+   grid-column: 1 / span 3;
+}
+.profile-avatar img {
+   max-width: 100%;
+   height: auto;
+}
+
+.profile-info {
+   grid-column: 4 / span 12;
+   display: flex;
+   flex-direction: column;
 }

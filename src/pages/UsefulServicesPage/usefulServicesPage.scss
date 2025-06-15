@@ -1,3 +1,10 @@
+.usefulServicesPage {
+    min-height: 99vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .servicesContainer {
     margin: 10px 152px;
     display: flex;

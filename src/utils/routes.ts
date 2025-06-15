@@ -3,9 +3,11 @@ export const ROUTES = {
     LOGINPAGE: '/login',
     USEFULSERVICESPAGE: '/usefulservices',
     EVENTSPAGE: '/',
+    EVENTDETAILSPAGE: '/events/:id',
     CERTIFICATESPAGE: '/certificates',
     ADMINMAINPAGE: '/admin',
     ADMINUSERSPAGE: '/admin/users',
+    ADMINUSERDETAILSPAGE: '/admin/users/:id',
     ADMINUSEFULSERVICESPAGE: '/admin/usefulservices',
     ADMINEVENTSPAGE: '/admin/events',
 };
