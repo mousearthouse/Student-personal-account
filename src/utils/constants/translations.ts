@@ -32,3 +32,10 @@ export const CertificateReceiveTypeTranslations: Record<CertificateReceiveType, 
     Electronic: 'Электронная',
     Paper: 'Бумажная',
 };
+
+export const statusMap: Record<string, string> = {
+    'Draft': 'Черновик',
+    'Actual': 'Опубликовано',
+    'Finished': 'Завершено',
+    'Archived': 'Архивировано'
+};

@@ -18,6 +18,7 @@ import {
     AdminUserDetailsPage,
     AdminUsefulServicesPage,
     AdminEventsPage,
+    AdminEventDetailsPage,
 } from '@/pages/imports';
 
 import { Layout } from '@/components/Layout/Layout';
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
             <Route path={ROUTES.ADMINUSERDETAILSPAGE} element={<AdminUserDetailsPage />} />
             <Route path={ROUTES.ADMINUSEFULSERVICESPAGE} element={<AdminUsefulServicesPage />} />
             <Route path={ROUTES.ADMINEVENTSPAGE} element={<AdminEventsPage />} />
+            <Route path={ROUTES.ADMINEVENTDETAILSPAGE} element={<AdminEventDetailsPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
         </Route>,

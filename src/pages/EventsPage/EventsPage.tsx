@@ -3,10 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import './eventsPage.scss';
 import { getEventsList } from '@/utils/api/requests/getEventsList';
 import { API_URL } from '@/utils/constants/constants';
-import { Translation, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import Pagination from '@/components/Pagination/Pagination';
+import { formatDate } from '@/utils/usefulFunctions';
 
 const EventsPage = () => {
     const [events, setEvents] = useState({} as EventShortDtoPagedListWithMetadata);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageCount, setPageCount] = useState(1);
+    const pageSize = 4;
+
     const [eventName, setEventName] = useState('');
     const [eventDate, setEventDate] = useState('');
 
@@ -16,10 +22,13 @@ const EventsPage = () => {
                 params: {
                     name: eventName || undefined,
                     eventDate: eventDate ? new Date(eventDate) : undefined,
+                    page: pageNumber,
+                    pageSize: pageSize,
                 },
             });
             setEvents(response.data);
-            //setPageCount(response.data.metadata.pageCount);
+            console.log(response.data.metaData);
+            setPageCount(response.data.metaData.pageCount);
             console.log(response.data);
         } catch (err) {
             console.log('Что-то пошло не так при получении списка ивентов :( ', err);
@@ -28,7 +37,7 @@ const EventsPage = () => {
 
     useEffect(() => {
         fetchEvents();
-    }, []);
+    }, [pageNumber]);
 
     return (
         <div className="events-page">
@@ -50,17 +59,14 @@ const EventsPage = () => {
                     ))}
                 </div>
             </div>
+            <Pagination
+                currentPage={pageNumber}
+                pageCount={pageCount}
+                onPageChange={setPageNumber}
+            />
         </div>
     );
 };
-
-interface GetEventProps {
-    eventName: string;
-    eventDate: string;
-    setEventName: (value: string) => void;
-    setEventDate: (value: string) => void;
-    onSearch: () => void;
-}
 
 const SearchBar = ({
     eventName,
@@ -106,28 +112,6 @@ const EventCard = ({ event }: { event: EventShortDto }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const formatDateRange = (start?: string, end?: string) => {
-        const startDate = start ? new Date(start) : new Date();
-        const endDate = end ? new Date(end) : new Date();
-
-        const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
-
-        const timeFormatter = new Intl.DateTimeFormat('ru-RU', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        });
-
-        const formattedStart = `${dateFormatter.format(startDate)} (${timeFormatter.format(startDate)})`;
-        const formattedEnd = `${dateFormatter.format(endDate)} (${timeFormatter.format(endDate)})`;
-
-        return `${formattedStart} - ${formattedEnd}`;
-    };
-
     const getImageUrl = () => {
         if (event.picture) {
             return `${API_URL}Files/${event.picture.id}`;
@@ -141,25 +125,12 @@ const EventCard = ({ event }: { event: EventShortDto }) => {
             <div className="event-card-content">
                 <h3>{event.title}</h3>
                 <span>{t('events.dates')}</span>
-                <p>{formatDateRange(event.dateTimeFrom, event.dateTimeTo)}</p>
+                <p>{formatDate(event.dateTimeFrom)} - {formatDate(event.dateTimeTo)}</p>
                 <span>{t('events.format')}</span>
                 <p>{event.format}</p>
             </div>
         </div>
     );
-
-    //     "events": {
-    //   "title": "Events",
-    //   "home": "Home",
-    //   "search": "Search",
-    //   "searchPlaceholder": "Event name",
-    //   "datePlaceholder": "Event date",
-    //   "searchButton": "Search",
-    //   "dates": "Event dates",
-    //   "format": "Event format",
-    //   "offline": "Offline",
-    //   "online": "Online"
-    // }
 };
 
 export default EventsPage;

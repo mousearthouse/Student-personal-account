@@ -49,3 +49,76 @@
    display: flex;
    flex-direction: column;
 }
+
+.event-admin-card {
+   width: 100%;
+   border-radius: 10px;
+   padding: 12px;
+   margin-bottom: 12px;
+   background-color: #F9F9F9;
+   display: flex;
+   flex-direction: row;
+   cursor: pointer;
+}
+
+.event-info {
+   padding: 0px 20px;
+   display: flex;
+   width: 100%;
+   flex-direction: column;
+}
+
+.details-container {
+   display: flex;
+   width: 100%;
+   flex-direction: column;
+}
+
+.event-name {
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+}
+.event-status {
+   width: fit-content;
+   padding: 3px 7px;
+   border-radius: 10px;
+}
+
+.event-status span {
+   color: #F9F9F9;
+}
+
+.event-status.gray {
+   background-color: #9C9C9C;
+}
+
+.event-status.green {
+   background-color: #46B34A;
+}
+
+.event-status.lime {
+   background-color: #A0D000;
+}
+
+.event-status.black {
+   background-color: #3A3A3A;
+}
+
+.event-picture-container {
+   height: 100%;
+}
+
+.event-picture-admin {
+   height: 200px;
+   aspect-ratio: 1/1;
+   width: auto;
+   object-fit: cover;
+   border-radius: 10px;
+}
+
+.icon {
+   width: 24px;
+   height: 24px;
+   cursor: pointer;
+}

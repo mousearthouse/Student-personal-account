@@ -116,6 +116,24 @@
     "format": "Event format",
     "offline": "Offline",
     "online": "Online",
-    "description": "Description"
+    "description": "Description",
+    "type": "Event type",
+    "status": "Status",
+
+    "formatTypes": {
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "audience": "Audience",
+    "audienceTypes": {
+      "students": "Students",
+      "teachers": "Teachers"
+    },
+    "eventTypes": {
+      "close": "Closed",
+      "open": "Open"
+    },
+    "start-time": "Start Time",
+    "end-time": "End Time"
   }
 }

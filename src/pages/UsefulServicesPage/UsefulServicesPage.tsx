@@ -1,9 +1,9 @@
 import { getUsefulServices } from '@/utils/api/requests/getUsefulServices';
 import './usefulServicesPage.scss';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { API_URL } from '@/utils/constants/constants';
-import Arrow from '@/assets/icons/arrow.svg';
 import Pagination from '@/components/Pagination/Pagination';
+import ServiceBtn from '@/components/UsefulServiceBtn/ServiceBtn';
 
 const UsefulServicesPage = () => {
     const [servicesData, setServicesData] = useState({} as UsefulServiceDtoPagedListWithMetadata);
@@ -76,18 +76,5 @@ const ServiceCard = ({ service }: { service: UsefulServicesDto }) => {
     );
 };
 
-const ServiceBtn = ({ url }: { url: string }) => {
-    const href = () => {
-        window.location.href = url;
-    };
-
-    const svgArrow = Arrow;
-    return (
-        <button className="serviceCardBtn" onClick={href}>
-            Перейти на сайт
-            <img className="arrow" src={svgArrow} alt="Arrow Icon" />
-        </button>
-    );
-};
 
 export default UsefulServicesPage;

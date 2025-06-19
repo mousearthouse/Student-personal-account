@@ -10,6 +10,8 @@ export { default as AdminUsersPage } from "@/pages/AdminPage/AdminUsersPage";
 export { default as AdminUserDetailsPage } from "@/pages/AdminPage/AdminUserDetailsPage";
 export { default as AdminUsefulServicesPage } from "@/pages/AdminPage/AdminUsefulServicesPage";
 export { default as AdminEventsPage } from "@/pages/AdminPage/AdminEventsPage";
+export { default as AdminEventDetailsPage } from "@/pages/AdminPage/AdminEventDetailsPage";
+
 
 
 export { default as CertificatesPage } from "@/pages/CertificatesPage/CertificatesPage";

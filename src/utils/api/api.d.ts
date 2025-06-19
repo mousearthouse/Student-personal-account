@@ -216,6 +216,17 @@ interface GetEventsListParams {
   pageSize?: number;
 }
 
+interface GetEventsAdminParams {
+  status?: EventStatus;
+  eventType?: EventType;
+  name?: string;
+  format?: EventFormat;
+  eventDate?: Date;
+  timezoneOffset?: number;
+  page?: number;
+  pageSize?: number;
+}
+
 type EventType = 'Open' | 'Close'
 
 type EventFormat = 'Online' | 'Offline'
@@ -298,6 +309,14 @@ interface GetEventDetailsParams {
   id: string;
 }
 
+interface GetEventProps {
+    eventName: string;
+    eventDate: string;
+    setEventName: (value: string) => void;
+    setEventDate: (value: string) => void;
+    onSearch: () => void;
+}
+
 /////////////////////////////////////////////////////// ADMIN
 
 interface GetUsersListParams {
@@ -306,6 +325,20 @@ interface GetUsersListParams {
   filterLastName?: string;
   page?: number;
   pageSize?: number;
+}
+
+interface GetEventAdminProps {
+  eventName: string;
+  status: EventStatus;
+  eventDate: string;
+  format: EventFormat;
+  type: EventType;
+  setStatus: (value: EventStatus) => void;
+  setFormat: (value: EventFormat) => void;
+  setType: (value: EventType) => void;
+  setEventName: (value: string) => void;
+  setEventDate: (value: string) => void;
+  onSearch: () => void;
 }
 
 interface ProfileShortDto {
@@ -319,7 +352,7 @@ interface ProfileShortDto {
 
 interface ProfileShortDtoPagedListWithMetadata {
   results: ProfileShortDto[];
-  metadata: PagedListMetaData;
+  metaData: PagedListMetaData;
 }
 
 interface GetUserDetailsParams {

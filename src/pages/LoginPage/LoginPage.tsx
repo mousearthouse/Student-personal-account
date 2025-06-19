@@ -1,5 +1,5 @@
 import './loginPage.scss';
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import auth from '@/assets/auth-picture.svg';
 import { postUserLogin } from '@/utils/api/requests/loginUser';
 import { toast, Toaster } from 'sonner';

@@ -121,10 +121,27 @@
     "searchPlaceholder": "Название мероприятия",
     "datePlaceholder": "Дата проведения мероприятия",
     "searchButton": "Найти",
-    "dates": "Даты проведения",
+    "dates": "Дата(ы) проведения",
     "format": "Формат мероприятия",
-    "offline": "Офлайн",
-    "online": "Онлайн",
+    "type": "Тип мероприятия",
+    "status": "Статус",
+    "formatTypes": {
+      "online": "Онлайн",
+      "offline": "Офлайн"
+    },
+    "audience": "Аудитория",
+    "audienceTypes": {
+      "students": "Студенты",
+      "teachers": "Преподаватели"
+    },
+    "eventTypes": {
+      "close": "Закрытое",
+      "open": "Открытое"
+    },
+    "start-time": "Время начала",
+    "end-time": "Время окончания",
+
+
     "description": "Описание"
   }
 }
