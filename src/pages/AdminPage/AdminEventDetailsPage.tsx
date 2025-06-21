@@ -8,6 +8,8 @@ import { API_URL } from '@/utils/constants/constants';
 import { formatDate, getStatusClass } from '@/utils/usefulFunctions';
 import { statusMap } from '@/utils/constants/translations';
 import { getEventDetailsAdmin } from '@/utils/api/requests/admin/getEventDetailsAdmin';
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';  
+import GeoMap from '@/components/GeoMap/GeoMap';
 
 const AdminEventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -75,7 +77,6 @@ const AdminEventDetailsPage = () => {
                                 </div>
                                 <div className="block-row2">
                                     <span className="block-label">
-                                        {/* {t('profile.education.recordBookNumber')} */}
                                         Целевая аудитория
                                     </span>
                                     <span className="block-value">{eventDetails.auditory}</span>
@@ -85,14 +86,12 @@ const AdminEventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {/* {t('profile.education.studyYears')} */}
                                         Дата(ы) проведения
                                     </span>
                                     <span className="block-value">{formatDate(eventDetails.dateTimeFrom)} - {formatDate(eventDetails.dateTimeTo)}</span>
                                 </div>
                                 <div className="block-row2">
                                     <span className="block-label">
-                                        {/* {t('profile.education.recordBookNumber')} */}
                                         Формат мероприятия
                                     </span>
                                     <span className="block-value">{eventDetails.format}</span>
@@ -102,7 +101,6 @@ const AdminEventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {/* {t('profile.education.studyYears')} */}
                                         Ссылка
                                     </span>
                                     <span className="block-value">{eventDetails.link}</span>
@@ -112,7 +110,6 @@ const AdminEventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {/* {t('profile.education.studyYears')} */}
                                         Включать мероприятие в дайджест
                                     </span>
                                     <span className="block-value">{eventDetails.digestNeeded}</span>
@@ -122,7 +119,6 @@ const AdminEventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {/* {t('profile.education.studyYears')} */}
                                         Создал(а) мероприятие
                                     </span>
                                     <span className="block-value">{eventDetails.author?.firstName} {eventDetails.author?.lastName} {eventDetails.author?.patronymic}</span>
@@ -132,14 +128,12 @@ const AdminEventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {/* {t('profile.education.studyYears')} */}
                                         Необходима регистрация
                                     </span>
                                     <span className="block-value">{eventDetails.isRegistrationRequired}</span>
                                 </div>
                                 <div className="block-row2">
                                     <span className="block-label">
-                                        {/* {t('profile.education.recordBookNumber')} */}
                                         Дата окончания регистрации
                                     </span>
                                     <span className="block-value">{formatDate(eventDetails.registrationLastDate)}</span>
@@ -147,6 +141,7 @@ const AdminEventDetailsPage = () => {
                             </div>
                             <hr />
                         </div>
+                        <GeoMap address={eventDetails.addressName ? eventDetails.addressName : ''} />
                     </div>
                 </div>
             </div>

@@ -122,7 +122,9 @@
     "datePlaceholder": "Дата проведения мероприятия",
     "searchButton": "Найти",
     "dates": "Дата(ы) проведения",
+    "lastDateRegistration": "Дата окончания регистрации",
     "format": "Формат мероприятия",
+    "address": "Адрес",
     "type": "Тип мероприятия",
     "status": "Статус",
     "formatTypes": {

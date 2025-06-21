@@ -5,7 +5,7 @@ import './adminPage.scss';
 import { useTranslation } from "react-i18next";
 import editIcon from '@/assets/icons/edit.svg';
 import deleteIcon from '@/assets/icons/delete.svg';
-import { getImageUrl, getStatusClass } from "@/utils/usefulFunctions";
+import { formatDate, getImageUrl, getStatusClass } from "@/utils/usefulFunctions";
 import Pagination from "@/components/Pagination/Pagination";
 import { statusMap } from "@/utils/constants/translations";
 
@@ -185,28 +185,6 @@ const EventAdminCard = ({ event }: { event: EventShortDto }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const formatDateRange = (start?: string, end?: string) => {
-        const startDate = start ? new Date(start) : new Date();
-        const endDate = end ? new Date(end) : new Date();
-
-        const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
-
-        const timeFormatter = new Intl.DateTimeFormat('ru-RU', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-        });
-
-        const formattedStart = `${dateFormatter.format(startDate)} (${timeFormatter.format(startDate)})`;
-        const formattedEnd = `${dateFormatter.format(endDate)} (${timeFormatter.format(endDate)})`;
-
-        return `${formattedStart} - ${formattedEnd}`;
-    };
-
     const formatMap: Record<string, string> = {
         'Offline': 'Офлайн',
         'Online': 'Онлайн',
@@ -246,7 +224,7 @@ const EventAdminCard = ({ event }: { event: EventShortDto }) => {
                     <div className="container-row">
                         <div className="block-row1">
                             <span>{t('events.dates')}</span>
-                            <p>{formatDateRange(event.dateTimeFrom, event.dateTimeTo)}</p>
+                            <p>{formatDate(event.dateTimeFrom)} - {formatDate(event.dateTimeTo)}</p>
                         </div>
                         <div className="block-row2">
                             <span>{t('events.format')}</span>

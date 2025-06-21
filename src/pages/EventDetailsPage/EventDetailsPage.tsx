@@ -5,6 +5,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { Translation, useTranslation } from 'react-i18next';
 import { API_URL } from '@/utils/constants/constants';
+import GeoMap from '@/components/GeoMap/GeoMap';
+import { formatDate } from '@/utils/usefulFunctions';
 
 const EventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -61,15 +63,36 @@ const EventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {t('profile.education.studyYears')}
+                                        {t('events.lastDateRegistration')}
                                     </span>
-                                    <span className="block-value">{}</span>
+                                    <span className="block-value">{eventDetails.registrationLastDate}</span>
+                                </div>
+                            </div>
+                            <hr />
+                            <div className="container-row">
+                                <div className="block-row1">
+                                    <span className="block-label">
+                                        {t('events.dates')}
+                                    </span>
+                                    <span className="block-value">{formatDate(eventDetails.dateTimeFrom)} - {formatDate(eventDetails.dateTimeTo)}</span>
                                 </div>
                                 <div className="block-row2">
                                     <span className="block-label">
-                                        {t('profile.education.recordBookNumber')}
+                                        {t('events.format')}
                                     </span>
-                                    <span className="block-value">{}</span>
+                                    <span className="block-value">{eventDetails.format}</span>
+                                </div>
+                            </div>
+                            <hr />
+                            <div className="container-row">
+                                <div className="block-row1">
+                                    <span className="block-label">
+                                        {t('events.address')}
+                                    </span>
+                                    <span className="block-value">{eventDetails.addressName}</span>
+                                </div>
+                                <div className="block-row2">
+                                    <GeoMap address={eventDetails.addressName || ''}/>
                                 </div>
                             </div>
                             <hr />
