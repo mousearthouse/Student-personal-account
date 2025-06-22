@@ -14,6 +14,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings: 'lnum';  
+  -moz-font-feature-settings: 'lnum';  
+  font-feature-settings: 'lnum';  
 }
 /* * {
   outline: 1px solid red;
@@ -118,7 +121,9 @@ button:hover {
   background-color: #00000000;
   border-color: #204CFF;
   color: #204CFF;
-  pointer-events: none;
+}
+.btn-active:hover {
+  color: #FFFFFF;
 }
 
 
@@ -150,4 +155,30 @@ main {
 
 .page-link-blue {
   color: #747bff;
+}
+
+ 
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
+}
+  
+.form-label {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 5px;
+}
+  
+.form-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+  
+.form-input:focus {
+    outline: none;
+    border-color: #4a90e2;
 }

@@ -5,9 +5,11 @@ import './adminPage.scss';
 import { useTranslation } from "react-i18next";
 import editIcon from '@/assets/icons/edit.svg';
 import deleteIcon from '@/assets/icons/delete.svg';
+import filtersIcon from '@/assets/icons/filters.svg';
+import filtersActiveIcon from '@/assets/icons/filters-active.svg';
 import { formatDate, getImageUrl, getStatusClass } from "@/utils/usefulFunctions";
 import Pagination from "@/components/Pagination/Pagination";
-import { statusMap } from "@/utils/constants/translations";
+import { statusMap, eventFormatMap } from "@/utils/constants/translations";
 
 const AdminEventsPage = () => {
 
@@ -73,7 +75,7 @@ const AdminEventsPage = () => {
                     setEventDate={setEventDate}
                     onSearch={fetchEvents}
                 />
-                <div className="events-container">
+                <div className="events-container-admin">
                     {(events.results ?? []).map((event) => (
                         <EventAdminCard event={event} key={event.id} />
                     ))}
@@ -101,82 +103,98 @@ const SearchBar = ({
     setEventDate,
     onSearch,
 }: GetEventAdminProps) => {
+    const [showFilters, setShowFilters] = useState(false);
     return (
         <div className="search-bar">
-            <h3>Поиск</h3>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="name">
-                    Название мероприятия
-                </label>
-                <input
-                    id="name"
-                    placeholder=""
-                    value={eventName}
-                    onChange={(e) => setEventName(e.target.value)}
-                    className="form-input"
-                />
-            </div>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="status">
-                    Статус
-                </label>
-                <select
-                    id="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value as EventStatus)}
-                    className="form-input"
+            <div className="admin-search-header">
+                <h3>Панель поиска</h3>
+                <button
+                    className={`search-btn filters-toggle-btn${showFilters ? " btn-active" : ""}`}
+                    onClick={() => setShowFilters((prev) => !prev)}
                 >
-                    <option value="">Все</option>
-                    <option value="Draft">Черновик</option>
-                    <option value="Actual">Опубликовано</option>
-                    <option value="Finished">Завершено</option>
-                    <option value="Archive">Архивировано</option>
-                </select>
+                    Фильтры <img src={showFilters ? filtersActiveIcon : filtersIcon} />
+                </button>
             </div>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="format">
-                    Формат
-                </label>
-                <select
-                    id="format"
-                    value={format}
-                    onChange={(e) => setFormat(e.target.value as EventFormat)}
-                    className="form-input"
-                >
-                    <option value="">Все</option>
-                    <option value="Online">Онлайн</option>
-                    <option value="Offline">Офлайн</option>
-                </select>
+            
+            <div className='search-forms admin'>
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="name">
+                        Название мероприятия
+                    </label>
+                    <input
+                        id="name"
+                        placeholder=""
+                        value={eventName}
+                        onChange={(e) => setEventName(e.target.value)}
+                        className="form-input name"
+                    />
+                </div>
+                <button className='search-btn' onClick={onSearch}>НАЙТИ</button>
             </div>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="type">
-                    Тип мероприятия
-                </label>
-                <select
-                    id="type"
-                    value={type}
-                    onChange={(e) => setType(e.target.value as EventType)}
-                    className="form-input"
-                >
-                    <option value="">Все</option>
-                    <option value="Open">Открытое</option>
-                    <option value="Close">Закрытое</option>
-                </select>
+            {showFilters && (
+            <div className="input-forms-other">
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="status">
+                        Статус
+                    </label>
+                    <select
+                        id="status"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value as EventStatus)}
+                        className="form-input admin"
+                    >
+                        <option value="">Все</option>
+                        <option value="Draft">Черновик</option>
+                        <option value="Actual">Опубликовано</option>
+                        <option value="Finished">Завершено</option>
+                        <option value="Archive">Архивировано</option>
+                    </select>
+                </div>
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="format">
+                        Формат
+                    </label>
+                    <select
+                        id="format"
+                        value={format}
+                        onChange={(e) => setFormat(e.target.value as EventFormat)}
+                        className="form-input admin"
+                    >
+                        <option value="">Все</option>
+                        <option value="Online">Онлайн</option>
+                        <option value="Offline">Офлайн</option>
+                    </select>
+                </div>
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="type">
+                        Тип мероприятия
+                    </label>
+                    <select
+                        id="type"
+                        value={type}
+                        onChange={(e) => setType(e.target.value as EventType)}
+                        className="form-input admin"
+                    >
+                        <option value="">Все</option>
+                        <option value="Open">Открытое</option>
+                        <option value="Close">Закрытое</option>
+                    </select>
+                </div>
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="name">
+                        Дата проведения мероприятия
+                    </label>
+                    <input
+                        type="date"
+                        id="name"
+                        placeholder=""
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
+                        className="form-input admin date"
+                    />
+                </div>
             </div>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="name">
-                    Дата проведения мероприятия
-                </label>
-                <input
-                    type="date"
-                    id="name"
-                    placeholder=""
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    className="form-input"
-                />
-            </div>
-            <button onClick={onSearch}>НАЙТИ</button>
+            )}
         </div>
     );
 };
@@ -184,11 +202,6 @@ const SearchBar = ({
 const EventAdminCard = ({ event }: { event: EventShortDto }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-
-    const formatMap: Record<string, string> = {
-        'Offline': 'Офлайн',
-        'Online': 'Онлайн',
-    };
 
     const typeMap: Record<string, string> = {
         'Open': 'Открытое',
@@ -201,19 +214,24 @@ const EventAdminCard = ({ event }: { event: EventShortDto }) => {
                 <img src={getImageUrl(event.picture?.id)} className="event-picture-admin" alt="Аватар" />
             </div>
             <div className="event-info">
-                <div className="event-name">
-                    <h4>{event.title}</h4>
+                <div className="event-short-info">
+                    <div className="event-name">
+                        <h4>{event.title}</h4>
+                        <div className="admin-icons">
+                            <img src={editIcon} onClick={() => console.log(`Редактирование мероприятия ${event.id}`)} className="icon" alt="Edit" />
+                            <img src={deleteIcon} onClick={() => console.log(`Удаление мероприятия ${event.id}`)} className="icon" alt="Delete" />
+                        </div>
+                    </div>
                     <div className={"event-status " + getStatusClass(event.status)}>
                         <span>{statusMap[event.status] || event.status}</span>
                     </div>
-                    <img src={editIcon} onClick={() => console.log(`Редактирование мероприятия ${event.id}`)} className="icon" alt="Edit" />
-                    <img src={deleteIcon} onClick={() => console.log(`Удаление мероприятия ${event.id}`)} className="icon" alt="Delete" />
+                    
                 </div>
                 <div className="details-container">
                     <div className="container-row">
                         <div className="block-row1">
                             <span>{t('events.format')}</span>
-                            <p>{formatMap[event.format] || event.format}</p>
+                            <p>{eventFormatMap[event.format] || event.format}</p>
                         </div>
                         <div className="block-row2">
                             <span>{t('events.type')}</span>
@@ -228,7 +246,7 @@ const EventAdminCard = ({ event }: { event: EventShortDto }) => {
                         </div>
                         <div className="block-row2">
                             <span>{t('events.format')}</span>
-                            <p>{formatMap[event.format] || event.format}</p>
+                            <p>{eventFormatMap[event.format] || event.format}</p>
                         </div>
                     </div>
                 </div>

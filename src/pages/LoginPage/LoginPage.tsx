@@ -66,7 +66,7 @@ const LoginForm = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="form-input"
+                            className="form-input login"
                             required
                         />
                     </div>
@@ -77,18 +77,23 @@ const LoginForm = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="form-input"
+                            className="form-input login"
                             required
                         />
                     </div>
-                    <div className="form-remember">
-                        <input
-                            type="checkbox"
-                            checked={rememberMe}
-                            onChange={() => setRememberMe(!rememberMe)}
-                            className="checkbox"
-                        />
-                        <label className="checkbox-label">{t('login.rememberMe')}</label>
+                    <div className="form-switch">
+                        <label className="toggle-switch">
+                            <input
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={() => setRememberMe(!rememberMe)}
+                                className="checkbox"
+                            />
+                            <span className="slider"></span>
+                        </label>
+                        <label className='switch-label'>
+                            {t('login.rememberMe')}
+                        </label>
                     </div>
                     <button type="submit" className="login-button">
                         {t('login.submit')}

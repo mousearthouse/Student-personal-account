@@ -51,21 +51,54 @@
 }
 
 .event-admin-card {
-   width: 100%;
+   width: auto;
    border-radius: 10px;
    padding: 12px;
    margin-bottom: 12px;
-   background-color: #F9F9F9;
+   background-color: #FFFFFF;
    display: flex;
    flex-direction: row;
    cursor: pointer;
 }
 
+.form-input.admin {
+   width: 100%;
+   max-width: 100% !important;
+}
+.form-input.admin.date {
+   width: 97%;
+}
+//TODO: ПОМЕНЯТЬ ЭТУ ШТУКУ ЧТОБЫ ОНА НОРМАЛЬНО РАСТЯГИВАЛАСЬ
+
+
+.search-btn.filters-toggle-btn {
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   font-size: 14px;
+   padding: 0.5rem 1rem;
+}
+
+.admin-search-header {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+
+}
+
+.search-forms.admin {
+   justify-content: space-between;
+}
+
 .event-info {
-   padding: 0px 20px;
    display: flex;
    width: 100%;
    flex-direction: column;
+}
+
+.input-forms-other {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
 }
 
 .details-container {
@@ -74,11 +107,23 @@
    flex-direction: column;
 }
 
-.event-name {
+.event-short-info {
    padding: 20px;
    display: flex;
    flex-direction: column;
 }
+
+.event-name {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+}
+
+.admin-icons {
+   display: flex;
+   gap: 10px;
+}
+
 .event-status {
    width: fit-content;
    padding: 3px 7px;
@@ -121,4 +166,13 @@
    width: 24px;
    height: 24px;
    cursor: pointer;
+}
+
+.admin-create-event {
+   display: flex;
+   flex-direction: column;
+   padding: 20px;
+   margin-top: 20px;
+   border-radius: 10px;
+   background-color: #FFFFFF;
 }

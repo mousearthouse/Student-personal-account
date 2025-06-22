@@ -40,48 +40,68 @@
     font-weight: 400;
 }
   
-.form-group {
+.form-switch {
     display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-bottom: 15px;
-}
-  
-.form-label {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 5px;
-}
-  
-.form-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-}
-  
-.form-input:focus {
-    outline: none;
-    border-color: #4a90e2;
-}
-  
-.form-remember {
-    display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
 }
   
-.checkbox {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-  
+
 .checkbox-label {
     font-size: 14px;
     color: #666;
     cursor: pointer;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  display: inline-block;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .slider {
+      background-color: #3b82f6; /* синий при включении */
+    }
+
+    &:checked + .slider:before {
+      transform: translateX(22px); /* сдвигает кружочек вправо */
+    }
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc; /* серый фон при выключении */
+    transition: 0.3s;
+    border-radius: 28px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+  }
+}
+
+.switch-label {
+    font-size: 14px;
 }
   
 .login-button {
@@ -99,4 +119,9 @@
 .login-button:hover {
     background-color: #254edb;
 }
+
+
   
+.form-input.login {
+    width: 100%;
+}

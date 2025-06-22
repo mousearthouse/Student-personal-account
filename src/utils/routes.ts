@@ -11,4 +11,5 @@ export const ROUTES = {
     ADMINUSEFULSERVICESPAGE: '/admin/usefulservices',
     ADMINEVENTSPAGE: '/admin/events',
     ADMINEVENTDETAILSPAGE: '/admin/events/:id',
+    ADMINEVENTCREATE: '/admin/events/create',
 };

@@ -11,6 +11,7 @@ export { default as AdminUserDetailsPage } from "@/pages/AdminPage/AdminUserDeta
 export { default as AdminUsefulServicesPage } from "@/pages/AdminPage/AdminUsefulServicesPage";
 export { default as AdminEventsPage } from "@/pages/AdminPage/AdminEventsPage";
 export { default as AdminEventDetailsPage } from "@/pages/AdminPage/AdminEventDetailsPage";
+export { default as AdminEventCreate } from "@/pages/AdminPage/AdminEventCreate";
 
 
 
