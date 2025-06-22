@@ -114,6 +114,12 @@ button {
 button:hover {
   background-color: #002FEA;
 }
+.btn-active {
+  background-color: #00000000;
+  border-color: #204CFF;
+  color: #204CFF;
+  pointer-events: none;
+}
 
 
 @media (prefers-color-scheme: light) {

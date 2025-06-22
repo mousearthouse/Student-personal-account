@@ -310,11 +310,15 @@ interface GetEventDetailsParams {
 }
 
 interface GetEventProps {
-    eventName: string;
-    eventDate: string;
-    setEventName: (value: string) => void;
-    setEventDate: (value: string) => void;
-    onSearch: () => void;
+  eventName: string;
+  eventDate: string;
+  setEventName: (value: string) => void;
+  setEventDate: (value: string) => void;
+  onSearch: () => void;
+}
+
+interface GetEventIsParticipantParams {
+  id: string;
 }
 
 /////////////////////////////////////////////////////// ADMIN

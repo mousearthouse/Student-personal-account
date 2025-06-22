@@ -39,3 +39,8 @@ export const statusMap: Record<string, string> = {
     'Finished': 'Завершено',
     'Archived': 'Архивировано'
 };
+
+export const eventFormatMap: Record<string, string> = {
+    'Online': 'Онлайн',
+    'Offline': 'Офлайн',
+};

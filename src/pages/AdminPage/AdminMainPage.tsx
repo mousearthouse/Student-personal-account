@@ -10,9 +10,7 @@ const AdminMainPage = () => {
                 <div>
                     <h1>Администрирование</h1>
                 </div>
-                <span className="page-link" onClick={() => navigate('/')}>
-                    Главная /
-                </span>
+                <span className="page-link" onClick={() => navigate('/')}>Главная / </span>
                 <span className="page-link-blue">Администрирование</span>
             </div>
             <div className="container admin-page">

@@ -78,31 +78,33 @@ const SearchBar = ({
     return (
         <div className="search-bar">
             <h3>Поиск</h3>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="name">
-                    Название мероприятия
-                </label>
-                <input
-                    id="name"
-                    placeholder=""
-                    value={eventName}
-                    onChange={(e) => setEventName(e.target.value)}
-                    className="form-input"
-                />
-            </div>
-            <button onClick={onSearch}>НАЙТИ</button>
-            <div className="input-form-w-label">
-                <label className="label-form" htmlFor="name">
-                    Дата проведения мероприятия
-                </label>
-                <input
-                    type="date"
-                    id="name"
-                    placeholder=""
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    className="form-input"
-                />
+            <div className='search-forms'>
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="name">
+                        Название мероприятия
+                    </label>
+                    <input
+                        id="name"
+                        placeholder=""
+                        value={eventName}
+                        onChange={(e) => setEventName(e.target.value)}
+                        className="form-input name"
+                    />
+                </div>
+                <button className='search-btn' onClick={onSearch}>НАЙТИ</button>
+                <div className="input-form-w-label">
+                    <label className="label-form" htmlFor="name">
+                        Дата проведения мероприятия
+                    </label>
+                    <input
+                        type="date"
+                        id="name"
+                        placeholder=""
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
             </div>
         </div>
     );

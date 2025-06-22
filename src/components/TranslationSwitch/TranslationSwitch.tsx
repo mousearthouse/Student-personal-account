@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './translationSwitch.scss';
+import ru from '@/assets/icons/languages/ru.svg';
+import eng from '@/assets/icons/languages/eng.svg';
 
 const LANGUAGES = {
     ru: {
         label: 'Русский',
-        flag: '/flags/ru.svg',
+        flag: ru,
     },
     en: {
         label: 'English',
-        flag: '/flags/gb.svg',
+        flag: eng,
     },
 };
 
