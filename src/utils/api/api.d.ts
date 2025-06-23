@@ -24,6 +24,13 @@ interface FileDto {
   size: number;
 }
 
+interface FileResultDto {
+  id: string;
+  name?: string;
+  extension: FileExtension;
+  size: number;
+}
+
 interface CountryDto {
   id: string;
   name: string;
@@ -343,6 +350,28 @@ interface GetEventAdminProps {
   setEventName: (value: string) => void;
   setEventDate: (value: string) => void;
   onSearch: () => void;
+}
+
+interface EventCreateDto {
+  title: string;
+  description: string;
+  digestText: string;
+  pictureId: string | null;
+  isTimeFromNeeded: boolean;
+  dateTimeFrom: string;
+  isTimeToNeeded: boolean;
+  dateTimeTo: string;
+  link: string;
+  addressName: string;
+  latitude: number;
+  longitude: number;
+  isRegistrationRequired: boolean;
+  registrationLastDate: string | null;
+  isDigestNeeded: boolean;
+  notificationText: string;
+  type: EventType | "";
+  format: EventFormat | "";
+  auditory: EventAuditory;
 }
 
 interface ProfileShortDto {

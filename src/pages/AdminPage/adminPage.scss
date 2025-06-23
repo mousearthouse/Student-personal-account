@@ -176,3 +176,30 @@
    border-radius: 10px;
    background-color: #FFFFFF;
 }
+
+.image-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  margin-top: 15px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #666;
+  background: #fafafa;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  input {
+    display: none;
+  }
+}
