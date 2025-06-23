@@ -10,102 +10,9 @@ import { eventFormatMap, eventTypeMap, statusMap } from '@/utils/constants/trans
 import { getEventDetailsAdmin } from '@/utils/api/requests/admin/getEventDetailsAdmin';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';  
 import GeoMap from '@/components/GeoMap/GeoMap';
-import Select, { StylesConfig, SingleValue, ActionMeta } from "react-select";
-import { editEventStatus } from '@/utils/api/requests/admin/editEventStatus';
-
-type EventStatus = "Draft" | "Actual" | "Finished" | "Archive";
-
-interface StatusOption {
-  value: EventStatus;
-  label: string;
-  color: string;
-}
-
-const statusOptions: StatusOption[] = [
-  { value: "Draft", label: "Черновик", color: "#aaa" },
-  { value: "Actual", label: "Опубликовано", color: "#32c550" },
-  { value: "Finished", label: "Завершено", color: "#555" },
-  { value: "Archive", label: "Архивировано", color: "#333" },
-];
-
-const customStyles: StylesConfig<StatusOption> = {
-    control: (base) => ({
-        ...base,
-        borderRadius: "0.5rem",
-        padding: "0.2rem",
-        minHeight: "40px",
-        minWidth: "100%",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-    }),
-    singleValue: (base, { data }) => ({
-        ...base,
-        color: "#fff",
-        background: data.color,
-        padding: "0.2rem 0.6rem",
-        borderRadius: "0.5rem",
-        display: "inline-block",
-    }),
-    option: (base, { isFocused, data }) => ({
-        ...base,
-        background: isFocused ? data.color : "white",
-        color: isFocused ? "white" : data.color,
-        cursor: "pointer",
-    }),
-    menu: (base) => ({
-        ...base,
-        borderRadius: "0.5rem",
-        overflow: "hidden",
-    }),
-};
-
-interface MyStatusSelectProps {
-  value: EventStatus;
-  onChange: (status: EventStatus) => void;
-  eventId: string;
-}
-
-export const MyStatusSelect = ({ value, onChange, eventId }: MyStatusSelectProps) => {
-    const [selectedStatus, setSelectedStatus] = useState<StatusOption | null>(null);
-
-    useEffect(() => {
-        if (value) {
-        const newSelected = statusOptions.find(option => option.value === value) || null;
-        setSelectedStatus(newSelected);
-        }
-    }, [value]);
-    if (!value) {
-        return <div>Загрузка статуса...</div>;
-    }
-        
-  const handleStatusChange = async (
-    newValue: SingleValue<StatusOption>,
-    actionMeta: ActionMeta<StatusOption>
-    ) => {
-        if (!newValue || Array.isArray(newValue)) return;
-        const newStatus = newValue.value;
-        
-        setSelectedStatus(newValue);
-
-        onChange(newStatus);
-
-        try {
-            const response = await editEventStatus({ id: eventId, newStatus });
-        } catch (error) {
-            console.error('Ошибка при изменении статуса мероприятия:', error);
-        }
-    };
-
-  return (
-    <Select
-      isMulti={false}
-      value={selectedStatus}
-      onChange={handleStatusChange}
-      options={statusOptions}
-      styles={customStyles}
-      isSearchable={false}
-    />
-  );
-};
+import StatusSelect from '@/components/StatusSelect/StatusSelect';
+import Modal from '@/components/Modal/Modal';
+import { deleteEventAdmin } from '@/utils/api/requests/admin/deleteEventAdmin';
 
 const AdminEventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -113,7 +20,11 @@ const AdminEventDetailsPage = () => {
     const [status, setStatus] = useState<EventStatus>(eventDetails.status);
     const [allParticipants, setAllParticipants] = useState<EventParticipantDto[]>([]);
     const [participants, setParticipants] = useState<EventParticipantDto[]>();
-    const [tab, setTab] = useState<0 | 1>(0)
+    const [tab, setTab] = useState<0 | 1>(0);
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -138,9 +49,6 @@ const AdminEventDetailsPage = () => {
                 const response = await getEventDetailsAdmin({ params: { id } });
                 setEventDetails(response.data);
                 setAllParticipants(response.data.participants ?? []);
-                const innerParticipants = (participants ?? []).filter(p => p.participantType == 'Inner');
-                const externalParticipants = (participants ?? []).filter(p => p.participantType == 'External');
-                console.log("отправляется статус ", response.data.status)
             } catch (error) {
                 console.error('Ошибка при получении деталей мероприятия:', error);
             }
@@ -157,14 +65,22 @@ const AdminEventDetailsPage = () => {
         } else {
             setParticipants(allParticipants.filter(p => p.participantType === "External"));
         }
-    }, [tab, allParticipants]);  // зависим от вкладки и полного списка
+    }, [tab, allParticipants]);
 
-        // обработчик смены вкладки теперь просто меняет tab
     const onSelectTab = (tab: 0 | 1) => {
         setTab(tab);
     };
-    
 
+    const deleteEvent = async () => {
+        try {
+            const response = await deleteEventAdmin({ params: { id: eventDetails.id } });
+            console.log("все хорошо ураа");
+            navigate('/admin/events');
+        } catch (error) {
+            console.error("oh NOOOOOO")
+        }
+    }
+    
     return (
         <div className="events-page">
             <div className="events-page-content">
@@ -180,10 +96,11 @@ const AdminEventDetailsPage = () => {
                         <h2>{eventDetails.title}</h2>
                         <div className='admin-icons'>
                             <div className='select-status'>
-                                <MyStatusSelect value={status} onChange={setStatus} eventId={eventDetails.id} />
+                                <StatusSelect value={status} onChange={setStatus} eventId={eventDetails.id} />
                             </div>
                             <img src={editIcon} onClick={() => console.log(`Редактирование мероприятия ${eventDetails.id}`)} className="icon" alt="Edit" />
-                            <img src={deleteIcon} onClick={() => console.log(`Удаление мероприятия ${eventDetails.id}`)} className="icon" alt="Delete" />
+                            <img src={deleteIcon} onClick={() => setModalOpen(true)}
+                            className="icon" alt="Delete" />
                         </div>
                     </div>
 
@@ -311,6 +228,14 @@ const AdminEventDetailsPage = () => {
                             </div>
                         </div>
                         <ParticipantsList participants={participants} selectedTab={tab} onSelect={onSelectTab} />
+                        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                            <div className='modal-window'>
+                                <h2>Вы точно хотите удалить данное мероприятие?</h2>
+                                <p>Вы точно-точно уверены?</p>
+                                <button onClick={deleteEvent}>Да, удалить</button>
+                            </div>
+                            
+                        </Modal>
                     </div>
                 </div>
             </div>

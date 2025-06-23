@@ -396,3 +396,7 @@ interface EditEventStatus {
   id: string;
   newStatus: EventStatus;
 }
+
+interface DeleteEvent {
+  id: string;
+}
