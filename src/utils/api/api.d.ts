@@ -307,7 +307,7 @@ interface EventDto {
   registrationLastDate?: string;
   isDigestNeeded: boolean;
   notificationText?: string;
-  digestNeeded?: string;
+  digestText?: string;
   author: UserShortDto;
   participants?: EventParticipantDto[]
 }
@@ -390,4 +390,9 @@ interface ProfileShortDtoPagedListWithMetadata {
 
 interface GetUserDetailsParams {
   userId: string;
+}
+
+interface EditEventStatus {
+  id: string;
+  newStatus: EventStatus;
 }

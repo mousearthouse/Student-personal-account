@@ -36,7 +36,7 @@ const GeoMap = ({ address }: GeoMapProps) => {
         defaultState={{ center: coordinates || [55.76, 37.64], zoom: 16 }}
         state={coordinates ? { center: coordinates, zoom: 16 } : undefined}
         width="100%"
-        height="400px"
+        height="95%"
       >
         {coordinates && <Placemark geometry={coordinates} />}
       </Map>

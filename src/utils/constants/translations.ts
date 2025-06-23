@@ -44,3 +44,8 @@ export const eventFormatMap: Record<string, string> = {
     'Online': 'Онлайн',
     'Offline': 'Офлайн',
 };
+
+export const eventTypeMap: Record<string, string> = {
+    'Open': 'Открытое',
+    'Closed': 'Закрытое',
+};

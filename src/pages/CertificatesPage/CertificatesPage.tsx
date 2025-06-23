@@ -301,7 +301,7 @@ const EducationTabs = ({ educationEntries, selectedId, onSelect }: EducationTabs
     if (!educationEntries?.length) return null;
 
     return (
-        <div className="education-tabs">
+        <div className="tabs">
             <div className="tab-buttons">
                 {educationEntries.map((entry) => (
                     <button
@@ -386,7 +386,7 @@ const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsPro
 
     if (!employeeEntries?.length) return <h3>Справок нет!</h3>;
     return (
-        <div className="education-tabs">
+        <div className="tabs">
             <div className="tab-buttons">
                 {employeeEntries.map((entry) => (
                     <button

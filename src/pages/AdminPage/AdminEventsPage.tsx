@@ -9,7 +9,7 @@ import filtersIcon from '@/assets/icons/filters.svg';
 import filtersActiveIcon from '@/assets/icons/filters-active.svg';
 import { formatDate, getImageUrl, getStatusClass } from "@/utils/usefulFunctions";
 import Pagination from "@/components/Pagination/Pagination";
-import { statusMap, eventFormatMap } from "@/utils/constants/translations";
+import { statusMap, eventFormatMap, eventTypeMap } from "@/utils/constants/translations";
 
 const AdminEventsPage = () => {
 
@@ -202,11 +202,6 @@ const SearchBar = ({
 const EventAdminCard = ({ event }: { event: EventShortDto }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-
-    const typeMap: Record<string, string> = {
-        'Open': 'Открытое',
-        'Close': 'Закрытое',
-    };
     
     return (
         <div className="event-admin-card" onClick={() => navigate(`/admin/events/${event.id}`)}>
@@ -235,7 +230,7 @@ const EventAdminCard = ({ event }: { event: EventShortDto }) => {
                         </div>
                         <div className="block-row2">
                             <span>{t('events.type')}</span>
-                            <p>{typeMap[event.type] || event.type}</p>
+                            <p>{eventTypeMap[event.type]}</p>
                         </div>
                     </div>
                     <hr/>

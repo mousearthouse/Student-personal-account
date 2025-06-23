@@ -117,6 +117,7 @@
    display: flex;
    flex-direction: row;
    justify-content: space-between;
+   gap: 10px;
 }
 
 .admin-icons {
@@ -126,6 +127,7 @@
 
 .event-status {
    width: fit-content;
+   height: fit-content;
    padding: 3px 7px;
    border-radius: 10px;
 }
@@ -202,4 +204,79 @@
   input {
     display: none;
   }
+}
+
+.admin-icons {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 20px;
+}
+
+
+.event-admin-info {
+   margin: 10px 0;
+}
+.container-row.admin {
+   padding: 5px 0;
+}
+
+.event-status.admin {
+   color:#F9F9F9;
+   font-size: 14px;
+   font-family: Raleway, sans-serif;
+   padding: 7px;
+   border-color: transparent;
+   border-radius: 10px;
+
+   &.draft {
+      background: #aaa;
+   }
+   &.green {
+      background: green;
+   }
+   &.lime {
+      background: lime;
+   }
+   &.black {
+      background: black;
+   }
+}
+
+.select-status {
+   width: 15vw;
+}
+
+.participants {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+}
+
+.participants-list {
+   width: 100%;
+}
+
+.participant-card {
+   padding: 5px 20px;
+   display: flex;
+   flex-direction: row;
+   gap: 3px;
+   min-width: 100%;
+
+   img {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+   }
+}
+
+.participant-card.external {
+   display: flex;
+   flex-direction: column;
+}
+
+.span-text {
+   color:#3A3A3A;
+   font-weight: 500;
 }
