@@ -9,6 +9,7 @@ const GeoMap = ({ address }: GeoMapProps) => {
   const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
 
   useEffect(() => {
+    if (address == undefined || address == null) return;
     const fetchCoordinates = async () => {
       try {
         const response = await fetch(

@@ -8,7 +8,6 @@ import { API_URL } from '@/utils/constants/constants';
 import { formatDate, getImageUrl, getStatusClass } from '@/utils/usefulFunctions';
 import { eventFormatMap, eventTypeMap, statusMap } from '@/utils/constants/translations';
 import { getEventDetailsAdmin } from '@/utils/api/requests/admin/getEventDetailsAdmin';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';  
 import GeoMap from '@/components/GeoMap/GeoMap';
 import StatusSelect from '@/components/StatusSelect/StatusSelect';
 import Modal from '@/components/Modal/Modal';
@@ -241,13 +240,6 @@ const AdminEventDetailsPage = () => {
                                 <button onClick={deleteEvent}>Да, удалить</button>
                             </div>
                         </Modal>
-                        <Modal isOpen={isModalEditOpen} onClose={() => setModalEditOpen(false)}>
-                            <div className='modal-window'>
-                                <h2>Редактирование мероприятия</h2>
-                                <p>Вы точно-точно уверены?</p>
-                                <button onClick={deleteEvent}>Да, удалить</button>
-                            </div>
-                        </Modal>
                         <ModalEdit eventData={eventDetails} isOpen={isModalEditOpen} onClose={() => setModalEditOpen(false)}/>
                     </div>
                 </div>
@@ -273,9 +265,9 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
     const [eventEndDate, setEventEndDate] = useState(eventData.dateTimeTo);
 
     const [registration, setRegistration] = useState(false);
-    const [registrationLastDate, setRegistrationLastDate] = useState("");
+    const [registrationLastDate, setRegistrationLastDate] = useState(eventData.registrationLastDate);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [fileId, setFileId] = useState<string | null>(null);
+    const [fileId, setFileId] = useState("");
 
     const [descValue, setDescValue] = useState(eventData.description);
     const [linkValue, setLinkValue] = useState(eventData.link);
@@ -285,19 +277,26 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
 
     const [address, setAddressValue] = useState("");
 
+    const dateFormat = (date?: string) => {
+        if (date == null || date == undefined) return undefined;
+        return new Date(date).toISOString().split('T')[0] 
+    };
+
     useEffect(() => {
         setEventName(eventData.title);
         setStatus(eventData.status);
         setFormat(eventData.format);
         setType(eventData.type || "");
         setAuditory(eventData.auditory);
-        setEventStartDate(eventData.dateTimeFrom);
-        setEventEndDate(eventData.dateTimeTo);
+        setEventStartDate(dateFormat(eventData.dateTimeFrom));
+        setEventEndDate(dateFormat(eventData.dateTimeTo));
+        setRegistrationLastDate(dateFormat(eventData.registrationLastDate))
         setRegistration(!!eventData.isRegistrationRequired);
         setDescValue(eventData.description);
         setLinkValue(eventData.link);
         setNotification(eventData.notificationText);
         setDigest(eventData.digestText);
+        setFileId(eventData.picture ? eventData.picture.id : "");
     }, [eventData]);
 
 

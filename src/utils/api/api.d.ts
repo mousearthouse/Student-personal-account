@@ -422,3 +422,16 @@ interface EventEditDto {
 interface DeleteEvent {
   id: string;
 }
+
+interface DeleteUsefulService {
+  usefulServiceId: string;
+}
+
+interface UsefulServiceEditCreateDto {
+  category: UsefulServiceCategory;
+  title?: string;
+  description?: string;
+  link?: string;
+  termsOfDisctribution?: string;
+  logoId?: string;
+}

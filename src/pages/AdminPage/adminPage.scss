@@ -281,3 +281,41 @@
    font-weight: 500;
 }
 
+.container-row-single {
+   padding: 5px 20px;
+}
+
+.service-card.admin {
+   display: flex;
+   flex-direction: row;
+   min-width: 100%;
+   border-radius: 8px;
+   padding: 20px;
+   margin: 10px;
+   background-color: #F9F9F9;
+   height: fit-content;
+   align-items: center;
+}
+
+.service-card-title.admin {
+   display: flex;
+   flex-direction: column;
+}
+.service-card-title img {
+   height: auto;
+   width: 15vw;
+   margin-right: 15px;
+   border-radius: 8px;
+   object-fit: contain;
+   max-height: 100%;
+}
+
+.service-card-admin-details {
+   display: flex;
+   flex-direction: column;
+   width: 80%;
+}
+
+.admin-create-service {
+   width: 35vw;
+}
