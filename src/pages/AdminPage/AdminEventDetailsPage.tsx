@@ -13,6 +13,10 @@ import GeoMap from '@/components/GeoMap/GeoMap';
 import StatusSelect from '@/components/StatusSelect/StatusSelect';
 import Modal from '@/components/Modal/Modal';
 import { deleteEventAdmin } from '@/utils/api/requests/admin/deleteEventAdmin';
+import image from '@/assets/icons/image-upload.svg';
+import { handleUpload } from '@/utils/api/requests/postFile';
+import { editEventAdmin } from '@/utils/api/requests/admin/editEventAdmin';
+import { TextEditor } from '@/components/TextEditor/TextEditor';
 
 const AdminEventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -22,7 +26,8 @@ const AdminEventDetailsPage = () => {
     const [participants, setParticipants] = useState<EventParticipantDto[]>();
     const [tab, setTab] = useState<0 | 1>(0);
 
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [isModalEditOpen, setModalEditOpen] = useState(false);
 
 
     const { t } = useTranslation();
@@ -74,7 +79,6 @@ const AdminEventDetailsPage = () => {
     const deleteEvent = async () => {
         try {
             const response = await deleteEventAdmin({ params: { id: eventDetails.id } });
-            console.log("все хорошо ураа");
             navigate('/admin/events');
         } catch (error) {
             console.error("oh NOOOOOO")
@@ -98,8 +102,8 @@ const AdminEventDetailsPage = () => {
                             <div className='select-status'>
                                 <StatusSelect value={status} onChange={setStatus} eventId={eventDetails.id} />
                             </div>
-                            <img src={editIcon} onClick={() => console.log(`Редактирование мероприятия ${eventDetails.id}`)} className="icon" alt="Edit" />
-                            <img src={deleteIcon} onClick={() => setModalOpen(true)}
+                            <img src={editIcon} onClick={() => setModalEditOpen(true)} className="icon" alt="Edit" />
+                            <img src={deleteIcon} onClick={() => setModalDeleteOpen(true)}
                             className="icon" alt="Delete" />
                         </div>
                     </div>
@@ -107,7 +111,9 @@ const AdminEventDetailsPage = () => {
                     <div className="event-details">
                         <h4>{t('events.description')}</h4>
                         <div dangerouslySetInnerHTML={{ __html: eventDetails.description || '' }} />
-                        <img className="event-picture" src={getImageUrl()}></img>
+                        {eventDetails.picture && 
+                            <img className="event-picture" src={getImageUrl()}></img>
+                        }
                         <hr />
                         <div key={id} className="event-admin-info">
                              <div className="container-row">
@@ -228,20 +234,320 @@ const AdminEventDetailsPage = () => {
                             </div>
                         </div>
                         <ParticipantsList participants={participants} selectedTab={tab} onSelect={onSelectTab} />
-                        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                        <Modal isOpen={isModalDeleteOpen} onClose={() => setModalDeleteOpen(false)}>
                             <div className='modal-window'>
                                 <h2>Вы точно хотите удалить данное мероприятие?</h2>
                                 <p>Вы точно-точно уверены?</p>
                                 <button onClick={deleteEvent}>Да, удалить</button>
                             </div>
-                            
                         </Modal>
+                        <Modal isOpen={isModalEditOpen} onClose={() => setModalEditOpen(false)}>
+                            <div className='modal-window'>
+                                <h2>Редактирование мероприятия</h2>
+                                <p>Вы точно-точно уверены?</p>
+                                <button onClick={deleteEvent}>Да, удалить</button>
+                            </div>
+                        </Modal>
+                        <ModalEdit eventData={eventDetails} isOpen={isModalEditOpen} onClose={() => setModalEditOpen(false)}/>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
+interface ModalEditProps {
+    eventData: EventDto;
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
+    console.log("ко мне пришла такая дата", eventData)
+    const [eventName, setEventName] = useState<string | undefined>(eventData.title);
+    const [status, setStatus] = useState(eventData.status);
+    const [format, setFormat] = useState<EventFormat>(eventData.format);
+    const [type, setType] = useState<EventType | "">(eventData.type);
+    const [auditory, setAuditory] = useState<EventAuditory>(eventData.auditory);
+    const [eventStartDate, setEventStartDate] = useState(eventData.dateTimeFrom);
+    const [eventEndDate, setEventEndDate] = useState(eventData.dateTimeTo);
+
+    const [registration, setRegistration] = useState(false);
+    const [registrationLastDate, setRegistrationLastDate] = useState("");
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [fileId, setFileId] = useState<string | null>(null);
+
+    const [descValue, setDescValue] = useState(eventData.description);
+    const [linkValue, setLinkValue] = useState(eventData.link);
+    const [notification, setNotification] = useState(eventData.notificationText);
+    const [digest, setDigest] = useState(eventData.digestText);
+    const [digestNeeded, setDigestNeeded] = useState(false);
+
+    const [address, setAddressValue] = useState("");
+
+    useEffect(() => {
+        setEventName(eventData.title);
+        setStatus(eventData.status);
+        setFormat(eventData.format);
+        setType(eventData.type || "");
+        setAuditory(eventData.auditory);
+        setEventStartDate(eventData.dateTimeFrom);
+        setEventEndDate(eventData.dateTimeTo);
+        setRegistration(!!eventData.isRegistrationRequired);
+        setDescValue(eventData.description);
+        setLinkValue(eventData.link);
+        setNotification(eventData.notificationText);
+        setDigest(eventData.digestText);
+    }, [eventData]);
+
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            if (e.target.files && e.target.files.length > 0) {
+                const file = e.target.files[0];
+                setSelectedFile(file);
+                const result = await handleUpload(file);
+                if (result?.status === 200) {
+                    setFileId(result.data.id);
+                    console.log('Файл успешно загружен:', result.data.id);
+                }
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке файла:', error);
+        }
+    };
+    
+    const handleEdit = async () => {
+        console.log('Создание мероприятия с данными:')
+
+        console.log({eventName,descValue,digest,dateTimeFrom: eventStartDate ? new Date(eventStartDate).toISOString() : "",
+            dateTimeTo: eventEndDate ? new Date(eventEndDate).toISOString() : "",type,status,format,linkValue,
+            notification,fileId,registration,auditory});
+        try {
+            if (!type) {
+                console.log("выбрать тип меро")
+                return;
+            }
+            const eventEditData = {
+                id: eventData.id,
+                title: eventName,
+                description: descValue,
+                digestText: digest,
+                isTimeFromNeeded: false,
+                isTimeToNeeded: false,
+                dateTimeFrom: eventStartDate ? new Date(eventStartDate).toISOString() : "",
+                dateTimeTo: eventEndDate ? new Date(eventEndDate).toISOString() : "",
+                registrationLastDate: registrationLastDate ? new Date(registrationLastDate).toISOString() : "",
+                type: type as EventType,
+                status: status,
+                format: format as EventFormat,
+                link: linkValue,
+                notification: notification,
+                pictureId: fileId ?? undefined,
+                addressName: "",
+                latitude: 0,
+                longitude: 0,
+                isRegistrationRequired: registration,
+                isDigestNeeded: digestNeeded ? true : false,
+                notificationText: notification,
+                auditory: auditory,
+            };
+
+            const response = await editEventAdmin(eventEditData);
+            if (response.status === 200) {
+                onClose();
+            }
+
+            console.log('Данные мероприятия:', eventEditData);
+        } catch (error) {
+            console.error('Ошибка при редактировании мероприятия:', error);
+        }
+    }
+
+    return (
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <div className='modal-window'>
+                <h2>Редактирование мероприятия</h2>
+                <p>Вы точно-точно уверены?</p>
+            </div>
+            <div className='admin-page-content'>
+                <div className='admin-create-event'>
+                    <div className="input-form-w-label">
+                        <label className="label-form" htmlFor="name">
+                            Название мероприятия
+                        </label>
+                        <input
+                            id="name"
+                            placeholder=""
+                            value={eventName}
+                            onChange={(e) => setEventName(e.target.value)}
+                            className="form-input admin name"
+                        />
+                    </div>
+                    <h4>Описание мероприятия</h4>
+                    <TextEditor value={descValue ?? ''} setValue={setDescValue}/>
+
+                    <div className="input-forms-other">
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="name">
+                                Дата начала
+                            </label>
+                            <input
+                                type="date"
+                                id="name"
+                                placeholder=""
+                                value={eventStartDate}
+                                onChange={(e) => setEventStartDate(e.target.value)}
+                                className="form-input admin date"
+                            />
+                        </div>
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="name">
+                                Дата окончания
+                            </label>
+                            <input
+                                type="date"
+                                id="name"
+                                placeholder=""
+                                value={eventEndDate}
+                                onChange={(e) => setEventEndDate(e.target.value)}
+                                className="form-input admin date"
+                            />
+                        </div>
+                        <div className="input-form-w-label">
+                            <select
+                                id="type"
+                                value={type}
+                                onChange={(e) => setType(e.target.value as EventType)}
+                                className="form-input admin"
+                            >
+                                <option value="">Выберите тип</option>
+                                <option value="Open">Открытое</option>
+                                <option value="Close">Закрытое</option>
+                            </select>
+                        </div>
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="status">
+                                Целевая аудитория
+                            </label>
+                            <select
+                                id="status"
+                                value={auditory}
+                                onChange={(e) => setAuditory(e.target.value as EventAuditory)}
+                                className="form-input admin"
+                            >
+                                <option value="">Все</option>
+                                <option value="Students">Студенты</option>
+                                <option value="Employees">Сотрудники</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="form-switch">
+                        <label className="toggle-switch">
+                            <input
+                                type="checkbox"
+                                checked={registration}
+                                onChange={() => setRegistration(!registration)}
+                                className="checkbox"
+                            />
+                            <span className="slider"></span>
+                        </label>
+                        <label className='switch-label'>
+                            Необходима регистрация
+                        </label>
+                    </div>
+                    {registration &&
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="name">
+                                Дата окончания регистрации
+                            </label>
+                            <input
+                                type="date"
+                                id="name"
+                                placeholder=""
+                                value={registrationLastDate}
+                                onChange={(e) => setRegistrationLastDate(e.target.value)}
+                                className="form-input admin date"
+                            />
+                        </div>
+                    }
+                    <div className="input-form-w-label">
+                        <label className="label-form" htmlFor="format">
+                            Формат мероприятия
+                        </label>
+                        <select
+                            id="format"
+                            value={format}
+                            onChange={(e) => setFormat(e.target.value as EventFormat)}
+                            className="form-input admin"
+                        >
+                            <option value="">Все</option>
+                            <option value="Online">Онлайн</option>
+                            <option value="Offline">Офлайн</option>
+                        </select>
+                    </div>
+                    {format == 'Online' && 
+                    <div className="input-form-w-label">
+                        <label className="label-form" htmlFor="name">
+                            Ссылка
+                        </label>
+                        <input
+                            id="name"
+                            placeholder=""
+                            value={linkValue}
+                            onChange={(e) => setLinkValue(e.target.value)}
+                            className="form-input admin name"
+                        />
+                    </div>
+                    }
+                    {format == 'Offline' && 
+                    <div className="input-form-w-label">
+                        <label className="label-form" htmlFor="link">
+                            Адрес
+                        </label>
+                        <input
+                            id="link"
+                            placeholder=""
+                            value={address}
+                            onChange={(e) => setAddressValue(e.target.value)}
+                            className="form-input admin"
+                        />
+                    </div>
+                    }
+                    <h4>Уведомление о мероприятии</h4>
+                    <TextEditor value={notification ?? ''} setValue={setNotification}/>
+                    <div>
+                        <h4>Включать мероприятие в дайджест</h4>
+                        <label className="toggle-switch">
+                            <input
+                                type="checkbox"
+                                checked={digestNeeded}
+                                onChange={() => setDigestNeeded(!digestNeeded)}
+                                className="checkbox"
+                            />
+                            <span className="slider"></span>
+                        </label>
+                    </div>
+                    {digestNeeded && 
+                        <TextEditor value={digest ?? ''} setValue={setDigest}/>
+                    }
+
+                    <label className="image-upload">
+                        <img src={image} alt="Загрузить картинку" />
+                        <span>Загрузить картинку</span>
+                        <input type="file" accept="image/*" onChange={handleFileChange}/>
+                    </label>
+                    {selectedFile && (
+                        <p className="uploaded-file-name">Вы выбрали: {selectedFile.name}</p>
+                    )}
+                    <div className="btns">
+                        <button onClick={handleEdit}>СОХРАНИТЬ</button>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    );
+}
 
 interface ParticipantsListProps {
     participants?: EventParticipantDto[];

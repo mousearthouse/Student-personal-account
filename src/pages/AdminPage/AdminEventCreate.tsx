@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from "react-router-dom";
 import image from '@/assets/icons/image-upload.svg';
 import { handleUpload } from "@/utils/api/requests/postFile";
 import { postEvent } from "@/utils/api/requests/admin/postEvent";
+import { TextEditor } from "@/components/TextEditor/TextEditor";
 
 const AdminEventCreate = () => {
     const [eventName, setEventName] = useState("");
@@ -16,13 +16,17 @@ const AdminEventCreate = () => {
     const [eventEndDate, setEventEndDate] = useState("");
 
     const [registration, setRegistration] = useState(false);
+    const [registrationLastDate, setRegistrationLastDate] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [fileId, setFileId] = useState<string | null>(null);
 
     const [descValue, setDescValue] = useState("");
     const [linkValue, setLinkValue] = useState("");
     const [notification, setNotification] = useState("");
+    const [digestNeeded, setDigestNeeded] = useState(false);
     const [digest, setDigest] = useState("");
+
+    const [address, setAddressValue] = useState("");
 
     const navigate = useNavigate();
 
@@ -51,6 +55,7 @@ const AdminEventCreate = () => {
             digest,
             dateTimeFrom: eventStartDate ? new Date(eventStartDate).toISOString() : "",
             dateTimeTo: eventEndDate ? new Date(eventEndDate).toISOString() : "",
+            registrationLastDate: registrationLastDate ? new Date(registrationLastDate).toISOString() : "",
             type,
             status,
             format,
@@ -62,7 +67,7 @@ const AdminEventCreate = () => {
         });
         try {
             if (!type) {
-                setNotification("Пожалуйста, выберите тип мероприятия.");
+                console.log("выбрать тип меро")
                 return;
             }
             const eventData = {
@@ -73,18 +78,19 @@ const AdminEventCreate = () => {
                 isTimeToNeeded: false,
                 dateTimeFrom: eventStartDate ? new Date(eventStartDate).toISOString() : "",
                 dateTimeTo: eventEndDate ? new Date(eventEndDate).toISOString() : "",
+                registrationLastDate: registrationLastDate ? new Date(registrationLastDate).toISOString() : null,
                 type: type as EventType,
                 status: status,
                 format: format as EventFormat,
                 link: linkValue,
                 notification: notification,
                 pictureId: fileId ?? null,
-                addressName: "",
-                latitude: 0, // or get from input if needed
-                longitude: 0, // or get from input if needed
+                addressName: address,
+                latitude: 0,
+                longitude: 0,
                 isRegistrationRequired: registration,
-                registrationLastDate: null,
-                isDigestNeeded: false, // or use a state if you have a toggle for digest
+                isDigestNeeded: digestNeeded,
+                digest: digest,
                 notificationText: notification,
                 auditory: auditory,
             };
@@ -95,13 +101,10 @@ const AdminEventCreate = () => {
             }
 
             console.log('Данные мероприятия:', eventData);
-            // navigate('/admin/events'); // Already navigating above
         } catch (error) {
             console.error('Ошибка при создании мероприятия:', error);
-            setNotification("Произошла ошибка при создании мероприятия. Пожалуйста, попробуйте позже.");
         }
     }
-
 
     return (
         <main>
@@ -180,8 +183,8 @@ const AdminEventCreate = () => {
                                 className="form-input admin"
                             >
                                 <option value="">Все</option>
-                                <option value="Student">Студенты</option>
-                                <option value="Employee">Сотрудники</option>
+                                <option value="Students">Студенты</option>
+                                <option value="Employees">Сотрудники</option>
                             </select>
                         </div>
                     </div>
@@ -199,6 +202,22 @@ const AdminEventCreate = () => {
                             Необходима регистрация
                         </label>
                     </div>
+                    {registration &&
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="name">
+                                Дата окончания регистрации
+                            </label>
+                            <input
+                                type="date"
+                                id="name"
+                                placeholder=""
+                                value={registrationLastDate}
+                                onChange={(e) => setRegistrationLastDate(e.target.value)}
+                                className="form-input admin date"
+                            />
+                        </div>
+                    }
+                    
                     <div className="input-form-w-label">
                         <label className="label-form" htmlFor="format">
                             Формат мероприятия
@@ -214,6 +233,7 @@ const AdminEventCreate = () => {
                             <option value="Offline">Офлайн</option>
                         </select>
                     </div>
+                    {format == 'Online' && 
                     <div className="input-form-w-label">
                         <label className="label-form" htmlFor="name">
                             Ссылка
@@ -226,6 +246,22 @@ const AdminEventCreate = () => {
                             className="form-input admin name"
                         />
                     </div>
+                    }
+                    {format == 'Offline' && 
+                    <div className="input-form-w-label">
+                        <label className="label-form" htmlFor="link">
+                            Адрес
+                        </label>
+                        <input
+                            id="link"
+                            placeholder=""
+                            value={address}
+                            onChange={(e) => setAddressValue(e.target.value)}
+                            className="form-input admin"
+                        />
+                    </div>
+                    }
+                    
                     <h4>Уведомление о мероприятии</h4>
                     <TextEditor value={notification} setValue={setNotification}/>
                     <div>
@@ -233,15 +269,17 @@ const AdminEventCreate = () => {
                         <label className="toggle-switch">
                             <input
                                 type="checkbox"
-                                checked={registration}
-                                onChange={() => setRegistration(!registration)}
+                                checked={digestNeeded}
+                                onChange={() => setDigestNeeded(!digestNeeded)}
                                 className="checkbox"
                             />
                             <span className="slider"></span>
                         </label>
                     </div>
-                    <TextEditor value={digest} setValue={setDigest}/>
-
+                    {digestNeeded && 
+                        <TextEditor value={digest} setValue={setDigest}/>
+                    }
+                   
                     <label className="image-upload">
                         <img src={image} alt="Загрузить картинку" />
                         <span>Загрузить картинку</span>
@@ -256,32 +294,6 @@ const AdminEventCreate = () => {
                 </div>
             </div>
         </main>
-    );
-}
-
-const TextEditor = ({ value, setValue }: { value: string; setValue: (value: string) => void }) => {
-    
-    const modules = {
-        toolbar: [
-        [{ 'font': ['Roboto'] }],
-        [{ 'size': ['small', false, 'large', 'huge'] }],
-        ['bold', 'italic', 'underline'],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'align': [] }],
-        ['link', 'image'],
-        ['code-block'],
-        ['clean']
-        ],
-    };
-    
-    return (
-        <ReactQuill
-            theme="snow"
-            value={value}
-            onChange={setValue}
-            modules={modules}
-        />
     );
 }
 
