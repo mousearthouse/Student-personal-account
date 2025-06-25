@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { API_URL } from '@/utils/constants/constants';
 import Pagination from '@/components/Pagination/Pagination';
 import ServiceBtn from '@/components/UsefulServiceBtn/ServiceBtn';
+import { useNavigate } from 'react-router-dom';
+import qs from 'qs';
 
 const UsefulServicesPage = () => {
     const [servicesData, setServicesData] = useState({} as UsefulServiceDtoPagedListWithMetadata);
@@ -11,16 +13,25 @@ const UsefulServicesPage = () => {
     const [pageCount, setPageCount] = useState(1);
     const pageSize = 3;
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await getUsefulServices({
-                    params: {
-                        categories: 'ForAll',
-                        page: pageNumber,
-                        pageSize: pageSize,
+                const categories = new Set<UsefulServiceCategory>(['ForAll' as UsefulServiceCategory]);
+                if (localStorage.getItem('is_student') == 'true') categories.add('Students' as UsefulServiceCategory);
+                if (localStorage.getItem('is_employee') == 'true') categories.add('Employees' as UsefulServiceCategory);
+
+                const response = await getUsefulServices(
+                    {
+                        params: {
+                            categories: Array.from(categories),
+                            page: pageNumber,
+                            pageSize: pageSize,
+                        }
                     },
-                });
+                );
+            
                 setServicesData(response.data);
                 console.log(response.data.metaData);
                 setPageCount(response.data.metaData.pageCount);
@@ -37,6 +48,13 @@ const UsefulServicesPage = () => {
     return (
         <main>
             <div className='usefulServicesPage'>
+                <div>
+                    <h1>Полезные сервисы</h1>
+                </div>
+                <div>
+                    <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
+                    <span className='page-link-blue'>Полезные сервисы</span>
+                </div>
                 <div className="servicesContainer">
                     {(servicesData.results ?? []).map((serviceData, id) => (
                         <ServiceCard key={id} service={serviceData} />

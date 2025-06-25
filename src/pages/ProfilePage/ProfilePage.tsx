@@ -6,6 +6,7 @@ import { getImageUrl } from '@/utils/usefulFunctions';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useValidDate } from '@/utils/usefulFunctions';
+import AvatarUploader from '@/components/AvatarUploader/AvatarUploader';
 
 const ProfilePage = () => {
     const { t } = useTranslation();
@@ -23,6 +24,12 @@ const ProfilePage = () => {
                 setUserData(response.data);
                 localStorage.setItem('userId', response.data.id);
                 localStorage.setItem('userAvatar', response.data.avatar.id);
+
+                if (response.data.id == "6700b449-8ea2-4032-a32d-150271c168d3") {
+                    localStorage.setItem('is_admin', 'true')
+                } else {
+                    localStorage.setItem('is_admin', 'false')
+                }
             } catch (err) {
                 console.log('Ошибка при входе. Проверьте введённые данные.');
             }
@@ -33,8 +40,10 @@ const ProfilePage = () => {
                 const response = await getStudent();
                 console.log(response.data);
                 setStudentData(response.data);
+                localStorage.setItem('is_student', 'true');
             } catch (err) {
-                console.log('Ошибка при входе. Проверьте введённые данные.');
+                console.log('Юзер не студент');
+                localStorage.setItem('is_student', 'false');
             }
         };
 
@@ -43,8 +52,10 @@ const ProfilePage = () => {
                 const response = await getEmployee();
                 console.log(response.data);
                 setEmployeeData(response.data);
+                localStorage.setItem('is_employee', 'true');
             } catch (err) {
-                console.log('Ошибка при входе. Проверьте введённые данные.');
+                console.log('Юзер не сотрудник');
+                localStorage.setItem('is_employee', 'false');
             }
         };
 
@@ -56,10 +67,10 @@ const ProfilePage = () => {
     useEffect(() => {
         const load = async () => {
             if (selected === 'student' && studentData) {
-                await setStudentData(studentData);
+                setStudentData(studentData);
             } else if (selected === 'employee' && employeeData) {
                 console.log(selected);
-                await setEmployeeData(employeeData);
+                setEmployeeData(employeeData);
             }
         };
 
@@ -76,7 +87,7 @@ const ProfilePage = () => {
                 <div className="user-data-block">
                     <div className="avatar-container">
                         {userData.avatar && (
-                            <img src={getImageUrl(userData.avatar.id)} alt={t('profile.avatarAlt')} />
+                            <AvatarUploader currentFileId={userData.avatar.id}/>
                         )}
                     </div>
                     <PersonalData userData={userData} />

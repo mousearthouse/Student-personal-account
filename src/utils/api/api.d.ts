@@ -14,6 +14,9 @@ interface TokenResponse {
   loginSucceeded: true;
 }
 
+
+/////////////////////////////////////////////////////////////// Profile
+
 type Gender = 'NotDefined' | 'Male' | 'Female';
 type FileExtension =  'NotDefined' | 'Doc' | 'Docx' | 'Bmp' | 'Gif' | 'Jpeg' | 'Jpg' | 'Png' | 'Pdf' | 'Rar' | 'Xls' | 'Xlsx' | 'Zip' | 'Txt' | 'Heic' | 'Heif' | 'Sig';
 
@@ -59,6 +62,10 @@ interface ProfileDto {
   address?: string;
   contacts?: ContactDto[];
   userTypes?: UserType[];
+}
+
+interface AvatarUpdateDto {
+  fileId: string;
 }
 
 interface BaseDictionaryDto {
@@ -178,7 +185,7 @@ interface CertificateCreateDto {
 type UsefulServiceCategory = 'ForAll' | 'Students' | 'Employees';
 
 interface UsefulServicesParams {
-  categories: UsefulServiceCategory;
+  categories: UsefulServiceCategory[];
   page: number;
   pageSize: number;
 }

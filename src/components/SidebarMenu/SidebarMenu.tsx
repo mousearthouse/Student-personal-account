@@ -40,12 +40,15 @@ const SidebarMenu = () => {
                         {isOpen && <span>{t('menu.profile')}</span>}
                     </a>
                 </li>
+                {localStorage.getItem('is_admin') == 'true' &&
                 <li>
                     <a className="link" href="/admin">
                         <img src={admin} />
                         {isOpen && <span>{t('menu.admin')}</span>}
                     </a>
                 </li>
+                }
+                
                 <li>
                     <a className="link" href="/certificates">
                         <img src={certificates} />

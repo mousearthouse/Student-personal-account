@@ -67,11 +67,11 @@
     height: 0;
 
     &:checked + .slider {
-      background-color: #3b82f6; /* синий при включении */
+      background-color: #3b82f6;
     }
 
     &:checked + .slider:before {
-      transform: translateX(22px); /* сдвигает кружочек вправо */
+      transform: translateX(22px);
     }
   }
 
@@ -82,7 +82,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc; /* серый фон при выключении */
+    background-color: #ccc;
     transition: 0.3s;
     border-radius: 28px;
 
@@ -124,4 +124,5 @@
   
 .form-input.login {
     width: 100%;
+    background-color: #FFFFFF;
 }

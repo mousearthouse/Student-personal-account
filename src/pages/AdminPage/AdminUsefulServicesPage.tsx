@@ -29,7 +29,7 @@ const AdminUsefulServicesPage = () => {
             try {
                 const response = await getUsefulServices({
                     params: {
-                        categories: 'ForAll',
+                        categories: ['ForAll', 'Students', 'Employees'],
                         page: pageNumber,
                         pageSize: pageSize,
                     },
@@ -161,12 +161,8 @@ const ModalCreate = ({isOpen, onClose}: ModalCreateProps) => {
     const [category, setCategory] = useState<UsefulServiceCategory>("ForAll");
     const [description, setDescription] = useState("");
     const [disctribution, setDisctribution] = useState("");
-    const [logo, setLogo] = useState<string | null>("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [fileId, setFileId] = useState("");
-    
-
-    const [serviceData, setServiceData] = useState<UsefulServiceEditCreateDto>();
 
     const handleCreate = async () => {
         console.log('Создание мероприятия с данными:')
