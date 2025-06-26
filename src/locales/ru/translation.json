@@ -96,10 +96,14 @@
   "certificate": {
     "from": "Справка от",
     "type": "Тип справки",
+    "dateTimeOfForming": "Дата и время формирования справки",
     "form": "Вид справки",
     "types": {
       "ForPlaceWhereNeeded": "По месту требования",
-      "PensionForKazakhstan": "В пенсионный фонд Казахстана"
+      "PensionForKazakhstan": "В пенсионный фонд Казахстана",
+      "ForPlaceOfWork": "По месту работы",
+      "ForVisa": "Для визы",
+      "ForExperience": "Для опыта"
     },
     "receiveTypes": {
       "Electronic": "Электронная",

@@ -61,6 +61,72 @@
   width: 70vw;
 }
 
+.certificate-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.certificate-status {
+  padding: 5px 7px;
+  background-color: #666666;
+  color: #fff;
+  font-size: 14px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+}
+
+.certificate-status.Finished {
+  background-color: #46B34A;
+}
+
+.certificate-status.Created {
+  background-color: #9C9C9C;
+}
+
+.certificate-status.InProcess {
+  background-color: #F69D1E;
+}
+
+
+.certs-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-certs {
+  padding: 5px 7px;
+  width: fit-content;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #375FFF;
+}
+
+.download-certs.certificate {
+  background-color: #375FFF;
+  color: #fff;
+}
+
+.download-certs.signature {
+  background-color: #fff;
+  color: #375FFF;
+}
+
+.certs-btns {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  align-items: center;
+  gap: 5px;
+}
+
+
 .tabs {
   display: flex;
   flex-direction: column;
@@ -147,3 +213,4 @@
     }
   }
 }
+

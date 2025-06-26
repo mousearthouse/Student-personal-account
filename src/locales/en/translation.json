@@ -87,10 +87,14 @@
   "certificate": {
     "from": "Certificate from",
     "type": "Type",
+    "dateTimeOfForming": "Date and time of forming the certificate",
     "form": "Form",
     "types": {
       "ForPlaceWhereNeeded": "For place where needed",
-      "PensionForKazakhstan": "To Kazakhstan pension fund"
+      "PensionForKazakhstan": "To Kazakhstan pension fund",
+      "ForPlaceOfWork": "For work place",
+      "ForVisa": "For visa",
+      "ForExperience": "For experience"
     },
     "receiveTypes": {
       "Electronic": "Electronic",

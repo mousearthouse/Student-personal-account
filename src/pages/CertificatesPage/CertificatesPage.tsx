@@ -6,6 +6,10 @@ import { useEffect, useState } from 'react';
 import './certificatesPage.scss';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
+import { getImageUrl } from '@/utils/usefulFunctions';
+import download_white from '@/assets/icons/download_white.svg'
+import download_blue from '@/assets/icons/download_blue.svg'
+
 
 const CertificatesPage = () => {
     const { t } = useTranslation();
@@ -52,8 +56,10 @@ const CertificatesPage = () => {
             console.log(employee);
             if (student && student.educationEntries && student.educationEntries.length > 0) {
                 setSelected('student');
+                setSelectedEducationEntryId(student.educationEntries[0].id)
             } else if (employee && employee.experience?.length > 0) {
                 setSelected('employee');
+                setSelectedEmployeePostId(employee.posts[0].id)
             } else {
                 console.warn('Нет ни студента, ни сотрудника');
             }
@@ -122,6 +128,21 @@ const CertificatesPage = () => {
         }
     };
 
+    const downloadCertificate = (certificateId: string) => {
+        const fileUrl = getImageUrl(certificateId); 
+        
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = `certificate-${certificateId}.pdf`;
+        
+        document.body.appendChild(link);
+        
+        link.click();
+        
+        document.body.removeChild(link);
+    };
+
+
     return (
         <main>
             <div className="certificates">
@@ -168,25 +189,61 @@ const CertificatesPage = () => {
                     <div className="certificates-box">
                         <div className="certificates-list">
                             {certificatesData?.map((certificate, id) => (
-                                <div key={id} className="certificate-item">
-                                    <p>
-                                        Справка от{' '}
-                                        {certificate.dateOfForming
-                                            ? new Date(certificate.dateOfForming).toLocaleString(
-                                                  'ru-RU',
-                                              )
-                                            : t('certificate.noDate')}
-                                    </p>
-                                    <span>
-                                        {t('certificate.type')}:{' '}
-                                        {t(`certificate.types.${certificate.type}`)}{' '}
-                                    </span>
-                                    <span>
-                                        {t('certificate.form')}:{' '}
-                                        {t(`certificate.receiveTypes.${certificate.receiveType}`)}
-                                    </span>
+                                <>
+                                    <div key={id} className="certificate-item">
+                                        <div className='certs-info'>
+                                            <p>
+                                                Справка от{' '}
+                                                {certificate.dateOfForming
+                                                    ? new Date(certificate.dateOfForming).toLocaleString(
+                                                        'ru-RU'
+                                                    )
+                                                    : t('certificate.noDate')}
+                                            </p>
+                                            {certificate.staffType &&
+                                            <span>
+                                                {t('certificate.type')}:{" "}
+                                                {t(`certificate.types.${certificate.staffType}`)}{" "}
+                                            </span>
+                                            }
+                                            {certificate.type &&
+                                            <span>
+                                                {t('certificate.type')}:{" "}
+                                                {t(`certificate.types.${certificate.type}`)}{" "}
+                                            </span>
+                                            }
+                                            <span>
+                                                {t('certificate.dateTimeOfForming')}:{" "}
+                                                {certificate.dateOfForming
+                                                    ? new Date(certificate.dateOfForming).toLocaleString(
+                                                        'ru-RU'
+                                                    )
+                                                    : t('certificate.noDate')}
+                                            </span>
+                                            <span>
+                                                {t('certificate.form')}:{" "}
+                                                {t(`certificate.receiveTypes.${certificate.receiveType}`)}
+                                            </span>
+                                        </div>
+                                        <div className='certs-btns'>
+                                            <div className={`certificate-status ${certificate.status}`}>
+                                                {certificate.status}
+                                            </div>
+                                            {certificate.status == 'Finished' && 
+                                                <>
+                                                    <div className='download-certs certificate' onClick={() => downloadCertificate(certificate.certificateFile.id)}>
+                                                        <img src={download_white} /> Справку
+                                                    </div>
+                                                    <div className='download-certs signature' onClick={() => downloadCertificate(certificate.signatureFile.id)}>
+                                                        <img src={download_blue} /> Подпись
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>
+                                        
+                                    </div>
                                     <hr />
-                                </div>
+                                </>
                             ))}
                         </div>
                     </div>
@@ -374,7 +431,7 @@ type EmployeeTabsProps = {
 
 const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsProps) => {
     const { t } = useTranslation();
-    const [selectedTab, setSelectedTab] = useState(0);
+    const selectedEntry = employeeEntries.find((entry) => entry.id === selectedId);
     console.log(selectedId);
 
     const employmentTypeMap = {
@@ -407,12 +464,12 @@ const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsPro
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.position')}</span>
                             <span className="block-value">
-                                {employeeEntries[selectedTab].postName.name}
+                                {selectedEntry?.postName.name}
                             </span>
                         </div>
                         <div className="block-education-row2">
                             <span className="block-label">{t('certificates.rate')}</span>
-                            <span className="block-value">{employeeEntries[selectedTab].rate}</span>
+                            <span className="block-value">{selectedEntry?.rate}</span>
                         </div>
                     </div>
                 </div>
@@ -422,7 +479,7 @@ const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsPro
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.workplace')}</span>
                             <span className="block-value">
-                                {employeeEntries[selectedTab].departments[0].name}
+                                {selectedEntry?.departments[0].name}
                             </span>
                         </div>
                     </div>
@@ -433,13 +490,13 @@ const EmployeeTabs = ({ employeeEntries, selectedId, onSelect }: EmployeeTabsPro
                         <div className="block-education-row1">
                             <span className="block-label">{t('certificates.jobType')}</span>
                             <span className="block-value">
-                                {employeeEntries[selectedTab].postType.name}
+                                {selectedEntry?.postType.name}
                             </span>
                         </div>
                         <div className="block-education-row2">
                             <span className="block-label">{t('certificates.employmentType')}</span>
                             <span className="block-value">
-                                {employmentTypeMap[employeeEntries[selectedTab].employmentType]}
+                                {selectedEntry?.employmentType ? employmentTypeMap[selectedEntry.employmentType] : ''}
                             </span>
                         </div>
                     </div>

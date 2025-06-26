@@ -62,6 +62,11 @@ const ProfilePage = () => {
         fetchProfile();
         fetchStudent();
         fetchWork();
+        if (localStorage.getItem('is_student') == 'true' && localStorage.getItem('is_employee') == 'false') {
+            setSelected('student');
+        } else if (localStorage.getItem('is_student') == 'false' && localStorage.getItem('is_employee') == 'true') {
+            setSelected('employee');
+        }
     }, []);
 
     useEffect(() => {
@@ -98,24 +103,26 @@ const ProfilePage = () => {
                     <h2>
                         {userData.lastName} {userData.firstName} {userData.patronymic}
                     </h2>
-
-                    {studentData && employeeData && (
-                        <div className="buttons-container">
-                            <button
-                                className={`menu-item ${selected === 'student' ? 'active' : ''}`}
-                                onClick={() => setSelected('student')}
-                            >
-                                Студент
-                            </button>
-                            <hr />
-                            <button
-                                className={`menu-item ${selected === 'employee' ? 'active' : ''}`}
-                                onClick={() => setSelected('employee')}
-                            >
-                                Сотрудник
-                            </button>
-                        </div>
-                    )}
+                    <div className='block'>
+                        {(localStorage.getItem('is_student') == 'true' && localStorage.getItem('is_employee')) && (
+                            <div className='tabs'>
+                                <div className="tab-buttons">
+                                    <button
+                                        className={`tab-button${selected === 'student' ? ' active' : ''}`}
+                                        onClick={() => setSelected('student')}
+                                    >
+                                        Студент
+                                    </button>
+                                    <hr />
+                                    <button
+                                        className={`tab-button${selected === 'employee' ? ' active' : ''}`}
+                                        onClick={() => setSelected('employee')}
+                                    >
+                                        Сотрудник
+                                    </button>
+                                </div>
+                            </div>
+                        )}                        
                     {selected === 'student' && studentData && (
                         <Education studentData={studentData} />
                     )}
@@ -123,6 +130,9 @@ const ProfilePage = () => {
                     {selected === 'employee' && employeeData && (
                         <Work employeeData={employeeData} />
                     )}
+                    </div>
+                    
+                    
                 </div>
             </div>
         </main>
@@ -221,7 +231,7 @@ const Education = ({ studentData }: { studentData: StudentDto }) => {
     };
 
     return (
-        <div className="block">
+        <div className="block-content">
             {(studentData.educationEntries ?? []).map((educationEntry, id) => (
                 <div key={id}>
                     <div className="container-row">
@@ -314,7 +324,7 @@ const Work = ({ employeeData }: { employeeData: EmployeeDto }) => {
     const pedagogicalExperience = employeeData.experience?.find((e) => e.type === 'Pedagogical');
 
     return (
-        <div className="block">
+        <div className="block-content">
             <div className="block-row">
                 <h4>{t('profile.work.experience')}</h4>
             </div>

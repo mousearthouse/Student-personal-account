@@ -156,13 +156,14 @@ type CertificateReceiveType = 'Electronic' | 'Paper';
 interface CertificateDto {
   id: string;
   statusEnumDto: EnumDto;
+  status: CertificateStatus;
   type: CertificateType;
   staffType: CertificateStaffType;
   typeEnumDto: EnumDto;
   staffTypeEnumDto: EnumDto;
   userType: CertificateUserType;
   userTypeEnumDto: EnumDto;
-  certificateFi;e: FileDto;
+  certificateFile: FileDto;
   signatureFile: FileDto;
   dateOfForming?: string;
   receiveType: CertificateReceiveType;
