@@ -27,6 +27,10 @@ const AdminEventCreate = () => {
     const [digestNeeded, setDigestNeeded] = useState(false);
     const [digest, setDigest] = useState("");
 
+    const [timeForStart, setTimeForStart] = useState(false);
+    const [timeForEnd, setTimeForEnd] = useState(false);
+
+
     const [address, setAddressValue] = useState("");
 
     const navigate = useNavigate();
@@ -134,7 +138,7 @@ const AdminEventCreate = () => {
                 <span className='page-link-blue'>Создание мероприятия</span>
                 <h2>Создание мероприятия</h2>
                 <div className='admin-create-event'>
-                    <div className="input-form-w-label">
+                    <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="name">
                             Название мероприятия
                         </label>
@@ -150,33 +154,66 @@ const AdminEventCreate = () => {
                     <TextEditor value={descValue} setValue={setDescValue}/>
 
                     <div className="input-forms-other">
-                        <div className="input-form-w-label">
-                            <label className="label-form" htmlFor="name">
-                                Дата начала
-                            </label>
-                            <input
-                                type="date"
-                                id="name"
-                                placeholder=""
-                                value={eventStartDate}
-                                onChange={(e) => setEventStartDate(e.target.value)}
-                                className="form-input admin date"
-                            />
+                        <div className="date-time">
+                            <div className="input-form-w-label admin">
+                                <label className="label-form" htmlFor="name">
+                                    Дата начала
+                                </label>
+                                <input
+                                    type={timeForStart ? "datetime-local" : "date"}
+                                    id="name"
+                                    placeholder=""
+                                    value={eventStartDate}
+                                    onChange={(e) => setEventStartDate(e.target.value)}
+                                    className="form-input admin date"
+                                />
+                            </div>
+                            <div className="time-switch">
+                                <label className='switch-label'>
+                                    Время
+                                </label>
+                                <label className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={timeForStart}
+                                        onChange={() => setTimeForStart(!timeForStart)}
+                                        className="checkbox"
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
+                            
                         </div>
-                        <div className="input-form-w-label">
-                            <label className="label-form" htmlFor="name">
-                                Дата окончания
-                            </label>
-                            <input
-                                type="date"
-                                id="name"
-                                placeholder=""
-                                value={eventEndDate}
-                                onChange={(e) => setEventEndDate(e.target.value)}
-                                className="form-input admin date"
-                            />
+                        <div className="date-time">
+                            <div className="input-form-w-label admin">
+                                <label className="label-form" htmlFor="name">
+                                    Дата окончания
+                                </label>
+                                <input
+                                    type={timeForEnd ? "datetime-local" : "date"}
+                                    id="name"
+                                    placeholder=""
+                                    value={eventEndDate}
+                                    onChange={(e) => setEventEndDate(e.target.value)}
+                                    className="form-input admin date"
+                                />
+                            </div>
+                            <div className="time-switch">
+                                <label className='switch-label'>
+                                    Время
+                                </label>
+                                <label className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={timeForEnd}
+                                        onChange={() => setTimeForEnd(!timeForEnd)}
+                                        className="checkbox"
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
                         </div>
-                        <div className="input-form-w-label">
+                        <div className="input-form-w-label admin">
                             <select
                                 id="type"
                                 value={type}
@@ -188,7 +225,7 @@ const AdminEventCreate = () => {
                                 <option value="Close">Закрытое</option>
                             </select>
                         </div>
-                        <div className="input-form-w-label">
+                        <div className="input-form-w-label admin">
                             <label className="label-form" htmlFor="status">
                                 Целевая аудитория
                             </label>
@@ -219,7 +256,7 @@ const AdminEventCreate = () => {
                         </label>
                     </div>
                     {registration &&
-                        <div className="input-form-w-label">
+                        <div className="input-form-w-label admin">
                             <label className="label-form" htmlFor="name">
                                 Дата окончания регистрации
                             </label>
@@ -234,7 +271,7 @@ const AdminEventCreate = () => {
                         </div>
                     }
                     
-                    <div className="input-form-w-label">
+                    <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="format">
                             Формат мероприятия
                         </label>
@@ -250,7 +287,7 @@ const AdminEventCreate = () => {
                         </select>
                     </div>
                     {format == 'Online' && 
-                    <div className="input-form-w-label">
+                    <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="name">
                             Ссылка
                         </label>
@@ -264,7 +301,7 @@ const AdminEventCreate = () => {
                     </div>
                     }
                     {format == 'Offline' && 
-                    <div className="input-form-w-label">
+                    <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="link">
                             Адрес
                         </label>

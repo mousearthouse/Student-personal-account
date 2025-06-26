@@ -275,6 +275,9 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
     const [digest, setDigest] = useState(eventData.digestText);
     const [digestNeeded, setDigestNeeded] = useState(false);
 
+    const [timeForStart, setTimeForStart] = useState(false);
+    const [timeForEnd, setTimeForEnd] = useState(false);
+    
     const [address, setAddressValue] = useState("");
 
     const dateFormat = (date?: string) => {
@@ -336,13 +339,13 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
                 isTimeToNeeded: false,
                 dateTimeFrom: eventStartDate ? new Date(eventStartDate).toISOString() : "",
                 dateTimeTo: eventEndDate ? new Date(eventEndDate).toISOString() : "",
-                registrationLastDate: registrationLastDate ? new Date(registrationLastDate).toISOString() : "",
+                registrationLastDate: registrationLastDate ? new Date(registrationLastDate).toISOString() : undefined,
                 type: type as EventType,
                 status: status,
                 format: format as EventFormat,
                 link: linkValue,
                 notification: notification,
-                pictureId: fileId ?? undefined,
+                pictureId: fileId ? fileId : undefined,
                 addressName: "",
                 latitude: 0,
                 longitude: 0,
@@ -387,31 +390,64 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
                     <TextEditor value={descValue ?? ''} setValue={setDescValue}/>
 
                     <div className="input-forms-other">
-                        <div className="input-form-w-label">
-                            <label className="label-form" htmlFor="name">
-                                Дата начала
-                            </label>
-                            <input
-                                type="date"
-                                id="name"
-                                placeholder=""
-                                value={eventStartDate}
-                                onChange={(e) => setEventStartDate(e.target.value)}
-                                className="form-input admin date"
-                            />
+                        <div className="date-time">
+                            <div className="input-form-w-label admin">
+                                <label className="label-form" htmlFor="name">
+                                    Дата начала
+                                </label>
+                                <input
+                                    type={timeForStart ? "datetime-local" : "date"}
+                                    id="name"
+                                    placeholder=""
+                                    value={eventStartDate}
+                                    onChange={(e) => setEventStartDate(e.target.value)}
+                                    className="form-input admin date"
+                                />
+                            </div>
+                            <div className="time-switch">
+                                <label className='switch-label'>
+                                    Время
+                                </label>
+                                <label className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={timeForStart}
+                                        onChange={() => setTimeForStart(!timeForStart)}
+                                        className="checkbox"
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
+                            
                         </div>
-                        <div className="input-form-w-label">
-                            <label className="label-form" htmlFor="name">
-                                Дата окончания
-                            </label>
-                            <input
-                                type="date"
-                                id="name"
-                                placeholder=""
-                                value={eventEndDate}
-                                onChange={(e) => setEventEndDate(e.target.value)}
-                                className="form-input admin date"
-                            />
+                        <div className="date-time">
+                            <div className="input-form-w-label admin">
+                                <label className="label-form" htmlFor="name">
+                                    Дата окончания
+                                </label>
+                                <input
+                                    type={timeForEnd ? "datetime-local" : "date"}
+                                    id="name"
+                                    placeholder=""
+                                    value={eventEndDate}
+                                    onChange={(e) => setEventEndDate(e.target.value)}
+                                    className="form-input admin date"
+                                />
+                            </div>
+                            <div className="time-switch">
+                                <label className='switch-label'>
+                                    Время
+                                </label>
+                                <label className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={timeForEnd}
+                                        onChange={() => setTimeForEnd(!timeForEnd)}
+                                        className="checkbox"
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
                         </div>
                         <div className="input-form-w-label">
                             <select
