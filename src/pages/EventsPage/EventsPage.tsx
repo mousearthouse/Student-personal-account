@@ -16,6 +16,8 @@ const EventsPage = () => {
     const [eventName, setEventName] = useState('');
     const [eventDate, setEventDate] = useState('');
 
+    const { t } = useTranslation();
+
     const fetchEvents = async () => {
         try {
             const response = await getEventsList({
@@ -43,7 +45,7 @@ const EventsPage = () => {
         <div className="events-page">
             <div className="events-page-content">
                 <div>
-                    <h1>Мероприятия</h1>
+                    <h1>{t('event.pageName')}</h1>
                 </div>
                 <span className="page-link-blue"> Главная</span>
                 <SearchBar
@@ -75,13 +77,16 @@ const SearchBar = ({
     setEventDate,
     onSearch,
 }: GetEventProps) => {
+
+    const { t } = useTranslation();
+
     return (
         <div className="search-bar">
-            <h3>Поиск</h3>
+            <h3>{t('event.search')}</h3>
             <div className='search-forms'>
                 <div className="input-form-w-label">
                     <label className="label-form" htmlFor="name">
-                        Название мероприятия
+                        {t('event.eventName')}
                     </label>
                     <input
                         id="name"
@@ -91,10 +96,10 @@ const SearchBar = ({
                         className="form-input name"
                     />
                 </div>
-                <button className='search-btn' onClick={onSearch}>НАЙТИ</button>
+                <button className='search-btn' onClick={onSearch}>{t('event.searchBtn')}</button>
                 <div className="input-form-w-label">
                     <label className="label-form" htmlFor="name">
-                        Дата проведения мероприятия
+                        {t('event.eventDate')}
                     </label>
                     <input
                         type="date"

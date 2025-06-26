@@ -72,6 +72,8 @@
   },
 
   "certificates": {
+    "pageName": "Order certificate",
+    "orderCert": "Order certificate",
     "educationLevel": "Education level",
     "status": "Status",
     "faculty": "Faculty",
@@ -81,7 +83,11 @@
     "rate": "Rate",
     "workplace": "Workplace",
     "jobType": "Job type",
-    "employmentType": "Employment type"
+    "employmentType": "Employment type",
+    "tabs": {
+      "student": "Student",
+      "employee": "Employee"
+    }
   },
 
   "certificate": {
@@ -99,7 +105,8 @@
     "receiveTypes": {
       "Electronic": "Electronic",
       "Paper": "Paper"
-    }
+    },
+    "certificateFrom": "Certificate from"
   },
 
   "employmentTypes": {
@@ -107,6 +114,14 @@
     "partTime": "Part-time",
     "innerPartTime": "Internal part-time",
     "freelance": "Freelance"
+  },
+
+  "event": {
+    "pageName": "Events",
+    "search": "Search",
+    "eventName": "Event name",
+    "eventDate": "EventDate",
+    "searchBtn": "Search"
   },
 
   "events": {
@@ -141,5 +156,11 @@
     },
     "start-time": "Start Time",
     "end-time": "End Time"
+  },
+
+  "usefulServices": {
+    "pageName": "Useful Services",
+    "termsOfDistribution": "Terms of distribution",
+    "goToTheSite": "Go to the site"
   }
 }

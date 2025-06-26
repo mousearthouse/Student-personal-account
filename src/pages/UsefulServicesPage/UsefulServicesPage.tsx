@@ -1,11 +1,12 @@
 import { getUsefulServices } from '@/utils/api/requests/getUsefulServices';
 import './usefulServicesPage.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { API_URL } from '@/utils/constants/constants';
 import Pagination from '@/components/Pagination/Pagination';
 import ServiceBtn from '@/components/UsefulServiceBtn/ServiceBtn';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
+import { useTranslation } from 'react-i18next';
 
 const UsefulServicesPage = () => {
     const [servicesData, setServicesData] = useState({} as UsefulServiceDtoPagedListWithMetadata);
@@ -14,6 +15,8 @@ const UsefulServicesPage = () => {
     const pageSize = 3;
 
     const navigate = useNavigate();
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -49,7 +52,7 @@ const UsefulServicesPage = () => {
         <main>
             <div className='usefulServicesPage'>
                 <div>
-                    <h1>Полезные сервисы</h1>
+                    <h1>{t('usefulServices.pageName')}</h1>
                 </div>
                 <div>
                     <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
@@ -75,6 +78,8 @@ const ServiceCard = ({ service }: { service: UsefulServicesDto }) => {
         return `${API_URL}Files/${service.logo.id}`;
     };
 
+    const { t } = useTranslation();
+
     return (
         <div className="serviceCard">
             <div className="serviceCardTitle">
@@ -86,7 +91,7 @@ const ServiceCard = ({ service }: { service: UsefulServicesDto }) => {
                 {service.logo?.id && <img src={getImageUrl()} alt="Аватар" />}
                 <div>
                     <p>{service.description}</p>
-                    <span>Условия предоставления</span>
+                    <span>{t('usefulServices.termsOfDistribution')}</span>
                     <p>{service.termsOfDisctribution}</p>
                 </div>
             </div>

@@ -147,21 +147,21 @@ const CertificatesPage = () => {
         <main>
             <div className="certificates">
                 <div className="menu">
-                    <h2>Заказ справки</h2>
+                    <h2>{t('certificates.pageName')}</h2>
                     {studentData && employeeData && (
                         <div className="buttons-container">
                             <button
                                 className={`menu-item ${selected === 'student' ? 'active' : ''}`}
                                 onClick={() => setSelected('student')}
                             >
-                                Студент
+                                {t('certificates.tabs.student')}
                             </button>
                             <hr />
                             <button
                                 className={`menu-item ${selected === 'employee' ? 'active' : ''}`}
                                 onClick={() => setSelected('employee')}
                             >
-                                Сотрудник
+                                {t('certificates.tabs.employee')}
                             </button>
                         </div>
                     )}
@@ -193,7 +193,7 @@ const CertificatesPage = () => {
                                     <div key={id} className="certificate-item">
                                         <div className='certs-info'>
                                             <p>
-                                                Справка от{' '}
+                                                {t('certificate.certificateFrom')}{" "}
                                                 {certificate.dateOfForming
                                                     ? new Date(certificate.dateOfForming).toLocaleString(
                                                         'ru-RU'
@@ -266,6 +266,8 @@ const OrderForm = ({
     const [receiveType, setReceiveType] = useState<CertificateReceiveType>('Electronic');
     const [staffType, setStaffType] = useState<CertificateStaffType>('ForPlaceOfWork');
 
+    const { t } = useTranslation();
+
     const handleOrder = async () => {
         let certificateData: CertificateCreateDto | null = null;
 
@@ -302,7 +304,7 @@ const OrderForm = ({
 
     return (
         <div className="order">
-            <h2>Заказать справку</h2>
+            <h3>{t('certificates.orderCert')}</h3>
             <div className="order-form">
                 {selected === 'student' && (
                     <select

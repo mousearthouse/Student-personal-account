@@ -81,6 +81,8 @@
   },
 
   "certificates": {
+    "pageName": "Заказ справки",
+    "orderCert": "Заказать справку",
     "educationLevel": "Уровень образования",
     "status": "Статус",
     "faculty": "Факультет",
@@ -90,7 +92,11 @@
     "rate": "Ставка",
     "workplace": "Место работы",
     "jobType": "Тип должности",
-    "employmentType": "Вид занятости"
+    "employmentType": "Вид занятости",
+    "tabs": {
+      "student": "Студент",
+      "employee": "Сотрудник"
+    }
   },
 
   "certificate": {
@@ -108,7 +114,8 @@
     "receiveTypes": {
       "Electronic": "Электронная",
       "Paper": "Бумажная"
-    }
+    },
+    "certificateFrom": "Справка от"
   },
 
   "employmentTypes": {
@@ -116,6 +123,14 @@
     "partTime": "По совместительству",
     "innerPartTime": "Внутреннее совместительство",
     "freelance": "Подработка"
+  },
+
+  "event": {
+    "pageName": "Мероприятия",
+    "search": "Поиск",
+    "eventName": "Название мероприятия",
+    "eventDate": "Дата проведения мероприятия",
+    "searchBtn": "Найти"
   },
 
   "events": {
@@ -149,5 +164,11 @@
 
 
     "description": "Описание"
+  },
+
+  "usefulServices": {
+    "pageName": "Полезные сервисы",
+    "termsOfDistribution": "Условия предоставления",
+    "goToTheSite": "Перейти на сайт"
   }
 }

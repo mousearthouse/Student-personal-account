@@ -60,7 +60,7 @@ const EventDetailsPage = () => {
         <div className="events-page">
             <div className="events-page-content">
                 <div>
-                    <h1>Мероприятия</h1>
+                    <h1>{t('event.pageName')}</h1>
                 </div>
                 <span className="page-link" onClick={() => navigate('/')}>
                     Главная /
