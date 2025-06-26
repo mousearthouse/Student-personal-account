@@ -104,7 +104,7 @@ const ProfilePage = () => {
                         {userData.lastName} {userData.firstName} {userData.patronymic}
                     </h2>
                     <div className='block'>
-                        {(localStorage.getItem('is_student') == 'true' && localStorage.getItem('is_employee')) && (
+                        {(localStorage.getItem('is_student') == 'true' && localStorage.getItem('is_employee') == 'true') && (
                             <div className='tabs'>
                                 <div className="tab-buttons">
                                     <button
@@ -131,8 +131,6 @@ const ProfilePage = () => {
                         <Work employeeData={employeeData} />
                     )}
                     </div>
-                    
-                    
                 </div>
             </div>
         </main>

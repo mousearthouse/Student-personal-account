@@ -58,7 +58,7 @@ const AdminUsefulServicesPage = () => {
                 
                 <div>
                     <h2>Полезные сервисы</h2>
-                    <button onClick={() => setModalCreateOpen(true)}>Добавить сервис</button>
+                    <button className="add-smth" onClick={() => setModalCreateOpen(true)}>Добавить сервис</button>
                     <div className='services'>
                         {(servicesData.results ?? []).map((serviceData, id) => (
                         <ServiceAdminCard key={id} service={serviceData} />
