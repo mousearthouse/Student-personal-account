@@ -27,6 +27,18 @@
     
 }
 
+@media (max-width: 900px) {
+    .sidebar {
+        left: -70px;
+        background-color: #ffffff00;
+    }
+
+    .sidebar.open {
+        left: 0px;
+        background-color: #F9F9F9;
+    }
+}
+
 .sidebar-btn {
     display: flex;
     flex-direction: column;
