@@ -5,6 +5,7 @@ import image from '@/assets/icons/image-upload.svg';
 import { handleUpload } from "@/utils/api/requests/postFile";
 import { postEvent } from "@/utils/api/requests/admin/postEvent";
 import { TextEditor } from "@/components/TextEditor/TextEditor";
+import toast from "@/components/Notification/toast"
 
 const AdminEventCreate = () => {
     const [eventName, setEventName] = useState("");
@@ -67,9 +68,24 @@ const AdminEventCreate = () => {
         });
         try {
             if (!type) {
-                console.log("выбрать тип меро")
+                toast.warning('Выберите тип мероприятия');
+                return;
+            };
+            if (!eventStartDate || !eventEndDate) {
+                toast.warning('Выберите даты начала и окончания мероприятия');
                 return;
             }
+
+            if (format == 'Online' && !linkValue) {
+                toast.warning('Для создания мероприятия с онлайн-форматом заполните поле "ссылка"');
+                return;
+            }
+
+            if (registration == true && !registrationLastDate) {
+                toast.warning('Для создания мероприятия с возможностью регистрации укажите последнюю дату регистрации');
+                return;
+            }
+            
             const eventData = {
                 title: eventName,
                 description: descValue,
@@ -98,10 +114,10 @@ const AdminEventCreate = () => {
             const response = await postEvent(eventData);
             if (response.status === 200) {
                 navigate('/admin/events');
+                toast.success('Мероприятие успешно создано!');
             }
-
-            console.log('Данные мероприятия:', eventData);
         } catch (error) {
+            toast.error('Что-то пошло не так... Возможно, уже есть мероприятие с таким названием?');
             console.error('Ошибка при создании мероприятия:', error);
         }
     }
@@ -182,7 +198,7 @@ const AdminEventCreate = () => {
                                 onChange={(e) => setAuditory(e.target.value as EventAuditory)}
                                 className="form-input admin"
                             >
-                                <option value="">Все</option>
+                                <option value="All">Все</option>
                                 <option value="Students">Студенты</option>
                                 <option value="Employees">Сотрудники</option>
                             </select>

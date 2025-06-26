@@ -65,6 +65,9 @@
    width: 100%;
    max-width: 100% !important;
 }
+.form-input.admin.name {
+   width: 99%;
+}
 .form-input.admin.date {
    width: 97%;
 }
@@ -105,6 +108,13 @@
    display: flex;
    width: 100%;
    flex-direction: column;
+}
+
+.add-smth {
+   width: 100%;
+   background-color: #EFEFEF;
+   border: 1px solid #375FFF;
+   color:#375FFF;
 }
 
 .event-short-info {

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toast } from 'sonner';
 
 import { API_URL } from '@/utils/constants/constants';
 
@@ -15,7 +14,7 @@ api.interceptors.response.use(
     },
     (error) => {
       if (error.response.status === 500) {
-        toast.error(`Ошибка сервера:${error.response.data.message}`);
+        console.log(`Ошибка сервера:${error.response.data.message}`);
       }
       return Promise.reject(error);
     },
@@ -71,7 +70,6 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       const refreshToken = localStorage.getItem('refresh_token');
-      console.log("щас все обновлю!")
       try {
         const res = await fetch(`${API_URL}Auth/refresh`, {
           method: 'POST',

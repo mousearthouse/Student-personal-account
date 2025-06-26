@@ -53,6 +53,8 @@ const EventDetailsPage = () => {
                 if (response.status === 200) {
                     setIsParticipating(true);
                 }
+                console.log(isParticipating);
+                console.log(isAuthenticated);
             } catch (error) {
                 console.error('Ошибка при получении деталей мероприятия:', error);
             }
@@ -60,7 +62,7 @@ const EventDetailsPage = () => {
 
         fetchEventDetails();
         checkIfParticipating();
-    }, [id]);
+    }, [id, isAuthenticated, isParticipating]);
 
     console.log(eventDetails);
 
@@ -81,15 +83,17 @@ const EventDetailsPage = () => {
                 <div>
                     <div className="event-name-details">
                         <h2>{eventDetails.title}</h2>
-                        {eventDetails.isRegistrationRequired && !isParticipating && isAuthenticated &&
-                            <button onClick={innerRegister}>БУДУ УЧАСТВОВАТЬ</button>
-                        }
-                        {eventDetails.isRegistrationRequired && isParticipating &&
-                            <button disabled className="btn-active">УЧАСТВУЮ</button>
-                        }
-                        {eventDetails.isRegistrationRequired && !isAuthenticated &&
+                        {eventDetails.isRegistrationRequired && (
+                        isAuthenticated ? (
+                            isParticipating ? (
+                                <button disabled className="btn-active">УЧАСТВУЮ</button>
+                            ) : (
+                                <button onClick={innerRegister}>БУДУ УЧАСТВОВАТЬ</button>
+                            )
+                        ) : (
                             <button onClick={() => setModalRegisterOpen(true)}>БУДУ УЧАСТВОВАТЬ</button>
-                        }
+                        )
+                        )}
                     </div>
 
                     <div className="event-details">
@@ -189,7 +193,7 @@ const ModalRegister = ({isOpen, onClose, eventId}: ModalRegisterProps) => {
 
             const response = await postRegisterEventExternal(registerData);
             if (response.status === 200) {
-                toast.success('Вы зарегистрировались на мероприятие! Запишите информацию о нем, чтобы не потерять');
+                toast.success('Вы зарегистрировались на мероприятие! Запишите информацию о нем, чтобы не потерять :)');
                 onClose();
             }
 

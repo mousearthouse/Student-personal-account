@@ -76,6 +76,9 @@ const AdminEventsPage = () => {
                 <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
                 <span className='page-link-blue'>Мероприятия</span>
 
+                <h2>Мероприятия</h2>
+                <button className="add-smth" onClick={() => navigate("/admin/events/create")}>Добавить мероприятие +</button>
+
                 <SearchBar
                     eventName={eventName}
                     eventDate={eventDate}
