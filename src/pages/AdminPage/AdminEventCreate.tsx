@@ -30,7 +30,6 @@ const AdminEventCreate = () => {
     const [timeForStart, setTimeForStart] = useState(false);
     const [timeForEnd, setTimeForEnd] = useState(false);
 
-
     const [address, setAddressValue] = useState("");
 
     const navigate = useNavigate();

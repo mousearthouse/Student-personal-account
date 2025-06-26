@@ -37,7 +37,7 @@ const AdminUserDetailsPage = () => {
                 <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
                 <span className='page-link' onClick={() => navigate('/admin/users')}>Пользователи / </span>
                 <span className='page-link-blue'>{user?.firstName} {user?.lastName} {user?.patronymic}</span>
-                <h2>{user?.firstName} {user?.lastName} {user?.patronymic}</h2>
+                <h2>{user?.lastName} {user?.firstName} {user?.patronymic}</h2>
             </div>
             
             <div className="container">

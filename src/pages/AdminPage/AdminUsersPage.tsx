@@ -13,11 +13,13 @@ const AdminUsersPage = () => {
   const pageSize = 6;
   const [users, setUsers] = useState<ProfileShortDto[]>([]);
 
-  useEffect(() => {
+  const [name, setName] = useState("");
+
+  const fetchUsers = () => {
     getUsersList({
       params: {
         email: '',
-        name: '',
+        name: name || '',
         filterLastName: '',
         page: pageNumber,
         pageSize: pageSize,
@@ -29,6 +31,10 @@ const AdminUsersPage = () => {
     }).catch(error => {
       console.error("Error fetching users list:", error);
     });
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, [pageNumber]);
 
   return (
@@ -40,6 +46,20 @@ const AdminUsersPage = () => {
         <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
         <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
         <span className='page-link-blue'>Пользователи</span>
+
+        <div className="search-users">
+          <div className="input-form-w-label admin">
+            <input
+                id="name"
+                placeholder="Введите ФИО"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="form-input admin name"
+            />
+          </div>
+          <button className="search-users-btn" onClick={() => fetchUsers()}>НАЙТИ</button>
+        </div>
+        
         <div className="users-container">
           {users && (
             users.map((user) => (
