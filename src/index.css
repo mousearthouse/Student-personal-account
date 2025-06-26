@@ -172,6 +172,9 @@ main {
     margin-bottom: 5px;
 }
   
+input {
+  background-color: #fff;
+}
 .form-input {
     padding: 10px;
     background-color: #FFFFFF;

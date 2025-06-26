@@ -2,13 +2,12 @@ import './loginPage.scss';
 import { useState } from 'react';
 import auth from '@/assets/auth-picture.svg';
 import { postUserLogin } from '@/utils/api/requests/loginUser';
-import { toast, Toaster } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import toast from '@/components/Notification/toast';
 
 const LoginPage = () => {
     return (
         <main>
-            <Toaster position="top-center" />
             <div className="container">
                 <div className="img-block">
                     <img src={auth} alt="auth" height="400px" />
@@ -38,15 +37,13 @@ const LoginForm = () => {
             });
             console.log(response.data);
             if (response.data.loginSucceeded) {
+                toast.success('Все хорошо, перенаправляем в личный кабинет...');
                 localStorage.setItem('token', response.data.accessToken);
                 localStorage.setItem('refresh_token', response.data.refreshToken);
                 window.location.href = '/profile';
             } else {
                 console.log('Ошибка при входе. Проверьте введённые данные.');
-                toast.warning('Такого пользователя нет. Проверьте логин и пароль'),
-                    {
-                        cancel: { label: 'Close', onClick: () => {} },
-                    };
+                toast.error('Такого пользователя нет. Проверьте логин и пароль');
             }
         } catch (err) {
             console.log('Ошибка при входе. Проверьте введённые данные.');

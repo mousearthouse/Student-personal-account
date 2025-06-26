@@ -10,6 +10,9 @@ import { formatDate } from '@/utils/usefulFunctions';
 import { eventFormatMap } from '@/utils/constants/translations';
 import { getEventIsParticipant } from '@/utils/api/requests/getEventIsParticipant';
 import { is } from 'date-fns/locale';
+import Modal from '@/components/Modal/Modal';
+import { postRegisterEventExternal } from '@/utils/api/requests/postRegisterEventExternal';
+import toast from '@/components/Notification/toast';
 
 const EventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -17,6 +20,10 @@ const EventDetailsPage = () => {
     const [eventDetails, setEventDetails] = useState({} as EventDto);
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    const isAuthenticated = !!localStorage.getItem('userId');
+
+    const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
 
     const getImageUrl = () => {
         if (eventDetails.picture) {
@@ -39,6 +46,7 @@ const EventDetailsPage = () => {
 
         const checkIfParticipating = async () => {
             if (!id) return;
+            if (localStorage.getItem('userId') == null) return;
 
             try {
                 const response = await getEventIsParticipant({ params: { id } });
@@ -56,6 +64,10 @@ const EventDetailsPage = () => {
 
     console.log(eventDetails);
 
+    const innerRegister = () => {
+        console.log("inner register");
+    }
+
     return (
         <div className="events-page">
             <div className="events-page-content">
@@ -69,11 +81,14 @@ const EventDetailsPage = () => {
                 <div>
                     <div className="event-name-details">
                         <h2>{eventDetails.title}</h2>
-                        {eventDetails.isRegistrationRequired && !isParticipating &&
-                            <button>БУДУ УЧАСТВОВАТЬ</button>
+                        {eventDetails.isRegistrationRequired && !isParticipating && isAuthenticated &&
+                            <button onClick={innerRegister}>БУДУ УЧАСТВОВАТЬ</button>
                         }
                         {eventDetails.isRegistrationRequired && isParticipating &&
                             <button disabled className="btn-active">УЧАСТВУЮ</button>
+                        }
+                        {eventDetails.isRegistrationRequired && !isAuthenticated &&
+                            <button onClick={() => setModalRegisterOpen(true)}>БУДУ УЧАСТВОВАТЬ</button>
                         }
                     </div>
 
@@ -135,9 +150,121 @@ const EventDetailsPage = () => {
                         </details>
                     </div>
                 </div>
+                <ModalRegister isOpen={modalRegisterOpen} onClose={() => setModalRegisterOpen(false)} eventId={eventDetails.id}/>
             </div>
         </div>
     );
 };
+
+interface ModalRegisterProps {
+    isOpen: boolean;
+    onClose: () => void;
+    eventId: string;
+}
+
+
+const ModalRegister = ({isOpen, onClose, eventId}: ModalRegisterProps) => {
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [additionalInfo, setAdditionalInfo] = useState("");
+
+    const handleRegister = async () => {
+        console.log('Создание мероприятия с данными:')
+
+        try {
+            const registerData = {
+                eventId: eventId,
+                name: name,
+                phone: phone,
+                email: email,
+                additionalInfo: additionalInfo,
+            };
+            console.log(registerData)
+
+            if (phone == "" && email == "") {
+                toast.warning('Введите телефон или имейл');
+                return;
+            }
+
+            const response = await postRegisterEventExternal(registerData);
+            if (response.status === 200) {
+                toast.success('Вы зарегистрировались на мероприятие! Запишите информацию о нем, чтобы не потерять');
+                onClose();
+            }
+
+            console.log('Данные мероприятия:', registerData);
+        } catch (error) {
+            console.error('Ошибка при регистрации:', error);
+            toast.error('Что-то пошло не так. Может, вы уже зарегистрировались на мероприятие?');
+        }
+    }
+
+    return (
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <div className='modal-window'>
+                <h2>Регистрация на мероприятие</h2>
+                <div className='admin-page-content'>
+                    <div className='admin-create-service'>
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="name">
+                                ФИО
+                            </label>
+                            <input
+                                id="name"
+                                placeholder=""
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="form-input admin name"
+                            />
+                        </div>
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="phone">
+                                Телефон
+                            </label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                pattern="^\+?[0-9\s()-]+$"
+                                placeholder="+7 (999) 999-99-99"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                className="form-input admin name"
+                            />
+                        </div>
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="email">
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                placeholder=""
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="form-input admin name"
+                            />
+                        </div>
+                        <div className="input-form-w-label">
+                            <label className="label-form" htmlFor="type">
+                                Дополнительная информация
+                            </label>
+                            <input
+                                id="email"
+                                placeholder=""
+                                value={additionalInfo}
+                                onChange={(e) => setAdditionalInfo(e.target.value)}
+                                className="form-input admin name"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="btns">
+                    <button onClick={handleRegister}>Создать</button>
+                    <button onClick={onClose}>Отменить</button>
+                </div>
+            </div>
+        </Modal>
+    );
+}
 
 export default EventDetailsPage;

@@ -8,9 +8,11 @@ import usefulServices from '@/assets/icons/sidebarMenu/usefulServices.svg';
 import events from '@/assets/icons/sidebarMenu/events.svg';
 import { useTranslation } from 'react-i18next';
 import { API_URL } from '@/utils/constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 const SidebarMenu = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen((prev) => !prev);
 
@@ -22,6 +24,11 @@ const SidebarMenu = () => {
         }
         return 'src/assets/react.svg';
     };
+
+    const logout = () => {
+        localStorage.clear();
+        navigate("login");
+    }
 
     return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
@@ -67,7 +74,16 @@ const SidebarMenu = () => {
                         {isOpen && <span>{t('menu.events')}</span>}
                     </a>
                 </li>
+                <li>
+                    {isOpen && 
+                        <div className='logout' onClick={logout}>
+                            <span className='link'>Выйти</span>
+                        </div>
+                    }
+                </li>
             </ul>
+            
+            
         </div>
     );
 };

@@ -336,6 +336,18 @@ interface GetEventIsParticipantParams {
   id: string;
 }
 
+interface EventInnerRegisterDto {
+  eventId: string;
+}
+
+interface EventExternalRegisterDto {
+  eventId: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  additionalInfo?: string;
+}
+
 /////////////////////////////////////////////////////// ADMIN
 
 interface GetUsersListParams {

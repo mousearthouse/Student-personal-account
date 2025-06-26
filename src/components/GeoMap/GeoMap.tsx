@@ -38,6 +38,7 @@ const GeoMap = ({ address }: GeoMapProps) => {
         state={coordinates ? { center: coordinates, zoom: 16 } : undefined}
         width="100%"
         height="95%"
+        min-height="200px"
       >
         {coordinates && <Placemark geometry={coordinates} />}
       </Map>

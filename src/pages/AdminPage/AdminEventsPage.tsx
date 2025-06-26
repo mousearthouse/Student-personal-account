@@ -1,6 +1,6 @@
 import { getEventsAdmin } from "@/utils/api/requests/admin/getEventsAdmin";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import './adminPage.scss';
 import { useTranslation } from "react-i18next";
 import editIcon from '@/assets/icons/edit.svg';
@@ -14,18 +14,19 @@ import { statusMap, eventFormatMap, eventTypeMap } from "@/utils/constants/trans
 const AdminEventsPage = () => {
 
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [events, setEvents] = useState({} as EventShortDtoPagedListWithMetadata);
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState(Number(searchParams.get('page')) || 1);
     const [pageCount, setPageCount] = useState(1);
     const pageSize = 2;
 
 
-    const [eventName, setEventName] = useState('');
-    const [eventDate, setEventDate] = useState('');
-    const [status, setStatus] = useState('' as EventStatus);
-    const [format, setFormat] = useState('' as EventFormat);
-    const [type, setType] = useState('' as EventType);
+    const [eventName, setEventName] = useState(searchParams.get('name') || '');
+    const [eventDate, setEventDate] = useState(searchParams.get('date') || '');
+    const [status, setStatus] = useState(searchParams.get('status') as EventStatus || '');
+    const [format, setFormat] = useState(searchParams.get('format') as EventFormat || '');
+    const [type, setType] = useState(searchParams.get('type') as EventType || '');
 
     const fetchEvents = async () => {
         try {
@@ -50,7 +51,20 @@ const AdminEventsPage = () => {
 
     useEffect(() => {
         fetchEvents();
-    }, [pageNumber]);
+    }, [pageNumber, eventName, eventDate, status, format, type]);
+
+    useEffect(() => {
+        const params = new URLSearchParams();
+
+        if (eventName) params.set('name', eventName);
+        if (eventDate) params.set('date', eventDate);
+        if (status) params.set('status', status);
+        if (format) params.set('format', format);
+        if (type) params.set('type', type);
+        params.set('page', pageNumber.toString());
+
+        setSearchParams(params);
+    }, [eventName, eventDate, status, format, type, pageNumber]);
 
     return (
         <main>
