@@ -15,6 +15,9 @@ const AdminUsersPage = () => {
 
   const [name, setName] = useState("");
 
+  const alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ'.split('');
+  const [selectedLetter, setSelectedLetter] = useState('');
+
   const fetchUsers = () => {
     getUsersList({
       params: {
@@ -59,13 +62,34 @@ const AdminUsersPage = () => {
           </div>
           <button className="search-users-btn" onClick={() => fetchUsers()}>НАЙТИ</button>
         </div>
+
+        <div className="alphabet-filter">
+          <button onClick={() => setSelectedLetter('')} className={!selectedLetter ? 'active' : ''}>
+            Все
+          </button>
+          {alphabet.map((letter) => (
+            <button
+              key={letter}
+              onClick={() => setSelectedLetter(letter)}
+              className={selectedLetter === letter ? 'active' : ''}
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
         
         <div className="users-container">
-          {users && (
-            users.map((user) => (
-              <ProfileCard profile={user} key={user.id} />
-            ))
-          )}
+          {users &&
+            users
+              .filter((user) => {
+                if (!selectedLetter) return true;
+                const fullName = `${user.lastName} ${user.firstName} ${user.patronymic}`.toUpperCase();
+                return fullName.startsWith(selectedLetter);
+              })
+              .map((user) => (
+                <ProfileCard profile={user} key={user.id} />
+              ))
+          }
         </div>
       </div>
       <Pagination
@@ -84,7 +108,7 @@ const ProfileCard = ({ profile }: { profile: ProfileShortDto }) => {
 
   return (
     <div key={profile.id} onClick={() => navigate(`/admin/users/${profile.id}`)} className="profile-admin-card">
-      <p>{profile.firstName} {profile.lastName} {profile.patronymic}</p>
+      <p>{profile.lastName} {profile.firstName} {profile.patronymic}</p>
       <span>Дата рождения: {validDate(profile.birthDate)} </span> <br />
       <span>Email: {profile.email}</span>
       <hr />
