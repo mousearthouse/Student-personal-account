@@ -7,6 +7,15 @@
     "admin": "Администрирование",
     "certificates": "Справки",
     "usefulServices": "Полезные сервисы",
+    "events": "Мероприятия",
+    "logout": "Выйти"
+  },
+
+  "pages": {
+    "main": "Главная",
+    "admin": "Администрирование",
+    "users": "Пользователи",
+    "usefulServices": "Полезные сервисы",
     "events": "Мероприятия"
   },
 
@@ -127,7 +136,11 @@
 
   "event": {
     "pageName": "Мероприятия",
+    "addEvent": "Добавить мероприятие",
+    "filters": "Фильтры",
+    "searchPanel": "Панель поиска",
     "search": "Поиск",
+    "createEvent": "Создание мероприятия",
     "eventName": "Название мероприятия",
     "eventDate": "Дата проведения мероприятия",
     "searchBtn": "Найти"
@@ -141,16 +154,19 @@
     "datePlaceholder": "Дата проведения мероприятия",
     "searchButton": "Найти",
     "dates": "Дата(ы) проведения",
+    "registrationNeeded": "Необходима регистрация",
     "lastDateRegistration": "Дата окончания регистрации",
     "format": "Формат мероприятия",
     "address": "Адрес",
     "type": "Тип мероприятия",
+    "link": "Ссылка",
     "status": "Статус",
+    "madeEvent": "Создал(а) мероприятие",
     "formatTypes": {
       "online": "Онлайн",
       "offline": "Офлайн"
     },
-    "audience": "Аудитория",
+    "audience": "Целевая аудитория",
     "audienceTypes": {
       "students": "Студенты",
       "teachers": "Преподаватели"
@@ -160,15 +176,26 @@
       "open": "Открытое"
     },
     "start-time": "Время начала",
+    "start-date": "Время начала",
     "end-time": "Время окончания",
-
-
-    "description": "Описание"
+    "end-date": "Время окончания",
+    "time": "Время",
+    "description": "Описание",
+    "notification": "Уведомление о мероприятии",
+    "digestNeeded": "Включать мероприятие в дайджест",
+    "uploadImage": "Загрузить картинку",
+    "save": "Сохранить",
+    "innerParticipants": "Внутренние участники",
+    "externalParticipants": "Внешние участники"
   },
 
   "usefulServices": {
     "pageName": "Полезные сервисы",
+    "addService": "Добавить сервис",
     "termsOfDistribution": "Условия предоставления",
-    "goToTheSite": "Перейти на сайт"
+    "goToTheSite": "Перейти на сайт",
+    "link": "Ссылка",
+    "description": "Описание",
+    "type": "Тип"
   }
 }

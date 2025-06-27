@@ -28,7 +28,6 @@ const AdminEventDetailsPage = () => {
     const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
     const [isModalEditOpen, setModalEditOpen] = useState(false);
 
-
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -88,11 +87,11 @@ const AdminEventDetailsPage = () => {
         <div className="events-page">
             <div className="events-page-content">
                 <div>
-                    <h1>Мероприятия</h1>
+                    <h1>{t("pages.events")}</h1>
                 </div>
-                <span className="page-link" onClick={() => navigate('/')}>Главная / </span>
-                <span className="page-link" onClick={() => navigate('/admin')}>Администрирование / </span>
-                <span className="page-link" onClick={() => navigate('/admin/events')}>Мероприятия / </span>
+                <span className="page-link" onClick={() => navigate('/')}>{t("pages.main")} / </span>
+                <span className="page-link" onClick={() => navigate('/admin')}>{t("pages.admin")} / </span>
+                <span className="page-link" onClick={() => navigate('/admin/events')}>{t("pages.events")} / </span>
                 <span className="page-link-blue"> {eventDetails.title}</span>
                 <div>
                     <div className="event-name">
@@ -118,14 +117,13 @@ const AdminEventDetailsPage = () => {
                              <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        {/* {t('profile.education.studyYears')} */}
-                                        Необходима регистрация
+                                        {t("events.registrationNeeded")}
                                     </span>
                                     <span className="block-value">{eventDetails.isRegistrationRequired}</span>
                                 </div>
                                 <div className="block-row2">
                                     <span className="block-label">
-                                        Дата окончания регистрации
+                                        {t("events.lastDateRegistration")}
                                     </span>
                                     <span className="block-value">{formatDate(eventDetails.registrationLastDate)}</span>
                                 </div>
@@ -136,14 +134,13 @@ const AdminEventDetailsPage = () => {
                                     <div className="container-row admin">
                                         <div className="block-row1">
                                             <span className="block-label">
-                                                {/* {t('profile.education.studyYears')} */}
-                                                Тип мероприятия
+                                                {t("events.type")}
                                             </span>
                                             <span className="block-value">{eventTypeMap[eventDetails.type]}</span>
                                         </div>
                                         <div className="block-row2">
                                             <span className="block-label">
-                                                Целевая аудитория
+                                                {t("events.audience")}
                                             </span>
                                             <span className="block-value">{eventDetails.auditory}</span>
                                         </div>
@@ -152,19 +149,19 @@ const AdminEventDetailsPage = () => {
                                     <div className="container-row admin">
                                         <div className="block-row1">
                                             <span className="block-label">
-                                                Дата(ы) проведения
+                                                {t("events.dates")}
                                             </span>
                                             <span className="block-value">{formatDate(eventDetails.dateTimeFrom)} - {formatDate(eventDetails.dateTimeTo)}</span>
                                         </div>
                                         <div className="block-row2">
                                             <span className="block-label">
-                                                Формат мероприятия
+                                                {t("events.format")}
                                             </span>
                                             <span className="block-value">{eventFormatMap[eventDetails.format]}</span>
                                         </div>
                                     </div>
                                     <hr />
-                                    <div className="container-row admin">
+                                    {/* <div className="container-row admin">
                                         <div className="block-row1">
                                             <span className="block-label">
                                                 Долгота
@@ -178,7 +175,7 @@ const AdminEventDetailsPage = () => {
                                             <span className="block-value">{eventDetails.latitude}</span>
                                         </div>
                                     </div>
-                                    <hr />
+                                    <hr /> */}
                                 </div>
                                 <div className='block-row2'>
                                     <GeoMap address={eventDetails.addressName ? eventDetails.addressName : ''}/>
@@ -189,7 +186,7 @@ const AdminEventDetailsPage = () => {
                                 <div className="container-row">
                                     <div className="block-row1">
                                         <span className="block-label">
-                                            Ссылка
+                                            {t("events.link")}
                                         </span>
                                         <span className="block-value">{eventDetails.link}</span>
                                     </div>
@@ -202,7 +199,7 @@ const AdminEventDetailsPage = () => {
                                 <div className="container-row">
                                     <div className="block-row1">
                                         <span className="block-label">
-                                            Включать мероприятие в дайджест
+                                            {t("events.digestNeeded")}
                                         </span>
                                         <span className="block-value">{eventDetails.isDigestNeeded ? "Да" : "Нет"}</span>
                                     </div>
@@ -226,7 +223,7 @@ const AdminEventDetailsPage = () => {
                             <div className="container-row">
                                 <div className="block-row1">
                                     <span className="block-label">
-                                        Создал(а) мероприятие
+                                        {t("events.madeEvent")}
                                     </span>
                                     <span className="block-value">{eventDetails.author?.firstName} {eventDetails.author?.lastName} {eventDetails.author?.patronymic}</span>
                                 </div>
@@ -255,7 +252,6 @@ interface ModalEditProps {
 }
 
 const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
-    console.log("ко мне пришла такая дата", eventData)
     const [eventName, setEventName] = useState<string | undefined>(eventData.title);
     const [status, setStatus] = useState(eventData.status);
     const [format, setFormat] = useState<EventFormat>(eventData.format);
@@ -600,13 +596,13 @@ const ParticipantsList = ({ participants, selectedTab, onSelect }: ParticipantsL
                     className={`tab-button ${selectedTab === 0 ? 'active' : ''}`}
                     onClick={() => onSelect(0)}
                 >
-                    <div className="tab-title">Внутренние участники</div>
+                    <div className="tab-title">{t("events.innerParticipants")}</div>
                 </button>
                 <button
                     className={`tab-button ${selectedTab === 1 ? 'active' : ''}`}
                     onClick={() => onSelect(1)}
                 >
-                    <div className="tab-title">Внешние участники</div>
+                    <div className="tab-title">{t("events.externalParticipants")}</div>
 
                 </button>
 

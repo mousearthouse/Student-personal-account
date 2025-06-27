@@ -4,10 +4,13 @@ import { getUsersList } from "@/utils/api/requests/admin/getUsersList";
 import { useEffect, useState } from "react";
 import { useValidDate } from "@/utils/usefulFunctions";
 import Pagination from '@/components/Pagination/Pagination';
+import { useTranslation } from "react-i18next";
 
 const AdminUsersPage = () => {
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  
   const [pageNumber, setPageNumber] = useState(1);
   const [pageCount, setPageCount] = useState(1);
   const pageSize = 6;
@@ -44,11 +47,11 @@ const AdminUsersPage = () => {
     <main>
       <div className='admin-page-content'>
         <div>
-            <h1>Администрирование</h1>
+            <h1>{t("pages.admin")}</h1>
         </div>
-        <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
-        <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
-        <span className='page-link-blue'>Пользователи</span>
+        <span className='page-link' onClick={() => navigate('/')}>{t("pages.main")} / </span>
+        <span className='page-link' onClick={() => navigate('/admin')}>{t("pages.admin")} / </span>
+        <span className='page-link-blue'>{t("pages.users")}</span>
 
         <div className="search-users">
           <div className="input-form-w-label admin">
@@ -60,7 +63,7 @@ const AdminUsersPage = () => {
                 className="form-input admin name"
             />
           </div>
-          <button className="search-users-btn" onClick={() => fetchUsers()}>НАЙТИ</button>
+          <button className="search-users-btn" onClick={() => fetchUsers()}>{t("events.searchButton")}</button>
         </div>
 
         <div className="alphabet-filter">
@@ -105,11 +108,13 @@ const AdminUsersPage = () => {
 const ProfileCard = ({ profile }: { profile: ProfileShortDto }) => {
   const validDate = useValidDate();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
 
   return (
     <div key={profile.id} onClick={() => navigate(`/admin/users/${profile.id}`)} className="profile-admin-card">
       <p>{profile.lastName} {profile.firstName} {profile.patronymic}</p>
-      <span>Дата рождения: {validDate(profile.birthDate)} </span> <br />
+      <span>{t("profile.birthDate")}: {validDate(profile.birthDate)} </span> <br />
       <span>Email: {profile.email}</span>
       <hr />
     </div>

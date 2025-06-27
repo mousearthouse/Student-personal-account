@@ -8,6 +8,15 @@
     "admin": "Administration",
     "certificates": "Certificates",
     "usefulServices": "Useful Services",
+    "events": "Events",
+    "logout": "Logout"
+  },
+
+  "pages": {
+    "main": "Main",
+    "admin": "Admin",
+    "users": "Users",
+    "usefulServices": "Useful Services",
     "events": "Events"
   },
 
@@ -119,6 +128,10 @@
   "event": {
     "pageName": "Events",
     "search": "Search",
+    "addEvent": "Add event",
+    "filters": "Filters",
+    "searchPanel": "Search panel",
+    "createEvent": "Create event",
     "eventName": "Event name",
     "eventDate": "EventDate",
     "searchBtn": "Search"
@@ -132,6 +145,7 @@
     "datePlaceholder": "Event date",
     "searchButton": "Search",
     "dates": "Event dates",
+    "registrationNeeded": "Registration required",
     "lastDateRegistration": "Registration deadline",
     "format": "Event format",
     "address": "Address",
@@ -139,8 +153,9 @@
     "online": "Online",
     "description": "Description",
     "type": "Event type",
+    "link": "Link",
     "status": "Status",
-
+    "madeEvent": "Made event",
     "formatTypes": {
       "online": "Online",
       "offline": "Offline"
@@ -154,13 +169,26 @@
       "close": "Closed",
       "open": "Open"
     },
-    "start-time": "Start Time",
-    "end-time": "End Time"
+    "start-time": "Start time",
+    "end-time": "End time",
+    "start-date": "Start date",
+    "end-date": "End date",
+    "time": "Time",
+    "notification": "Notification",
+    "digestNeeded": "Include the event in the digest",
+    "uploadImage": "Upload image",
+    "save": "Save",
+    "innerParticipants": "Inner participants",
+    "externalParticipants": "External participants"
   },
 
   "usefulServices": {
     "pageName": "Useful Services",
     "termsOfDistribution": "Terms of distribution",
-    "goToTheSite": "Go to the site"
+    "goToTheSite": "Go to the site",
+    "addService": "Add service",
+    "link": "Link",
+    "description": "Description",
+    "type": "Type"
   }
 }

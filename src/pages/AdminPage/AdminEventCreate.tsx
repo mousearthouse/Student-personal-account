@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from "react-router-dom";
 import image from '@/assets/icons/image-upload.svg';
@@ -6,6 +6,7 @@ import { handleUpload } from "@/utils/api/requests/postFile";
 import { postEvent } from "@/utils/api/requests/admin/postEvent";
 import { TextEditor } from "@/components/TextEditor/TextEditor";
 import toast from "@/components/Notification/toast"
+import { useTranslation } from "react-i18next";
 
 const AdminEventCreate = () => {
     const [eventName, setEventName] = useState("");
@@ -33,6 +34,7 @@ const AdminEventCreate = () => {
     const [address, setAddressValue] = useState("");
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         try {
@@ -129,17 +131,17 @@ const AdminEventCreate = () => {
         <main>
             <div className='admin-page-content'>
                 <div>
-                    <h1>Администрирование</h1>
+                    <h1>{t("pages.admin")}</h1>
                 </div>
-                <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
-                <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
-                <span className='page-link' onClick={() => navigate('/admin/events')}>Мероприятия / </span>
-                <span className='page-link-blue'>Создание мероприятия</span>
-                <h2>Создание мероприятия</h2>
+                <span className='page-link' onClick={() => navigate('/')}>{t("pages.main")} / </span>
+                <span className='page-link' onClick={() => navigate('/admin')}>{t("pages.admin")} / </span>
+                <span className='page-link' onClick={() => navigate('/admin/events')}>{t("pages.events")} / </span>
+                <span className='page-link-blue'>{t("event.createEvent")}</span>
+                <h2>{t("event.createEvent")}</h2>
                 <div className='admin-create-event'>
                     <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="name">
-                            Название мероприятия
+                            {t("event.eventName")}
                         </label>
                         <input
                             id="name"
@@ -149,14 +151,14 @@ const AdminEventCreate = () => {
                             className="form-input admin name"
                         />
                     </div>
-                    <h4>Описание мероприятия</h4>
+                    <h4>{t("events.description")}</h4>
                     <TextEditor value={descValue} setValue={setDescValue}/>
 
                     <div className="input-forms-other">
                         <div className="date-time">
                             <div className="input-form-w-label admin">
                                 <label className="label-form" htmlFor="name">
-                                    Дата начала
+                                    {t("events.start-date")}
                                 </label>
                                 <input
                                     type={timeForStart ? "datetime-local" : "date"}
@@ -169,7 +171,7 @@ const AdminEventCreate = () => {
                             </div>
                             <div className="time-switch">
                                 <label className='switch-label'>
-                                    Время
+                                    {t("events.time")}
                                 </label>
                                 <label className="toggle-switch">
                                     <input
@@ -186,7 +188,7 @@ const AdminEventCreate = () => {
                         <div className="date-time">
                             <div className="input-form-w-label admin">
                                 <label className="label-form" htmlFor="name">
-                                    Дата окончания
+                                    {t("events.end-date")}
                                 </label>
                                 <input
                                     type={timeForEnd ? "datetime-local" : "date"}
@@ -199,7 +201,7 @@ const AdminEventCreate = () => {
                             </div>
                             <div className="time-switch">
                                 <label className='switch-label'>
-                                    Время
+                                    {t("events.time")}
                                 </label>
                                 <label className="toggle-switch">
                                     <input
@@ -213,6 +215,9 @@ const AdminEventCreate = () => {
                             </div>
                         </div>
                         <div className="input-form-w-label admin">
+                            <label className="label-form" htmlFor="type">
+                                {t("events.type")}
+                            </label>
                             <select
                                 id="type"
                                 value={type}
@@ -226,7 +231,7 @@ const AdminEventCreate = () => {
                         </div>
                         <div className="input-form-w-label admin">
                             <label className="label-form" htmlFor="status">
-                                Целевая аудитория
+                                {t("events.audience")}
                             </label>
                             <select
                                 id="status"
@@ -251,13 +256,13 @@ const AdminEventCreate = () => {
                             <span className="slider"></span>
                         </label>
                         <label className='switch-label'>
-                            Необходима регистрация
+                            {t("events.registrationNeeded")}
                         </label>
                     </div>
                     {registration &&
                         <div className="input-form-w-label admin">
                             <label className="label-form" htmlFor="name">
-                                Дата окончания регистрации
+                                {t("events.lastDateRegistration")}
                             </label>
                             <input
                                 type="date"
@@ -272,7 +277,7 @@ const AdminEventCreate = () => {
                     
                     <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="format">
-                            Формат мероприятия
+                            {t("events.format")}
                         </label>
                         <select
                             id="format"
@@ -288,7 +293,7 @@ const AdminEventCreate = () => {
                     {format == 'Online' && 
                     <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="name">
-                            Ссылка
+                            {t("events.link")}
                         </label>
                         <input
                             id="name"
@@ -302,7 +307,7 @@ const AdminEventCreate = () => {
                     {format == 'Offline' && 
                     <div className="input-form-w-label admin">
                         <label className="label-form" htmlFor="link">
-                            Адрес
+                            {t("events.address")}
                         </label>
                         <input
                             id="link"
@@ -314,10 +319,10 @@ const AdminEventCreate = () => {
                     </div>
                     }
                     
-                    <h4>Уведомление о мероприятии</h4>
+                    <h4>{t("events.notification")}</h4>
                     <TextEditor value={notification} setValue={setNotification}/>
                     <div>
-                        <h4>Включать мероприятие в дайджест</h4>
+                        <h4>{t("events.digestNeeded")}</h4>
                         <label className="toggle-switch">
                             <input
                                 type="checkbox"
@@ -334,14 +339,14 @@ const AdminEventCreate = () => {
                    
                     <label className="image-upload">
                         <img src={image} alt="Загрузить картинку" />
-                        <span>Загрузить картинку</span>
+                        <span>{t("events.uploadImage")}</span>
                         <input type="file" accept="image/*" onChange={handleFileChange}/>
                     </label>
                     {selectedFile && (
                         <p className="uploaded-file-name">Вы выбрали: {selectedFile.name}</p>
                     )}
                     <div className="btns">
-                        <button onClick={handleCreate}>СОХРАНИТЬ</button>
+                        <button onClick={handleCreate}>{t("events.save")}</button>
                     </div>
                 </div>
             </div>

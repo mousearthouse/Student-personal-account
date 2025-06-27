@@ -13,9 +13,12 @@ import { postUsefulService } from '@/utils/api/requests/admin/postUsefulService'
 import { deleteUsefulServiceAdmin } from '@/utils/api/requests/admin/deleteUsefulServiceAdmin';
 import { handleUpload } from '@/utils/api/requests/postFile';
 import { editUsefulService } from '@/utils/api/requests/admin/editUsefulService';
+import { useTranslation } from 'react-i18next';
 
 const AdminUsefulServicesPage = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const [pageNumber, setPageNumber] = useState(1);
     const [pageCount, setPageCount] = useState(1);
     const pageSize = 3;
@@ -50,15 +53,15 @@ const AdminUsefulServicesPage = () => {
         <main>
             <div className='admin-page-content'>
                 <div>
-                    <h1>Администрирование</h1>
+                    <h1>{t("pages.admin")}</h1>
                 </div>
-                <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
-                <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
-                <span className='page-link-blue'>Полезные сервисы</span>
+                <span className='page-link' onClick={() => navigate('/')}>{t("pages.main")} / </span>
+                <span className='page-link' onClick={() => navigate('/admin')}>{t("pages.admin")} / </span>
+                <span className='page-link-blue'>{t("pages.usefulServices")}</span>
                 
                 <div>
-                    <h2>Полезные сервисы</h2>
-                    <button className="add-smth" onClick={() => setModalCreateOpen(true)}>Добавить сервис</button>
+                    <h2>{t("pages.usefulServices")}</h2>
+                    <button className="add-smth" onClick={() => setModalCreateOpen(true)}>{t("usefulServices.addService")}</button>
                     <div className='services'>
                         {(servicesData.results ?? []).map((serviceData, id) => (
                         <ServiceAdminCard key={id} service={serviceData} />
@@ -79,6 +82,9 @@ const AdminUsefulServicesPage = () => {
 
 const ServiceAdminCard = ({ service }: { service: UsefulServicesDto }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
+
     const getImageUrl = () => {
         if (!service.logo) return undefined;
         return `${API_URL}Files/${service.logo.id}`;
@@ -106,13 +112,13 @@ const ServiceAdminCard = ({ service }: { service: UsefulServicesDto }) => {
                 <div className="container-row">
                     <div className="block-row1">
                         <span className="block-label">
-                            Ссылка
+                           {t("usefulServices.link")}
                         </span>
                         <span className="block-value">{service.link}</span>
                     </div>
                     <div className="block-row2">
                         <span className="block-label">
-                            Тип
+                            {t("usefulServices.type")}
                         </span>
                         <span className="block-value">{service.category}</span>
                     </div>
@@ -120,14 +126,14 @@ const ServiceAdminCard = ({ service }: { service: UsefulServicesDto }) => {
                 <hr/>
                 <div className='container-row-single'>
                     <span className="block-label">
-                        Описание
+                        {t("usefulServices.description")}
                     </span>
                     <span className="block-value">{service.description}</span>
                 </div>
                 <hr/>
                 <div className='container-row-single'>
                     <span className="block-label">
-                        Условия предоставления
+                        {t("usefulServices.termsOfDistribution")}
                     </span>
                     <span className="block-value">{service.termsOfDisctribution}</span>
                 </div>

@@ -1,21 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import './adminPage.scss';
+import { useTranslation } from 'react-i18next';
 
 const AdminMainPage = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     return (
         <main>
             <div className="admin-page-content">
                 <div>
-                    <h1>Администрирование</h1>
+                    <h1>{t("pages.admin")}</h1>
                 </div>
-                <span className="page-link" onClick={() => navigate('/')}>Главная / </span>
-                <span className="page-link-blue">Администрирование</span>
+                <span className="page-link" onClick={() => navigate('/')}>{t("pages.main")} / </span>
+                <span className="page-link-blue">{t("pages.admin")}</span>
             </div>
             <div className="container admin-page">
                 <div className="main-container first" onClick={() => navigate('/admin/users')}>
-                    <p>Пользователи</p>
+                    <p>{t("pages.users")}</p>
                     <span>
                         Каждый пользователь важен — мы стремимся сделать взаимодействие с платформой максимально простым и комфортным.
                     </span>
@@ -24,13 +26,13 @@ const AdminMainPage = () => {
                     className="main-container second"
                     onClick={() => navigate('/admin/usefulservices')}
                 >
-                    <p>Полезные сервисы</p>
+                    <p>{t("pages.usefulServices")}</p>
                     <span>
                         Постоянное развитие технологий позволяет нам создавать удобные цифровые решения для поддержки вашей работы.
                     </span>
                 </div>
                 <div className="main-container third" onClick={() => navigate('/admin/events')}>
-                    <p>Мероприятия</p>
+                    <p>{t("pages.events")}</p>
                     <span>
                         Регулярная организация событий помогает делиться знаниями, расширять возможности и достигать новых вершин.
                     </span>

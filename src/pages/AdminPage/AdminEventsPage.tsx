@@ -14,6 +14,8 @@ import { statusMap, eventFormatMap, eventTypeMap } from "@/utils/constants/trans
 const AdminEventsPage = () => {
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [events, setEvents] = useState({} as EventShortDtoPagedListWithMetadata);
@@ -70,14 +72,14 @@ const AdminEventsPage = () => {
         <main>
             <div className='admin-page-content'>
                 <div>
-                    <h1>Администрирование</h1>
+                    <h1>{t("pages.admin")}</h1>
                 </div>
-                <span className='page-link' onClick={() => navigate('/')}>Главная / </span>
-                <span className='page-link' onClick={() => navigate('/admin')}>Администрирование / </span>
-                <span className='page-link-blue'>Мероприятия</span>
+                <span className='page-link' onClick={() => navigate('/')}>{t("pages.main")} / </span>
+                <span className='page-link' onClick={() => navigate('/admin')}>{t("pages.admin")} / </span>
+                <span className='page-link-blue'>{t("pages.events")}</span>
 
-                <h2>Мероприятия</h2>
-                <button className="add-smth" onClick={() => navigate("/admin/events/create")}>Добавить мероприятие +</button>
+                <h2>{t("pages.events")}</h2>
+                <button className="add-smth" onClick={() => navigate("/admin/events/create")}>{t("event.addEvent")} +</button>
 
                 <SearchBar
                     eventName={eventName}
@@ -121,22 +123,24 @@ const SearchBar = ({
     onSearch,
 }: GetEventAdminProps) => {
     const [showFilters, setShowFilters] = useState(false);
+    const { t } = useTranslation();
+
     return (
         <div className="search-bar">
             <div className="admin-search-header">
-                <h3>Панель поиска</h3>
+                <h3>{t("event.searchPanel")}</h3>
                 <button
                     className={`search-btn filters-toggle-btn${showFilters ? " btn-active" : ""}`}
                     onClick={() => setShowFilters((prev) => !prev)}
                 >
-                    Фильтры <img src={showFilters ? filtersActiveIcon : filtersIcon} />
+                    {t("event.filters")} <img src={showFilters ? filtersActiveIcon : filtersIcon} />
                 </button>
             </div>
             
             <div className='search-forms admin'>
                 <div className="input-form-w-label">
                     <label className="label-form" htmlFor="name">
-                        Название мероприятия
+                        {t("event.eventName")}
                     </label>
                     <input
                         id="name"
@@ -146,7 +150,7 @@ const SearchBar = ({
                         className="form-input name"
                     />
                 </div>
-                <button className='search-btn' onClick={onSearch}>НАЙТИ</button>
+                <button className='search-btn' onClick={onSearch}>{t("event.searchBtn")}</button>
             </div>
             {showFilters && (
             <div className="input-forms-other">
