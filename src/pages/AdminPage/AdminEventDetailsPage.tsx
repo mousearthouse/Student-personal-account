@@ -16,6 +16,7 @@ import image from '@/assets/icons/image-upload.svg';
 import { handleUpload } from '@/utils/api/requests/postFile';
 import { editEventAdmin } from '@/utils/api/requests/admin/editEventAdmin';
 import { TextEditor } from '@/components/TextEditor/TextEditor';
+import toast from '@/components/Notification/toast';
 
 const AdminEventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -308,10 +309,12 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
                 if (result?.status === 200) {
                     setFileId(result.data.id);
                     console.log('Файл успешно загружен:', result.data.id);
+                    toast.success("Файл успешно загружен!")
                 }
             }
         } catch (error) {
             console.error('Ошибка при загрузке файла:', error);
+            toast.error("Что-то пошло не так...")
         }
     };
     
@@ -353,12 +356,14 @@ const ModalEdit = ({eventData, isOpen, onClose}: ModalEditProps) => {
 
             const response = await editEventAdmin(eventEditData);
             if (response.status === 200) {
+                toast.success("Данные мероприятия успешно изменены!")
                 onClose();
             }
 
             console.log('Данные мероприятия:', eventEditData);
         } catch (error) {
             console.error('Ошибка при редактировании мероприятия:', error);
+            toast.error("Что-то пошло не так...")
         }
     }
 

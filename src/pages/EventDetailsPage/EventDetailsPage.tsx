@@ -13,10 +13,11 @@ import { is } from 'date-fns/locale';
 import Modal from '@/components/Modal/Modal';
 import { postRegisterEventExternal } from '@/utils/api/requests/postRegisterEventExternal';
 import toast from '@/components/Notification/toast';
+import { postRegisterEventInner } from '@/utils/api/requests/postRegisterEventInner';
 
 const EventDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [isParticipating, setIsParticipating] = useState(false);
+    const [isParticipating, setIsParticipating] = useState<boolean>(false);
     const [eventDetails, setEventDetails] = useState({} as EventDto);
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -50,8 +51,14 @@ const EventDetailsPage = () => {
 
             try {
                 const response = await getEventIsParticipant({ params: { id } });
-                if (response.status === 200) {
+                console.log(response.data);
+                if (response.data.isParticipating == true) {
+                    console.log("участвуем")
                     setIsParticipating(true);
+                }
+                else if (response.data.isParticipating == false) {
+                    console.log("не участвуем")
+                    setIsParticipating(false);
                 }
                 console.log(isParticipating);
                 console.log(isAuthenticated);
@@ -66,8 +73,15 @@ const EventDetailsPage = () => {
 
     console.log(eventDetails);
 
-    const innerRegister = () => {
+    const innerRegister = async() => {
         console.log("inner register");
+        const registerData: EventInnerRegisterDto = { eventId: eventDetails.id };
+        const response = await postRegisterEventInner(registerData);
+        console.log(response);
+        if (response.status == 200) {
+            toast.success("Вы успешно зарегистрировались на мероприятие!")
+            setIsParticipating(true);
+        }
     }
 
     return (
